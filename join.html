@@ -39,7 +39,7 @@
       min-height: 100vh;
     }
 
-    /* ===== УЛУЧШЕННЫЙ HEADER ===== */
+    /* ===== HEADER ===== */
     .site-header {
       background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
       padding: 2.5rem 1rem 2rem;
@@ -49,7 +49,6 @@
       box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
     }
 
-    /* Верхняя линия */
     .site-header::before {
       content: '';
       position: absolute;
@@ -57,17 +56,10 @@
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(124, 124, 255, 0.5) 20%,
-        rgba(0, 212, 170, 0.5) 50%,
-        rgba(124, 124, 255, 0.5) 80%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg, transparent 0%, rgba(124, 124, 255, 0.5) 20%, rgba(0, 212, 170, 0.5) 50%, rgba(124, 124, 255, 0.5) 80%, transparent 100%);
       z-index: 2;
     }
 
-    /* Нижняя линия (основная) */
     .site-header::after {
       content: '';
       position: absolute;
@@ -75,13 +67,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, 
-        transparent 0%,
-        #7c7cff 20%,
-        #00d4aa 50%,
-        #7c7cff 80%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg, transparent 0%, #7c7cff 20%, #00d4aa 50%, #7c7cff 80%, transparent 100%);
       opacity: 0.6;
       z-index: 2;
     }
@@ -139,7 +125,6 @@
       display: inline-block;
     }
 
-    /* ===== НАВИГАЦИЯ ===== */
     .main-nav {
       display: flex;
       justify-content: center;
@@ -175,14 +160,12 @@
       box-shadow: 0 5px 15px rgba(124, 124, 255, 0.4);
     }
 
-    /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 4rem;
     }
 
-    /* ===== КАРТОЧКИ ===== */
     .join-card {
       background: rgba(20, 20, 31, 0.7);
       backdrop-filter: blur(10px);
@@ -196,7 +179,6 @@
       overflow: hidden;
     }
 
-    /* Верхняя линия карточки */
     .join-card::before {
       content: '';
       position: absolute;
@@ -212,12 +194,9 @@
     .join-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      border-color: rgba(124, 124, 255, 0.3);
     }
 
-    .join-card:hover::before {
-      opacity: 1;
-    }
+    .join-card:hover::before { opacity: 1; }
 
     .card-title {
       margin: 0 0 1.5rem 0;
@@ -241,529 +220,72 @@
       border-radius: 2px;
     }
 
-    /* Типы карточек */
-    .warning-card {
-      border-left-color: var(--danger);
-      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
-      border: 1px solid rgba(255, 71, 102, 0.2);
-    }
+    .warning-card { background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08)); border: 1px solid rgba(255, 71, 102, 0.2); }
+    .warning-card .card-title { color: #ff8099; }
+    .success-card { background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 180, 140, 0.08)); border: 1px solid rgba(0, 212, 170, 0.2); }
+    .success-card .card-title { color: #80f0d4; }
+    .info-card { background: linear-gradient(135deg, rgba(71, 181, 255, 0.1), rgba(50, 150, 220, 0.08)); border: 1px solid rgba(71, 181, 255, 0.2); }
+    .info-card .card-title { color: #80d1ff; }
 
-    .warning-card .card-title {
-      color: #ff8099;
-    }
+    .link-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+    .link-item { display: flex; align-items: flex-start; padding: 1.2rem; margin-bottom: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; position: relative; overflow: hidden; }
+    .link-item:hover { background: rgba(124, 124, 255, 0.05); border-color: var(--border-color); transform: translateY(-2px); }
 
-    .success-card {
-      border-left-color: var(--success);
-      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 180, 140, 0.08));
-      border: 1px solid rgba(0, 212, 170, 0.2);
-    }
+    .link-icon { display: flex; align-items: center; justify-content: center; min-width: 50px; height: 50px; background: rgba(124, 124, 255, 0.15); border-radius: 12px; margin-right: 1.2rem; flex-shrink: 0; color: var(--accent); font-size: 1.5rem; border: 1px solid var(--border-color); }
+    .link-content { flex: 1; }
+    .link-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; display: block; font-size: 1.1rem; }
+    .link-description { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.8rem; }
+    .link-url { display: inline-block; color: var(--accent); background: rgba(124, 124, 255, 0.1); padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--border-color); margin-bottom: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+    .link-url:hover { background: rgba(124, 124, 255, 0.2); }
 
-    .success-card .card-title {
-      color: #80f0d4;
-    }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.4rem; background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border: none; border-radius: 30px; text-decoration: none; font-weight: 500; cursor: pointer; transition: all 0.2s ease; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(124, 124, 255, 0.3); }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .btn-secondary { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 255, 0.05)); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-primary); box-shadow: none; }
 
-    .info-card {
-      border-left-color: var(--info);
-      background: linear-gradient(135deg, rgba(71, 181, 255, 0.1), rgba(50, 150, 220, 0.08));
-      border: 1px solid rgba(71, 181, 255, 0.2);
-    }
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .process-step { background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border-radius: 50%; font-weight: 600; margin-bottom: 1rem; font-size: 1.3rem; border: 2px solid rgba(255, 255, 255, 0.1); }
 
-    .info-card .card-title {
-      color: #80d1ff;
-    }
+    .info-box { background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08)); border-left: 4px solid var(--accent); padding: 1.2rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(124, 124, 255, 0.2); }
+    .warning-box { background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08)); border-left: 4px solid var(--danger); padding: 1.2rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(255, 71, 102, 0.2); }
+    .info-box p { color: #a0b4ff; }
+    .warning-box p { color: #ffa8b5; }
 
-    /* ===== СПИСОК ССЫЛОК ===== */
-    .link-list {
-      list-style: none;
-      padding: 0;
-      margin: 1.5rem 0;
-    }
+    .scroll-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: linear-gradient(135deg, #7c7cff, #6b6bff); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 100; }
+    .scroll-top.visible { opacity: 1; visibility: visible; }
 
-    .link-item {
-      display: flex;
-      align-items: flex-start;
-      padding: 1.2rem;
-      margin-bottom: 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
+    .footer { text-align: center; padding: 2.5rem 1rem; border-top: 1px solid var(--border-color); background: rgba(10, 10, 15, 0.8); }
+    .footer-text { color: var(--text-muted); margin-bottom: 1.2rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; }
 
-    .link-item:hover {
-      background: rgba(124, 124, 255, 0.05);
-      border-color: var(--border-color);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .link-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124, 124, 255, 0.3), transparent);
-    }
-
-    .link-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 50px;
-      height: 50px;
-      background: rgba(124, 124, 255, 0.15);
-      border-radius: 12px;
-      margin-right: 1.2rem;
-      flex-shrink: 0;
-      color: var(--accent);
-      font-size: 1.5rem;
-      border: 1px solid var(--border-color);
-    }
-
-    .link-content {
-      flex: 1;
-    }
-
-    .link-title {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.4rem;
-      display: block;
-      font-size: 1.1rem;
-    }
-
-    .link-description {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0 0 0.8rem 0;
-    }
-
-    .link-url {
-      display: inline-block;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-      word-break: break-all;
-      background: rgba(124, 124, 255, 0.1);
-      padding: 0.4rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      border: 1px solid var(--border-color);
-      margin-bottom: 0.8rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .link-url:hover {
-      background: rgba(124, 124, 255, 0.2);
-      text-decoration: none;
-    }
-
-    /* ===== КНОПКИ ===== */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.7rem 1.4rem;
-      background: linear-gradient(135deg, #7c7cff, #6b6bff);
-      color: white;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 12px rgba(124, 124, 255, 0.3);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(124, 124, 255, 0.4);
-      filter: brightness(1.1);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 255, 0.05));
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-primary);
-      box-shadow: none;
-    }
-
-    .btn-secondary:hover {
-      background: linear-gradient(135deg, rgba(124, 124, 255, 0.15), rgba(100, 100, 220, 0.1));
-      border-color: var(--accent);
-    }
-
-    /* ===== ПРОЦЕСС ВСТУПЛЕНИЯ ===== */
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-
-    .process-step {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 1.5rem;
-      border-radius: 16px;
-      text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .process-step:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      background: rgba(124, 124, 255, 0.05);
-      border-color: var(--border-color);
-    }
-
-    .step-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 45px;
-      height: 45px;
-      background: linear-gradient(135deg, #7c7cff, #6b6bff);
-      color: white;
-      border-radius: 50%;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 15px rgba(124, 124, 255, 0.3);
-    }
-
-    .step-title {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 1.1rem;
-    }
-
-    .step-description {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    /* ===== ИНФОРМАЦИОННЫЕ БЛОКИ ===== */
-    .info-box {
-      background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08));
-      border-left: 4px solid var(--accent);
-      padding: 1.2rem;
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      border: 1px solid rgba(124, 124, 255, 0.2);
-    }
-
-    .warning-box {
-      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
-      border-left: 4px solid var(--danger);
-      padding: 1.2rem;
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      border: 1px solid rgba(255, 71, 102, 0.2);
-    }
-
-    .info-box p,
-    .warning-box p {
-      margin: 0 0 0.5rem 0;
-      line-height: 1.6;
-    }
-
-    .info-box p:last-child,
-    .warning-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    .info-box p {
-      color: #a0b4ff;
-    }
-
-    .warning-box p {
-      color: #ffa8b5;
-    }
-
-    .info-box a,
-    .warning-box a {
-      color: #80d1ff;
-      text-decoration: none;
-      border-bottom: 1px dashed rgba(128, 209, 255, 0.3);
-    }
-
-    .info-box a:hover,
-    .warning-box a:hover {
-      border-bottom-color: #80d1ff;
-    }
-
-    /* ===== АНИМАЦИИ ===== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 0.6s ease forwards;
-    }
-
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { opacity: 0; animation: fadeIn 0.6s ease forwards; }
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
     .delay-4 { animation-delay: 0.4s; }
     .delay-5 { animation-delay: 0.5s; }
 
-    /* ===== ПРОГРЕСС-БАР ===== */
-    .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: linear-gradient(90deg, #7c7cff, #00d4aa);
-      z-index: 1000;
-      transition: width 0.1s ease;
-    }
-
-    /* ===== КНОПКА НАВЕРХ ===== */
-    .scroll-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, #7c7cff, #6b6bff);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.2s ease;
-      box-shadow: 0 5px 20px rgba(124, 124, 255, 0.3);
-      z-index: 100;
-      font-size: 1.3rem;
-    }
-
-    .scroll-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .scroll-top:hover {
-      transform: scale(1.1);
-    }
-
-    /* ===== ФУТЕР ===== */
-    .footer {
-      text-align: center;
-      padding: 2.5rem 1rem;
-      border-top: 1px solid var(--border-color);
-      background: rgba(10, 10, 15, 0.8);
-      backdrop-filter: blur(10px);
-      position: relative;
-    }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        transparent, 
-        rgba(124, 124, 255, 0.5), 
-        rgba(0, 212, 170, 0.5), 
-        rgba(124, 124, 255, 0.5), 
-        transparent
-      );
-    }
-
-    .footer-text {
-      color: var(--text-muted);
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-link {
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s ease;
-      font-size: 0.95rem;
-    }
-
-    .footer-link:hover {
-      color: var(--accent);
-    }
-
-    /* ===== МЕДИА-ЗАПРОСЫ ===== */
     @media (max-width: 768px) {
-      .site-header {
-        padding: 2rem 1rem 1.5rem;
-      }
-
-      .logo-icon {
-        font-size: 2.2rem;
-      }
-
-      .site-title {
-        font-size: 2.2rem;
-      }
-
-      .header-tagline {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-      }
-
-      .nav-link {
-        padding: 0.4rem 0.9rem;
-        font-size: 0.85rem;
-      }
-
-      .container {
-        padding: 1.5rem 1rem 3rem;
-      }
-
-      .join-card {
-        padding: 1.5rem;
-      }
-
-      .card-title {
-        font-size: 1.5rem;
-      }
-
-      .link-item {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-      }
-
-      .link-icon {
-        margin-bottom: 0.8rem;
-        margin-right: 0;
-        min-width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-      }
-
-      .process-steps {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .process-step {
-        padding: 1.2rem;
-      }
-
-      .step-number {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .scroll-top {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .site-title {
-        font-size: 1.8rem;
-      }
-
-      .logo-icon {
-        font-size: 2rem;
-      }
-
-      .nav-link {
-        padding: 0.3rem 0.7rem;
-        font-size: 0.75rem;
-      }
-
-      .join-card {
-        padding: 1.2rem;
-      }
-
-      .card-title {
-        font-size: 1.3rem;
-      }
-
-      .link-icon {
-        min-width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-        width: 100%;
-        justify-content: center;
-      }
-
-      .link-url {
-        font-size: 0.85rem;
-        padding: 0.3rem 0.6rem;
-        width: 100%;
-        text-align: center;
-      }
-
-      .process-step {
-        padding: 1rem;
-      }
-
-      .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 1.1rem;
-      }
+      .site-title { font-size: 2.2rem; }
+      .link-item { flex-direction: column; }
+      .link-icon { margin-bottom: 0.8rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Прогресс-бар -->
-  <div class="progress-bar" id="progressBar"></div>
+  <div class="progress-bar" id="progressBar" style="position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #7c7cff, #00d4aa); z-index: 1000;"></div>
 
-  <!-- Кнопка наверх -->
-  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
-    ↑
-  </div>
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
 
-  <!-- ШАПКА -->
   <header class="site-header">
     <div class="header-content">
       <div class="logo-wrapper">
         <span class="logo-icon">📝</span>
         <h1 class="site-title">REQUIEM</h1>
       </div>
-      
-      <div class="header-tagline">
-        Вступление в клан и обращения
-      </div>
-      
+      <div class="header-tagline">Вступление в клан и обращения</div>
       <nav class="main-nav">
         <a href="index.html" class="nav-link">Главная</a>
         <a href="rules.html" class="nav-link">Правила</a>
@@ -776,277 +298,129 @@
     </div>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="container">
-    <!-- Процесс вступления -->
     <div class="join-card fade-in delay-1">
       <h2 class="card-title">📋 Процесс вступления</h2>
-      
       <div class="process-steps">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div class="step-title">Ознакомление</div>
-          <p class="step-description">Прочитайте правила и требования к участникам</p>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div class="step-title">Заявка</div>
-          <p class="step-description">Заполните форму заявки на вступление</p>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div class="step-title">Проверка</div>
-          <p class="step-description">Администрация проверит вашу заявку</p>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div class="step-title">Собеседование</div>
-          <p class="step-description">Личное общение в Discord с администрацией</p>
-        </div>
-      </div>
-      
-      <div class="info-box">
-        <p><strong>Срок рассмотрения заявок:</strong> Обычно 3-7 рабочих дней. В периоды большого количества заявок срок может быть увеличен.</p>
+        <div class="process-step"><div class="step-number">1</div><div class="step-title">Ознакомление</div><p class="step-description">Прочитайте правила и требования</p></div>
+        <div class="process-step"><div class="step-number">2</div><div class="step-title">Заявка</div><p class="step-description">Заполните форму на вступление</p></div>
+        <div class="process-step"><div class="step-number">3</div><div class="step-title">Проверка</div><p class="step-description">Ожидайте решения администрации</p></div>
+        <div class="process-step"><div class="step-number">4</div><div class="step-title">Discord</div><p class="step-description">Собеседование и получение ролей</p></div>
       </div>
     </div>
 
-    <!-- Важное предупреждение -->
     <div class="join-card fade-in delay-2 warning-card">
       <h2 class="card-title">⚠️ Внимание!</h2>
-      
       <div class="warning-box">
-        <p><strong>Без заполненной заявки вступление не рассматривается!</strong></p>
-        <p>Пожалуйста, заполняйте форму внимательно и указывайте достоверную информацию.</p>
-      </div>
-      
-      <div class="info-box">
-        <p>Перед подачей заявки обязательно ознакомьтесь с <a href="rules.html">правилами клана</a> и <a href="requirements.html">требованиями к участникам</a>.</p>
+        <p><strong>Без заполненной заявки кандидатуры не рассматриваются!</strong></p>
+        <p>Пожалуйста, заполняйте формы внимательно.</p>
       </div>
     </div>
 
-    <!-- Формы для вступления -->
     <div class="join-card fade-in delay-3">
       <h2 class="card-title">📝 Заявки на вступление</h2>
-      
       <ul class="link-list">
         <li class="link-item">
           <div class="link-icon">👤</div>
           <div class="link-content">
-            <span class="link-title">Заявка на вступление (для кандидата)</span>
-            <p class="link-description">Заполняется кандидатом самостоятельно. Включает основную информацию о вас, опыт игры и мотивацию вступления.</p>
-            <div class="link-url" data-url="https://forms.gle/ADXzkxTs4ZwsJXdA8">
-              forms.gle/ADXzkxTs4ZwsJXdA8
-            </div>
-            <div style="margin-top: 0.8rem;">
-              <a href="https://forms.gle/Nc2FNa6FUELK2UfZA" target="_blank" class="btn">
-                📋 Заполнить форму кандидата
-              </a>
-            </div>
+            <span class="link-title">Заявка на вступление (Кандидат)</span>
+            <p class="link-description">Основная форма для тех, кто хочет попасть в REQUIEM.</p>
+            <div class="link-url" data-url="https://forms.gle/ADXzkxTs4ZwsJXdA8">forms.gle/ADXzkxTs4ZwsJXdA8</div>
+            <div><a href="https://forms.gle/ADXzkxTs4ZwsJXdA8" target="_blank" class="btn">📋 Заполнить заявку</a></div>
           </div>
         </li>
-        
         <li class="link-item">
           <div class="link-icon">🛡️</div>
           <div class="link-content">
-            <span class="link-title">Заявка на вступление (для администратора)</span>
-            <p class="link-description">Заполняется администратором после успешного собеседования. Включает финальное решение и назначение ролей.</p>
-            <div class="link-url" data-url="https://forms.gle/45Zdbj8iVYgNgBJF8">
-              forms.gle/45Zdbj8iVYgNgBJF8
-            </div>
-            <div style="margin-top: 0.8rem;">
-              <a href="https://forms.gle/t3KfdkZyA4uV6uN69" target="_blank" class="btn btn-secondary">
-                ⚙️ Форма для администраторов
-              </a>
-            </div>
+            <span class="link-title">Заявка (Администратор)</span>
+            <p class="link-description">Техническая форма, заполняемая администратором.</p>
+            <div class="link-url" data-url="https://forms.gle/45Zdbj8iVYgNgBJF8">forms.gle/45Zdbj8iVYgNgBJF8</div>
+            <div><a href="https://forms.gle/45Zdbj8iVYgNgBJF8" target="_blank" class="btn btn-secondary">⚙️ Форма админа</a></div>
           </div>
         </li>
       </ul>
     </div>
 
-    <!-- Апелляции и администрация -->
     <div class="join-card fade-in delay-4 info-card">
-      <h2 class="card-title">⚖️ Апелляции и администрация</h2>
-      
+      <h2 class="card-title">⚖️ Апелляции и карьера</h2>
       <ul class="link-list">
         <li class="link-item">
           <div class="link-icon">📜</div>
           <div class="link-content">
-            <span class="link-title">Апелляция на Чёрный список</span>
-            <p class="link-description">Подача апелляции на разбан из чёрного списка. Требует объяснения причин и доказательств исправления.</p>
-            <div class="link-url" data-url="https://forms.gle/GLCRVbjvBkaw8Qet6">
-              forms.gle/GLCRVbjvBkaw8Qet6
-            </div>
-            <div style="margin-top: 0.8rem;">
-              <a href="https://forms.gle/dTWwBu6M9JmzNBxRA" target="_blank" class="btn">
-                🗣️ Подать апелляцию
-              </a>
-            </div>
+            <span class="link-title">Обжалование Чёрного Списка</span>
+            <p class="link-description">Форма апелляции для тех, кто попал в ЧСК.</p>
+            <div class="link-url" data-url="https://forms.gle/GLCRVbjvBkaw8Qet6">forms.gle/GLCRVbjvBkaw8Qet6</div>
+            <div><a href="https://forms.gle/GLCRVbjvBkaw8Qet6" target="_blank" class="btn">⚖️ Подать апелляцию</a></div>
           </div>
         </li>
-        
         <li class="link-item">
-          <div class="link-icon">👨‍⚖️</div>
+          <div class="link-icon">💼</div>
           <div class="link-content">
-            <span class="link-title">Заявка в администрацию</span>
-            <p class="link-description">Подача заявки на вступление в администрацию клана. Требует опыта, рекомендаций и доказательств лидерских качеств.</p>
-            <div class="link-url" data-url="https://forms.gle/bgZaPveuTBhjm6sUA">
-              forms.gle/bgZaPveuTBhjm6sUA
-            </div>
-            <div style="margin-top: 0.8rem;">
-              <a href="https://forms.gle/vfgtvUpTCf382Pry7" target="_blank" class="btn btn-secondary">
-                ⚡ Подать заявку в админы
-              </a>
-            </div>
+            <span class="link-title">Стать администратором</span>
+            <p class="link-description">Подача заявки на должность администратора клана.</p>
+            <div class="link-url" data-url="https://forms.gle/bgZaPveuTBhjm6sUA">forms.gle/bgZaPveuTBhjm6sUA</div>
+            <div><a href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" class="btn btn-secondary">⚡ Заявка на админа</a></div>
           </div>
         </li>
       </ul>
     </div>
 
-    <!-- Контакты -->
     <div class="join-card fade-in delay-5 success-card">
-      <h2 class="card-title">💬 Контакты и связь</h2>
-      
+      <h2 class="card-title">💬 Поддержка и связь</h2>
       <div class="link-item">
         <div class="link-icon">🎮</div>
         <div class="link-content">
-          <span class="link-title">Discord-сервер Requiem</span>
-          <p class="link-description">Официальный Discord сервер клана для общения, связи с администрацией и участия в мероприятиях.</p>
-          <div class="link-url" data-url="https://discord.gg/u769kvpCT5">
-            discord.gg/u769kvpCT5
-          </div>
-          <div style="margin-top: 0.8rem;">
-            <a href="https://discord.gg/u769kvpCT5" target="_blank" class="btn">
-              🎯 Присоединиться к Discord
-            </a>
-          </div>
+          <span class="link-title">Discord сервер Requiem</span>
+          <div class="link-url" data-url="https://discord.gg/u769kvpCT5">discord.gg/u769kvpCT5</div>
+          <div style="margin-top:0.5rem;"><a href="https://discord.gg/u769kvpCT5" target="_blank" class="btn">🎯 Войти в Discord</a></div>
         </div>
       </div>
-      
-      <div class="info-box">
-        <p><strong>⏰ Срок рассмотрения заявок:</strong> 3-7 рабочих дней</p>
-        <p><strong>📧 По вопросам:</strong> Обращайтесь к администрации в Discord</p>
-        <p><strong>🔍 Статус заявки:</strong> Можно узнать у Создателя/Заместителя/Модератора</p>
+      <div class="link-item">
+        <div class="link-icon">🌐</div>
+        <div class="link-content">
+          <span class="link-title">Официальный сайт</span>
+          <p class="link-description">Решение спорных ситуаций и тикеты.</p>
+          <div class="link-url" data-url="https://requiemclan.qzz.io/">requiemclan.qzz.io</div>
+          <div style="margin-top:0.5rem;"><a href="https://requiemclan.qzz.io/" target="_blank" class="btn btn-secondary">🛠 Открыть сайт</a></div>
+        </div>
       </div>
-      
-      <div class="warning-box">
-        <p><strong>Важно:</strong> Не спамьте администраторов личными сообщениями с вопросами о статусе заявки. Вся информация публикуется в соответствующих каналах Discord.</p>
+      <div class="info-box">
+        <p><strong>Почта:</strong> Requiem.Official@outlook.com</p>
+        <p><strong>Тех-поддержка (Discord):</strong> каналы в категории поддержки сервера.</p>
       </div>
     </div>
   </main>
 
-  <!-- ФУТЕР -->
   <footer class="footer">
-    <div class="footer-text">
-      © 2026 Requiem • Все формы актуальны на январь 2026
-    </div>
+    <div class="footer-text">© 2026 Requiem • Информация актуальна</div>
     <div class="footer-links">
-      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord сервер</a>
-      <a href="index.html" class="footer-link">На главную</a>
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="index.html" class="footer-link">Главная</a>
       <a href="rules.html" class="footer-link">Правила</a>
-      <a href="requirements.html" class="footer-link">Требования</a>
     </div>
   </footer>
 
   <script>
-    // Прогресс-бар
     const progressBar = document.getElementById('progressBar');
     const scrollTop = document.getElementById('scrollTop');
-    
     window.addEventListener('scroll', () => {
       const winScroll = document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      
-      progressBar.style.width = scrolled + '%';
-      
-      if (winScroll > 300) {
-        scrollTop.classList.add('visible');
-      } else {
-        scrollTop.classList.remove('visible');
-      }
+      progressBar.style.width = (winScroll / height * 100) + '%';
+      winScroll > 300 ? scrollTop.classList.add('visible') : scrollTop.classList.remove('visible');
     });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    // Прокрутка наверх
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
-
-    // Копирование ссылки
     document.querySelectorAll('.link-url').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const url = this.getAttribute('data-url') || this.textContent.trim();
-        
+      link.addEventListener('click', function() {
+        const url = this.getAttribute('data-url');
         navigator.clipboard.writeText(url).then(() => {
-          const originalText = this.textContent;
+          const original = this.textContent;
           this.textContent = '✅ Скопировано!';
-          this.style.background = 'rgba(0, 212, 170, 0.2)';
-          this.style.borderColor = 'rgba(0, 212, 170, 0.4)';
-          this.style.color = '#80f0d4';
-          
-          setTimeout(() => {
-            this.textContent = originalText;
-            this.style.background = '';
-            this.style.borderColor = '';
-            this.style.color = '';
-            window.open(url, '_blank');
-          }, 1500);
+          setTimeout(() => { this.textContent = original; window.open(url, '_blank'); }, 1000);
         });
-      });
-    });
-
-    // Горячие клавиши
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Home') {
-        scrollToTop();
-      }
-      
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.join-card, .link-item').forEach(el => {
-          el.style.transform = '';
-          el.style.boxShadow = '';
-        });
-      }
-      
-      if (e.key === '1') {
-        window.open('https://forms.gle/Nc2FNa6FUELK2UfZA', '_blank');
-      }
-      
-      if (e.key === '2') {
-        window.open('https://forms.gle/t3KfdkZyA4uV6uN69', '_blank');
-      }
-      
-      if (e.key === '3') {
-        window.open('https://forms.gle/dTWwBu6M9JmzNBxRA', '_blank');
-      }
-      
-      if (e.key === '4') {
-        window.open('https://forms.gle/vfgtvUpTCf382Pry7', '_blank');
-      }
-      
-      if (e.key === 'd' || e.key === 'D') {
-        window.open('https://discord.gg/u769kvpCT5', '_blank');
-      }
-    });
-
-    // Подсветка активной ссылки
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentPage = window.location.pathname.split('/').pop() || 'join.html';
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-          link.classList.add('active');
-        }
       });
     });
   </script>
 </body>
 </html>
-
