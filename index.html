@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Requiem — Главная</title>
+  <meta name="description" content="Официальный сайт клана Requiem" />
+  <style>
+    /* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ===== */
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d12;
+      --card-bg: #14141f;
+      --text-primary: #f0f0fa;
+      --text-secondary: #a0a8c0;
+      --text-muted: #707890;
+      --accent: #7c7cff;
+      --accent-hover: #6b6bff;
+      --danger: #ff4766;
+      --warning: #ffb347;
+      --success: #00d4aa;
+      --info: #47b5ff;
+      --border-color: rgba(124, 124, 255, 0.2);
+      --border-subtle: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== СБРОС ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #0a0a0f, #0c0c12);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== УЛУЧШЕННЫЙ HEADER ===== */
+    .site-header {
+      background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
+      padding: 2.5rem 1rem 2rem;
+      position: relative;
+      text-align: center;
+      border-bottom: 2px solid transparent;
+      box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Верхняя линия */
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(124, 124, 255, 0.5) 20%,
+        rgba(0, 212, 170, 0.5) 50%,
+        rgba(124, 124, 255, 0.5) 80%,
+        transparent 100%
+      );
+      z-index: 2;
+    }
+
+    /* Нижняя линия (основная) */
+    .site-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%,
+        #7c7cff 20%,
+        #00d4aa 50%,
+        #7c7cff 80%,
+        transparent 100%
+      );
+      opacity: 0.6;
+      z-index: 2;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 15px rgba(124, 124, 255, 0.5));
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #c0c0ff, #7c7cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(124, 124, 255, 0.3);
+      line-height: 1.2;
+    }
+
+    .header-tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: rgba(20, 20, 31, 0.6);
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+    }
+
+    /* ===== НАВИГАЦИЯ ===== */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 25px;
+      background: rgba(20, 20, 31, 0.6);
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .nav-link:hover {
+      background: rgba(124, 124, 255, 0.15);
+      border-color: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #7c7cff, #6b6bff);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(124, 124, 255, 0.4);
+    }
+
+    /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ===== ПРИВЕТСТВЕННАЯ СЕКЦИЯ ===== */
+    .hero {
+      background: rgba(20, 20, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .hero:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(124, 124, 255, 0.3);
+    }
+
+    .hero:hover::before {
+      opacity: 1;
+    }
+
+    .hero-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      border-radius: 2px;
+    }
+
+    .hero-content {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== КАРТОЧКИ ===== */
+    .card {
+      background: rgba(20, 20, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(124, 124, 255, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      border-radius: 2px;
+    }
+
+    /* Типы карточек */
+    .warning-card {
+      border-left: 4px solid var(--danger) !important;
+    }
+
+    .warning-card .card-title {
+      color: #ffa0b0;
+    }
+
+    .success-card {
+      border-left: 4px solid var(--success) !important;
+    }
+
+    .success-card .card-title {
+      color: #80f0d4;
+    }
+
+    .info-card {
+      border-left: 4px solid var(--info) !important;
+    }
+
+    .info-card .card-title {
+      color: #a0d0ff;
+    }
+
+    .mute-card {
+      border-left: 4px solid #9b59b6 !important;
+    }
+
+    .mute-card .card-title {
+      color: #b983d8;
+    }
+
+    /* ===== КАРТОЧКИ БЫСТРЫХ ССЫЛОК ===== */
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .quick-card {
+      background: rgba(20, 20, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 1.8rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quick-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+      border-color: rgba(124, 124, 255, 0.3);
+    }
+
+    .quick-card:hover::before {
+      opacity: 1;
+    }
+
+    .quick-card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .quick-card-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .quick-card-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    /* ===== КНОПКИ ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      background: linear-gradient(135deg, #7c7cff, #6b6bff);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(124, 124, 255, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(124, 124, 255, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: rgba(30, 30, 40, 0.8);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(124, 124, 255, 0.1);
+      border-color: var(--accent);
+    }
+
+    /* ===== СТАТИСТИКА ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(20, 20, 31, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      border-color: rgba(124, 124, 255, 0.3);
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== СПИСОК ПРАВИЛ ===== */
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+    }
+
+    .rule-item:hover {
+      background: rgba(124, 124, 255, 0.05);
+      transform: translateX(5px);
+      border-color: var(--border-color);
+    }
+
+    .rule-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      background: rgba(124, 124, 255, 0.15);
+      color: var(--accent);
+      border-radius: 10px;
+      margin-right: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .rule-content {
+      flex: 1;
+    }
+
+    .rule-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .rule-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== ТАБЛИЦЫ ===== */
+    .table-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    .data-table th {
+      background: rgba(124, 124, 255, 0.1);
+      color: var(--accent);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table td {
+      padding: 1rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      font-size: 0.95rem;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover {
+      background: rgba(124, 124, 255, 0.03);
+      cursor: pointer;
+    }
+
+    /* ===== БЕЙДЖИ ===== */
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+
+    .badge-success {
+      background: rgba(0, 212, 170, 0.15);
+      color: #a0f0e0;
+      border-color: rgba(0, 212, 170, 0.3);
+    }
+
+    .badge-warning {
+      background: rgba(255, 179, 71, 0.15);
+      color: #ffd8a0;
+      border-color: rgba(255, 179, 71, 0.3);
+    }
+
+    .badge-danger {
+      background: rgba(255, 71, 102, 0.15);
+      color: #ffa0b0;
+      border-color: rgba(255, 71, 102, 0.3);
+    }
+
+    .badge-info {
+      background: rgba(71, 181, 255, 0.15);
+      color: #a0d0ff;
+      border-color: rgba(71, 181, 255, 0.3);
+    }
+
+    .badge-purple {
+      background: rgba(155, 89, 182, 0.15);
+      color: #d0a0f0;
+      border-color: rgba(155, 89, 182, 0.3);
+    }
+
+    /* ===== ИНФОРМАЦИОННЫЕ БЛОКИ ===== */
+    .info-box {
+      background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08));
+      border-left: 4px solid var(--accent);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(124, 124, 255, 0.2);
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
+      border-left: 4px solid var(--danger);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+    }
+
+    .success-box {
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 180, 140, 0.08));
+      border-left: 4px solid var(--success);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    .info-box p,
+    .warning-box p,
+    .success-box p {
+      margin: 0 0 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .info-box p:last-child,
+    .warning-box p:last-child,
+    .success-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-box p {
+      color: #a0b4ff;
+    }
+
+    .warning-box p {
+      color: #ffa8b5;
+    }
+
+    .success-box p {
+      color: #a0f0e4;
+    }
+
+    .info-box a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(124, 124, 255, 0.3);
+    }
+
+    .info-box a:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    /* ===== ТИПЫ МУТОВ ===== */
+    .mute-types {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .mute-type-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .mute-type-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(155, 89, 182, 0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      background: rgba(155, 89, 182, 0.05);
+    }
+
+    .mute-type-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .mute-type-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .mute-type-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ===== СТАТУС ДИСКОРДА ===== */
+    .status-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin: 1rem 0;
+    }
+
+    .status-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+    }
+
+    .status-content {
+      flex: 1;
+    }
+
+    .status-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .status-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ===== ОБРАТНЫЙ ОТСЧЁТ ===== */
+    .countdown-container {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
+      border-radius: 16px;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      margin: 1rem 0;
+    }
+
+    .countdown-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    .countdown-label {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== АНИМАЦИИ ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* ===== ПРОГРЕСС-БАР ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+
+    /* ===== КНОПКА НАВЕРХ ===== */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #7c7cff, #6b6bff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 20px rgba(124, 124, 255, 0.3);
+      z-index: 100;
+      font-size: 1.3rem;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      transform: scale(1.1);
+    }
+
+    /* ===== ФУТЕР ===== */
+    .footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border-color);
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(124, 124, 255, 0.5), 
+        rgba(0, 212, 170, 0.5), 
+        rgba(124, 124, 255, 0.5), 
+        transparent
+      );
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-link:hover {
+      color: var(--accent);
+    }
+
+    /* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      .logo-icon {
+        font-size: 2.2rem;
+      }
+
+      .site-title {
+        font-size: 2.2rem;
+      }
+
+      .header-tagline {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-link {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.85rem;
+      }
+
+      .container {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .hero {
+        padding: 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .quick-links {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+      }
+
+      .mute-types {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown-value {
+        font-size: 2.8rem;
+      }
+
+      .scroll-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .site-title {
+        font-size: 1.8rem;
+      }
+
+      .logo-icon {
+        font-size: 2rem;
+      }
+
+      .nav-link {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.75rem;
+      }
+
+      .hero {
+        padding: 1.2rem;
+      }
+
+      .hero-title {
+        font-size: 1.3rem;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown-value {
+        font-size: 2.5rem;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Прогресс-бар -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Кнопка наверх -->
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+    ↑
+  </div>
+
+  <!-- ШАПКА -->
+  <header class="site-header">
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">⚔️</span>
+        <h1 class="site-title">REQUIEM</h1>
+      </div>
+      
+      <div class="header-tagline">
+        Закрытое сообщество с чёткой иерархией и дисциплиной
+      </div>
+      
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Главная</a>
+        <a href="rules.html" class="nav-link">Правила</a>
+        <a href="news.html" class="nav-link">Новости</a>
+        <a href="join.html" class="nav-link">Вступление</a>
+        <a href="blacklist.html" class="nav-link">Чёрный список</a>
+        <a href="requirements.html" class="nav-link">Требования</a>
+        <a href="about.html" class="nav-link">О клане</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="container">
+    <!-- Приветственная секция -->
+    <div class="hero fade-in delay-1">
+      <h2 class="hero-title">⚔️ Добро пожаловать в Requiem</h2>
+      <p class="hero-content">
+        Requiem — это закрытое сообщество с чёткой иерархией, строгой дисциплиной и продуманными правилами.
+        Мы создаём пространство для тех, кто ценит порядок, уважение и командный дух.
+      </p>
+      <p class="hero-content">
+        Этот сайт является официальной точкой информации клана. Используй навигацию выше,
+        чтобы ознакомиться с философией клана, правилами и условиями вступления.
+      </p>
+    </div>
+
+    <!-- Статус Discord сервера -->
+    <div class="card fade-in delay-2 success-card">
+      <h2 class="card-title">🎮 Статус Discord сервера</h2>
+      
+      <div class="status-container">
+        <div class="status-dot" id="status-dot"></div>
+        <div class="status-content">
+          <div class="status-title" id="status-text">Онлайн • 20 активных</div>
+          <div class="status-subtitle">Сервер: <strong>Requiem</strong> • Обновлено только что</div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <p><strong>Discord сервер:</strong> <a href="https://discord.gg/u769kvpCT5" target="_blank">discord.gg/u769kvpCT5</a></p>
+        <p>Основное место общения клана. Все важные объявления, мероприятия и обсуждения происходят здесь.</p>
+      </div>
+    </div>
+
+    <!-- Таймер набора -->
+    <div class="card fade-in delay-3 warning-card">
+      <h2 class="card-title">⏰ До закрытия набора</h2>
+      
+      <div class="countdown-container">
+        <div class="countdown-value" id="countdown-days">30</div>
+        <div class="countdown-label">дней до 20 марта 2026</div>
+        <a href="join.html" class="btn">
+          📝 Подать заявку сейчас
+        </a>
+      </div>
+      
+      <div class="warning-box">
+        <p><strong>Внимание:</strong> Набор участников ограничен по времени. После закрытия набора новые заявки приниматься не будут до следующего сезона.</p>
+      </div>
+    </div>
+
+    <!-- 5 основных правил -->
+    <div class="card fade-in delay-4">
+      <h2 class="card-title">📜 5 основных правил</h2>
+      
+      <ul class="rules-list">
+        <li class="rule-item">
+          <div class="rule-number">1</div>
+          <div class="rule-content">
+            <span class="rule-title">Уважение и этикет</span>
+            <p class="rule-description">Запрещены оскорбления, дискриминация, провокации и токсичное поведение в любом виде.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">2</div>
+          <div class="rule-content">
+            <span class="rule-title">Соблюдение иерархии</span>
+            <p class="rule-description">Обязательное уважение к администрации и выполнение указаний вышестоящих.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">3</div>
+          <div class="rule-content">
+            <span class="rule-title">Запрет читов и багов</span>
+            <p class="rule-description">Использование стороннего ПО, эксплойтов и багов строго запрещено.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">4</div>
+          <div class="rule-content">
+            <span class="rule-title">Конфиденциальность</span>
+            <p class="rule-description">Запрещена публикация личной информации других участников без согласия.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">5</div>
+          <div class="rule-content">
+            <span class="rule-title">Активность и участие</span>
+            <p class="rule-description">Регулярная активность в Discord и участие в жизни клана обязательны.</p>
+          </div>
+        </li>
+      </ul>
+      
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="rules.html" class="btn">
+          📖 Все 37 правил
+        </a>
+      </div>
+    </div>
+
+    <!-- ⚠️ ВНИМАНИЕ: Автоматический мут -->
+    <div class="card fade-in delay-5 warning-card">
+      <h2 class="card-title">⚠️ Внимание: система мутов</h2>
+      
+      <div class="warning-box">
+        <p><strong>Мут выдаётся автоматически через 10 минут после получения варна, если не подана апелляция.</strong></p>
+        <p>Срок мута зависит от общего количества варнов у участника. Система полностью автоматическая — решение принимается без вмешательства модераторов. У вас есть 10 минут на подачу апелляции через тикет.</p>
+      </div>
+      
+      <div class="success-box">
+        <p><strong>🔥 Сгорание варнов:</strong> Все варны сгорают через <strong>60 дней</strong> без новых нарушений. За хорошее поведение после мута можно снять <strong>1-3 варна</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Система мутов "Замучен" -->
+    <div class="card fade-in mute-card">
+      <h2 class="card-title">🔇 Система мутов "Замучен"</h2>
+      
+      <p style="color: var(--text-secondary); margin: 1rem 0; line-height: 1.6;">
+        В зависимости от типа нарушения, выдаётся один из четырёх видов мутов. Тип мута определяется автоматически на основе того, где было совершено нарушение.
+      </p>
+      
+      <div class="mute-types">
+        <div class="mute-type-card">
+          <span class="mute-type-icon">💬</span>
+          <div class="mute-type-name">Замучен (чат)</div>
+          <p class="mute-type-desc">Запрет на отправку сообщений во всех текстовых каналах сервера.</p>
+          <div style="margin-top: 1rem;">
+            <span class="badge badge-purple">Чат-мут</span>
+          </div>
+        </div>
+        
+        <div class="mute-type-card">
+          <span class="mute-type-icon">🎤</span>
+          <div class="mute-type-name">Замучен (войс)</div>
+          <p class="mute-type-desc">Запрет на разговор в голосовых каналах (микрофон отключён).</p>
+          <div style="margin-top: 1rem;">
+            <span class="badge badge-info">Войс-мут</span>
+          </div>
+        </div>
+        
+        <div class="mute-type-card">
+          <span class="mute-type-icon">🔇</span>
+          <div class="mute-type-name">Замучен (чат+войс)</div>
+          <p class="mute-type-desc">Комбинированный мут: нельзя ни писать, ни говорить.</p>
+          <div style="margin-top: 1rem;">
+            <span class="badge badge-warning">Комбинированный</span>
+          </div>
+        </div>
+        
+        <div class="mute-type-card">
+          <span class="mute-type-icon">🚫</span>
+          <div class="mute-type-name">Замучен (Фулл)</div>
+          <p class="mute-type-desc">Полная блокировка: нельзя зайти в войс и нельзя писать в чатах.</p>
+          <div style="margin-top: 1rem;">
+            <span class="badge badge-danger">Полная блокировка</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <p><strong>ℹ️ Как определяется тип мута:</strong></p>
+        <p>• Нарушение в чате → <span class="badge badge-purple" style="font-size: 0.8rem;">Замучен (чат)</span></p>
+        <p>• Нарушение в голосовом канале → <span class="badge badge-info" style="font-size: 0.8rem;">Замучен (войс)</span></p>
+        <p>• Нарушение в обоих местах → <span class="badge badge-warning" style="font-size: 0.8rem;">Замучен (чат+войс)</span></p>
+        <p>• Тяжёлое нарушение → <span class="badge badge-danger" style="font-size: 0.8rem;">Замучен (Фулл)</span></p>
+      </div>
+    </div>
+
+    <!-- Система варнов и мутов (ИСПРАВЛЕНО) -->
+    <div class="card fade-in">
+      <h2 class="card-title">📊 Система варнов и мутов</h2>
+      
+      <p style="color: var(--text-secondary); margin: 1rem 0; line-height: 1.6;">
+        Количество варнов определяет длительность мута. За каждое нарушение выдаётся 1 варн, за тяжёлые нарушения — сразу несколько варнов.
+      </p>
+      
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Варны</th>
+              <th>Наказание</th>
+              <th>Длительность</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: var(--text-primary);">1 варн</strong></td>
+              <td>Только предупреждение</td>
+              <td>Без мута</td>
+              <td><span class="badge badge-success">Безопасно</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">2 варна</strong></td>
+              <td>Мьют</td>
+              <td>3 часа</td>
+              <td><span class="badge badge-warning">Внимание</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">3 варна</strong></td>
+              <td>Мьют</td>
+              <td>6 часов</td>
+              <td><span class="badge badge-warning">Опасно</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">4 варна</strong></td>
+              <td>Мьют</td>
+              <td>12 часов</td>
+              <td><span class="badge badge-danger">Критично</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">5 варнов</strong></td>
+              <td>Мьют</td>
+              <td>1 день</td>
+              <td><span class="badge badge-danger">Очень опасно</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">6 варнов</strong></td>
+              <td>Мьют</td>
+              <td>3 дня</td>
+              <td><span class="badge badge-danger">Критический уровень</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">7 варнов</strong></td>
+              <td>Мьют</td>
+              <td>7 дней</td>
+              <td><span class="badge badge-danger">Критический уровень</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">8 варнов</strong></td>
+              <td>Мьют</td>
+              <td>14 дней</td>
+              <td><span class="badge badge-danger">Блокировка</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">9 варнов</strong></td>
+              <td>Мьют</td>
+              <td>21 день</td>
+              <td><span class="badge badge-danger">Блокировка</span></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--text-primary);">10+ варнов</strong></td>
+              <td>Мьют</td>
+              <td>28 дней (максимум)</td>
+              <td><span class="badge badge-danger">Полная блокировка</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="warning-box">
+        <p><strong>💥 За тяжёлые нарушения — сразу несколько варнов!</strong></p>
+        <p>Расизм, NSFW, доксинг, запрещённый контент, угрозы — от 3 варнов сразу. Решения модераторов окончательны, обжалование только через тикет.</p>
+      </div>
+    </div>
+
+    <!-- Система наказаний (ИСПРАВЛЕНО) -->
+    <div class="card fade-in info-card">
+      <h2 class="card-title">⚖️ Система наказаний</h2>
+      
+      <p style="color: var(--text-secondary); margin: 1rem 0; line-height: 1.6;">
+        Прозрачная система наказаний за нарушения правил. Все участники могут видеть за что и какое наказание следует.
+      </p>
+      
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Нарушение</th>
+              <th>Наказание</th>
+              <th>Срок</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Незначительное нарушение этикета</td>
+              <td><span class="badge badge-warning">Мут</span></td>
+              <td>1-24 часа</td>
+              <td><span class="badge badge-warning">Лёгкое</span></td>
+            </tr>
+            <tr>
+              <td>Повторное нарушение</td>
+              <td><span class="badge badge-warning">Варн</span></td>
+              <td>Предупреждение</td>
+              <td><span class="badge badge-warning">Среднее</span></td>
+            </tr>
+            <tr>
+              <td>Грубое нарушение правил</td>
+              <td><span class="badge badge-danger">Бан</span></td>
+              <td>1-30 дней</td>
+              <td><span class="badge badge-danger">Тяжёлое</span></td>
+            </tr>
+            <tr>
+              <td>Критическое нарушение</td>
+              <td><span class="badge badge-danger">ЧС</span></td>
+              <td>Перманентно</td>
+              <td><span class="badge badge-danger">Критическое</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+        <div style="color: var(--text-muted); font-size: 0.9rem;">
+          Всего в ЧС: <strong style="color: var(--danger);">3 игрока</strong>
+        </div>
+        <a href="blacklist.html" class="btn btn-secondary">
+          👁️ Посмотреть ЧС
+        </a>
+      </div>
+    </div>
+
+    <!-- Правила системы мутов -->
+    <div class="card fade-in">
+      <h2 class="card-title">📋 Правила системы мутов</h2>
+      
+      <ul class="rules-list">
+        <li class="rule-item">
+          <div class="rule-number">1</div>
+          <div class="rule-content">
+            <span class="rule-title">Автоматическое применение</span>
+            <p class="rule-description">Мут выдаётся автоматически через 10 минут после получения варна, если не подана апелляция через тикет.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">2</div>
+          <div class="rule-content">
+            <span class="rule-title">Тип мута по нарушению</span>
+            <p class="rule-description">Тип мута определяется автоматически: нарушение в чате → чат-мут, в войсе → войс-мут, везде → комбинированный.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">3</div>
+          <div class="rule-content">
+            <span class="rule-title">Сгорание варнов</span>
+            <p class="rule-description">Все варны сгорают через 60 дней без новых нарушений. Варны учитываются в общей сумме для определения срока мута.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">4</div>
+          <div class="rule-content">
+            <span class="rule-title">Обжалование</span>
+            <p class="rule-description">Апелляция подаётся только через тикет в Discord. Публичные споры наказываются дополнительными варнами.</p>
+          </div>
+        </li>
+        
+        <li class="rule-item">
+          <div class="rule-number">5</div>
+          <div class="rule-content">
+            <span class="rule-title">Снятие варнов</span>
+            <p class="rule-description">За примерное поведение после отбытия мута можно снять 1-3 варна по решению администрации.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Карточки быстрых ссылок -->
+    <div class="quick-links">
+      <div class="quick-card fade-in">
+        <div class="quick-card-icon">📜</div>
+        <div class="quick-card-title">Правила клана</div>
+        <p class="quick-card-description">Полный свод из 37 правил, обязательных для всех участников сообщества.</p>
+        <a href="rules.html" class="btn">Изучить правила</a>
+      </div>
+      
+      <div class="quick-card fade-in">
+        <div class="quick-card-icon">📝</div>
+        <div class="quick-card-title">Как вступить</div>
+        <p class="quick-card-description">Вся информация о процессе вступления, требованиях и необходимых формах.</p>
+        <a href="join.html" class="btn">Подать заявку</a>
+      </div>
+      
+      <div class="quick-card fade-in">
+        <div class="quick-card-icon">⚖️</div>
+        <div class="quick-card-title">Система наказаний</div>
+        <p class="quick-card-description">Прозрачная система мутов, варнов, банов и чёрного списка.</p>
+        <a href="#" class="btn" onclick="document.querySelector('.info-card').scrollIntoView({behavior: 'smooth'}); return false;">Узнать подробнее</a>
+      </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <span class="stat-value">14+</span>
+        <span class="stat-label">Минимальный возраст</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-value">5</span>
+        <span class="stat-label">Основных правил</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-value">37</span>
+        <span class="stat-label">Всего правил</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-value">3</span>
+        <span class="stat-label">В Чёрном списке</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="footer-text">
+      © 2026 Requiem • Официальный сайт клана
+    </div>
+    <div class="footer-links">
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="blacklist.html" class="footer-link">Чёрный список</a>
+    </div>
+  </footer>
+
+  <script>
+    // Прогресс-бар
+    const progressBar = document.getElementById('progressBar');
+    const scrollTop = document.getElementById('scrollTop');
+    
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      
+      progressBar.style.width = scrolled + '%';
+      
+      if (winScroll > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    // Прокрутка наверх
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Таймер обратного отсчёта до 20 марта 2026
+    function setupCountdown() {
+      const countdownDate = new Date('March 20, 2026 23:59:59').getTime();
+      const timerElement = document.getElementById('countdown-days');
+      
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+        
+        if (distance < 0) {
+          timerElement.textContent = '00';
+          timerElement.parentElement.innerHTML = '<div style="color: var(--danger); font-size: 2rem;">Набор закрыт</div>';
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        timerElement.textContent = days < 10 ? '0' + days : days;
+      }
+      
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+    }
+
+    // Статус Discord
+    function checkDiscordStatus() {
+      const statusText = document.getElementById('status-text');
+      const statusDot = document.getElementById('status-dot');
+      
+      statusText.textContent = 'Онлайн • 20 активных';
+      statusDot.style.background = 'var(--success)';
+    }
+
+    // Подсветка строк таблицы
+    document.querySelectorAll('.data-table tbody tr').forEach(row => {
+      row.addEventListener('click', function() {
+        const warnText = this.querySelector('td:first-child strong')?.textContent || this.querySelector('td:first-child')?.textContent;
+        
+        document.querySelectorAll('.data-table tbody tr').forEach(r => {
+          r.style.boxShadow = '';
+          r.style.border = '';
+        });
+        
+        this.style.boxShadow = '0 0 0 2px var(--accent)';
+        this.style.border = '1px solid var(--accent)';
+        
+        if (warnText) {
+          const desc = this.querySelector('td:nth-child(2)').textContent;
+          const duration = this.querySelector('td:nth-child(3)').textContent;
+          alert(`Уровень: ${warnText}\nНаказание: ${desc}\nДлительность: ${duration}`);
+        }
+      });
+    });
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      setupCountdown();
+      checkDiscordStatus();
+    });
+
+    // Кнопка наверх
+    document.querySelector('.scroll-top').addEventListener('click', scrollToTop);
+
+    // Горячие клавиши
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Home') scrollToTop();
+      if (e.key === 'd' || e.key === 'D') {
+        window.open('https://discord.gg/u769kvpCT5', '_blank');
+      }
+      if (e.key >= '1' && e.key <= '5') {
+        const index = parseInt(e.key) - 1;
+        const rule = document.querySelectorAll('.rule-item')[index];
+        if (rule) rule.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  </script>
+</body>
+</html>

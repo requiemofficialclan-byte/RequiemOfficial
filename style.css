@@ -1,0 +1,440 @@
+/* ===== ОСНОВНОЙ СТИЛЬ REQUIEM ===== */
+:root {
+  --bg: #0f0f14;
+  --card: #181825;
+  --text: #eaeaf0;
+  --muted: #9aa0b4;
+  --accent: #7c7cff;
+  --accent-hover: #6b6bff;
+  --success: #00d4aa;
+  --danger: #ff4766;
+  --warning: #ffb347;
+  --info: #47b5ff;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #0f0f14, #0b0b10);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ===== ШАПКА ===== */
+header {
+  padding: 3rem 1.5rem 2rem;
+  text-align: center;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 3rem;
+  letter-spacing: 0.08em;
+  background: linear-gradient(90deg, #7c7cff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tagline {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  background: var(--card);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(124, 124, 255, 0.3);
+}
+
+.nav-link.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(124, 124, 255, 0.4);
+}
+
+/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ===== СЕКЦИИ ===== */
+.section {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.section-title {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-text {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== КАРТОЧКИ ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 1.8rem;
+  border-left: 4px solid var(--accent);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border-color: rgba(124, 124, 255, 0.3);
+}
+
+.card-title {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.card-text {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+/* ===== КНОПКИ ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(124, 124, 255, 0.15);
+  color: var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-success {
+  background: rgba(0, 212, 170, 0.15);
+  color: var(--success);
+}
+
+.btn-success:hover {
+  background: var(--success);
+  color: white;
+}
+
+.btn-warning {
+  background: rgba(255, 179, 71, 0.15);
+  color: var(--warning);
+}
+
+.btn-warning:hover {
+  background: var(--warning);
+  color: white;
+}
+
+.btn-danger {
+  background: rgba(255, 71, 102, 0.15);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ===== СПИСКИ ПРАВИЛ ===== */
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.rule-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(124, 124, 255, 0.15);
+  border-radius: 8px;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.rule-content {
+  flex: 1;
+}
+
+.rule-title {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.rule-desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ===== ТАБЛИЦЫ ===== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table th {
+  background: rgba(71, 181, 255, 0.1);
+  color: var(--info);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: var(--muted);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ===== БЕЙДЖИ ===== */
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.badge-accent {
+  background: rgba(124, 124, 255, 0.15);
+  color: var(--accent);
+}
+
+.badge-success {
+  background: rgba(0, 212, 170, 0.15);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: rgba(255, 179, 71, 0.15);
+  color: var(--warning);
+}
+
+.badge-danger {
+  background: rgba(255, 71, 102, 0.15);
+  color: var(--danger);
+}
+
+.badge-info {
+  background: rgba(71, 181, 255, 0.15);
+  color: var(--info);
+}
+
+/* ===== СТАТУС ===== */
+.status-box {
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.status-online {
+  color: var(--success);
+}
+
+.status-offline {
+  color: var(--danger);
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease;
+}
+
+/* ===== ФУТЕР ===== */
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.3);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--accent);
+}
+
+/* ===== УВЕДОМЛЕНИЯ ===== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card);
+  color: var(--text);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--accent);
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: slideIn 0.3s ease;
+  display: none;
+  max-width: 350px;
+}
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+@media (max-width: 768px) {
+  .site-title { font-size: 2.5rem; }
+  .main-nav { gap: 0.8rem; }
+  .nav-link { padding: 0.4rem 1rem; font-size: 0.9rem; }
+  .section { padding: 1.8rem; }
+  .section-title { font-size: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .container { padding: 2rem 1rem 4rem; }
+  .table { display: block; overflow-x: auto; }
+}

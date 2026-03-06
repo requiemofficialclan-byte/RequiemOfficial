@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чёрный список • Requiem</title>
+  <meta name="description" content="Чёрный список клана Requiem" />
+  <style>
+    /* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ===== */
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d12;
+      --card-bg: #14141f;
+      --text-primary: #f0f0fa;
+      --text-secondary: #a0a8c0;
+      --text-muted: #707890;
+      --accent: #7c7cff;
+      --accent-hover: #6b6bff;
+      --danger: #ff4766;
+      --warning: #ffb347;
+      --success: #00d4aa;
+      --info: #47b5ff;
+      --purple: #a78bfa;
+      --pink: #f472b6;
+      --cyan: #22d3ee;
+      --lime: #a3e635;
+      --alt: #64c864;
+      --border-color: rgba(124, 124, 255, 0.2);
+      --border-subtle: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== СБРОС ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #0a0a0f, #0c0c12);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== УЛУЧШЕННЫЙ HEADER ===== */
+    .site-header {
+      background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
+      padding: 2.5rem 1rem 2rem;
+      position: relative;
+      text-align: center;
+      border-bottom: 2px solid transparent;
+      box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Верхняя линия */
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(124, 124, 255, 0.5) 20%,
+        rgba(255, 71, 102, 0.5) 50%,
+        rgba(124, 124, 255, 0.5) 80%,
+        transparent 100%
+      );
+      z-index: 2;
+    }
+
+    /* Нижняя линия (основная) */
+    .site-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%,
+        #ff4766 20%,
+        #7c7cff 50%,
+        #ff4766 80%,
+        transparent 100%
+      );
+      opacity: 0.6;
+      z-index: 2;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 15px rgba(255, 71, 102, 0.5));
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #ffa0b0, #ff4766);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(255, 71, 102, 0.3);
+      line-height: 1.2;
+    }
+
+    .header-tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: rgba(20, 20, 31, 0.6);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+    }
+
+    /* ===== НАВИГАЦИЯ ===== */
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 25px;
+      background: rgba(20, 20, 31, 0.6);
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 71, 102, 0.15);
+      border-color: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #ff4766, #ff2e4a);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(255, 71, 102, 0.4);
+    }
+
+    /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ===== КАРТОЧКИ ===== */
+    .card {
+      background: rgba(20, 20, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 71, 102, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Верхняя линия карточки */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4766, #7c7cff);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 71, 102, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 71, 102, 0.2);
+      position: relative;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, #ff4766, #7c7cff);
+      border-radius: 2px;
+    }
+
+    /* Типы карточек */
+    .danger-card {
+      border-left-color: var(--danger);
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
+      border: 1px solid rgba(255, 71, 102, 0.2);
+    }
+
+    .danger-card .card-title {
+      color: #ff8099;
+    }
+
+    .warning-card {
+      border-left-color: var(--warning);
+      background: linear-gradient(135deg, rgba(255, 179, 71, 0.1), rgba(255, 150, 50, 0.08));
+      border: 1px solid rgba(255, 179, 71, 0.2);
+    }
+
+    .warning-card .card-title {
+      color: #ffd080;
+    }
+
+    .info-card {
+      border-left-color: var(--accent);
+      background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08));
+      border: 1px solid rgba(124, 124, 255, 0.2);
+    }
+
+    .info-card .card-title {
+      color: #a0b4ff;
+    }
+
+    /* ===== СТАТИСТИКА ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 71, 102, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      background: rgba(255, 71, 102, 0.05);
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* ===== ПОИСК И ФИЛЬТРЫ ===== */
+    .search-container {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 71, 102, 0.1);
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.9rem 1rem 0.9rem 3rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 71, 102, 0.2);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(255, 71, 102, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .filter-tag {
+      padding: 0.4rem 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-tag:hover {
+      background: rgba(255, 71, 102, 0.2);
+      color: #ff8099;
+      transform: translateY(-2px);
+    }
+
+    .filter-tag.active {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+      box-shadow: 0 4px 12px rgba(255, 71, 102, 0.3);
+    }
+
+    /* ===== СПИСОК ЗАБАНЕННЫХ ===== */
+    .blacklist-container {
+      display: grid;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .banned-user {
+      background: rgba(255, 71, 102, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banned-user:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 71, 102, 0.12);
+      box-shadow: 0 10px 30px rgba(255, 71, 102, 0.2);
+    }
+
+    .banned-user::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 71, 102, 0.5), transparent);
+    }
+
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff4766, #ff6b9d);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      flex-shrink: 0;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(255, 71, 102, 0.3);
+    }
+
+    .user-info {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #ff8099;
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    .user-id {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-family: 'Courier New', monospace;
+      background: rgba(0,0,0,0.2);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      display: inline-block;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .user-id:hover {
+      background: rgba(255, 71, 102, 0.2);
+      color: #ffa0b0;
+    }
+
+    .ban-date {
+      color: var(--warning);
+      font-size: 0.9rem;
+      background: rgba(255, 179, 71, 0.1);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 179, 71, 0.2);
+      font-weight: 500;
+    }
+
+    /* ===== ТЕГИ ПРИЧИН ===== */
+    .reason-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+      flex-wrap: wrap;
+    }
+
+    .reason-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .reason-tag:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+    }
+
+    /* Цвета тегов */
+    .tag-toxic { 
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.15), rgba(255, 30, 60, 0.1));
+      color: #ff8099;
+      border-color: rgba(255, 71, 102, 0.3);
+    }
+    
+    .tag-spam { 
+      background: linear-gradient(135deg, rgba(255, 179, 71, 0.15), rgba(255, 150, 50, 0.1));
+      color: #ffd080;
+      border-color: rgba(255, 179, 71, 0.3);
+    }
+    
+    .tag-alt { 
+      background: linear-gradient(135deg, rgba(100, 200, 100, 0.15), rgba(80, 180, 80, 0.1));
+      color: #80ff80;
+      border-color: rgba(100, 200, 100, 0.3);
+    }
+    
+    .tag-admin { 
+      background: linear-gradient(135deg, rgba(124, 124, 255, 0.15), rgba(100, 100, 220, 0.1));
+      color: #a0b4ff;
+      border-color: rgba(124, 124, 255, 0.3);
+    }
+    
+    .tag-harassment { 
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(220, 90, 160, 0.1));
+      color: #f8a5d6;
+      border-color: rgba(244, 114, 182, 0.3);
+    }
+    
+    .tag-doxxing { 
+      background: linear-gradient(135deg, rgba(163, 230, 53, 0.15), rgba(140, 200, 40, 0.1));
+      color: #c9f76f;
+      border-color: rgba(163, 230, 53, 0.3);
+    }
+    
+    .tag-bug { 
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(20, 180, 200, 0.1));
+      color: #7ee7fc;
+      border-color: rgba(34, 211, 238, 0.3);
+    }
+    
+    .tag-leak { 
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(140, 110, 220, 0.1));
+      color: #c9b8ff;
+      border-color: rgba(167, 139, 250, 0.3);
+    }
+    
+    .tag-ghosting { 
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 180, 140, 0.1));
+      color: #80f0d4;
+      border-color: rgba(0, 212, 170, 0.3);
+    }
+    
+    .tag-permanent { 
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.25), rgba(255, 30, 60, 0.2));
+      color: #ff8099;
+      border-color: rgba(255, 71, 102, 0.4);
+    }
+    
+    .tag-temporary { 
+      background: linear-gradient(135deg, rgba(255, 179, 71, 0.25), rgba(255, 150, 50, 0.2));
+      color: #ffd080;
+      border-color: rgba(255, 179, 71, 0.4);
+    }
+
+    .ban-reason {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      padding: 0.8rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      border-left: 3px solid var(--danger);
+      font-size: 0.95rem;
+    }
+
+    /* ===== РЕЗУЛЬТАТЫ ПОИСКА ===== */
+    .search-results {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 71, 102, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+      display: none;
+    }
+
+    .search-results.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .results-count {
+      color: #ff8099;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    /* ===== КНОПКИ ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      background: linear-gradient(135deg, #ff4766, #ff2e4a);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(255, 71, 102, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 71, 102, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 255, 0.05));
+      border: 1px solid rgba(255, 71, 102, 0.3);
+    }
+
+    /* ===== ИНФОРМАЦИОННЫЕ БЛОКИ ===== */
+    .info-box {
+      background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08));
+      border-left: 4px solid var(--accent);
+      padding: 1.2rem;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(124, 124, 255, 0.2);
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08));
+      border-left: 4px solid var(--danger);
+      padding: 1.2rem;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(255, 71, 102, 0.2);
+    }
+
+    .info-box p,
+    .warning-box p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .info-box p {
+      color: #a0b4ff;
+    }
+
+    .warning-box p {
+      color: #ffa8b5;
+    }
+
+    /* ===== ТЕГИ И ЗНАЧЕНИЯ ===== */
+    .tags-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 71, 102, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .tag-item:hover {
+      background: rgba(255, 71, 102, 0.05);
+      transform: translateX(5px);
+    }
+
+    .tag-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      flex: 1;
+    }
+
+    /* ===== АНИМАЦИИ ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ===== ПРОГРЕСС-БАР ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #ff4766, #7c7cff);
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+
+    /* ===== КНОПКА НАВЕРХ ===== */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff4766, #ff2e4a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 20px rgba(255, 71, 102, 0.3);
+      z-index: 100;
+      font-size: 1.3rem;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      transform: scale(1.1);
+    }
+
+    /* ===== ФУТЕР ===== */
+    .footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-top: 1px solid rgba(255, 71, 102, 0.2);
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 71, 102, 0.5), 
+        rgba(124, 124, 255, 0.5), 
+        rgba(255, 71, 102, 0.5), 
+        transparent
+      );
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-link:hover {
+      color: var(--danger);
+    }
+
+    /* ===== МЕДИА-ЗАПРОСЫ ===== */
+    @media (max-width: 768px) {
+      .site-header {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      .logo-icon {
+        font-size: 2.2rem;
+      }
+
+      .site-title {
+        font-size: 2.2rem;
+      }
+
+      .header-tagline {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-link {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.85rem;
+      }
+
+      .container {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .user-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+
+      .ban-date {
+        align-self: flex-start;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+      }
+
+      .filter-tags {
+        justify-content: center;
+      }
+
+      .tags-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scroll-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .site-title {
+        font-size: 1.8rem;
+      }
+
+      .logo-icon {
+        font-size: 2rem;
+      }
+
+      .nav-link {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.75rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .user-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .reason-tag {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Прогресс-бар -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Кнопка наверх -->
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+    ↑
+  </div>
+
+  <!-- ШАПКА -->
+  <header class="site-header">
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">🚫</span>
+        <h1 class="site-title">REQUIEM</h1>
+      </div>
+      
+      <div class="header-tagline">
+        Чёрный список клана
+      </div>
+      
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="rules.html" class="nav-link">Правила</a>
+        <a href="news.html" class="nav-link">Новости</a>
+        <a href="join.html" class="nav-link">Вступление</a>
+        <a href="blacklist.html" class="nav-link active">Чёрный список</a>
+        <a href="requirements.html" class="nav-link">Требования</a>
+        <a href="about.html" class="nav-link">О клане</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="container">
+    <!-- Информационная карточка -->
+    <div class="card danger-card fade-in delay-1">
+      <h2 class="card-title">🚫 Чёрный список клана</h2>
+      
+      <!-- Статистика банов -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Игрока в ЧС</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">30</span>
+          <span class="stat-label">Дней на апелляцию</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">7-14</span>
+          <span class="stat-label">Дней на рассмотрение</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" style="font-size: 1.5rem;">20.01.2026</span>
+          <span class="stat-label">Последнее обновление</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Поиск и фильтры -->
+    <div class="card fade-in delay-2">
+      <h2 class="card-title">🔍 Поиск по чёрному списку</h2>
+      
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon">🔎</span>
+          <input type="text" id="search-input" class="search-input" placeholder="Поиск по ID, нику или тегу...">
+        </div>
+        
+        <div id="search-results" class="search-results">
+          <div class="results-count">Найдено: <span id="match-count">3</span> совпадений</div>
+        </div>
+        
+        <div class="filter-tags">
+          <span class="filter-tag active" data-filter="all">Все</span>
+          <span class="filter-tag" data-filter="toxic">Токсичность</span>
+          <span class="filter-tag" data-filter="spam">Спам</span>
+          <span class="filter-tag" data-filter="alt">Альт аккаунты</span>
+          <span class="filter-tag" data-filter="admin">Администрация</span>
+          <span class="filter-tag" data-filter="harassment">Харассмент</span>
+          <span class="filter-tag" data-filter="doxxing">Доксинг</span>
+          <span class="filter-tag" data-filter="bug">Эксплойты</span>
+          <span class="filter-tag" data-filter="leak">Утечки</span>
+          <span class="filter-tag" data-filter="ghosting">Гостинг</span>
+          <span class="filter-tag" data-filter="permanent">Перманент</span>
+          <span class="filter-tag" data-filter="temporary">Временный</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Список забаненных пользователей -->
+    <div class="blacklist-container" id="blacklist-container">
+      <!-- Пользователь 1 -->
+      <div class="banned-user fade-in delay-3" data-id="1350573857332793495" data-tags="toxic,spam,alt,admin,doxxing,bug,leak,ghosting,permanent">
+        <div class="user-header">
+          <div class="user-avatar">Y</div>
+          <div class="user-info">
+            <div class="user-name">@Y3rik24</div>
+            <div class="user-id" title="Кликните для копирования">ID: 1350573857332793495</div>
+          </div>
+          <div class="ban-date">08.11.2025 18:30</div>
+        </div>
+        
+        <div class="reason-tags">
+          <span class="reason-tag tag-toxic">Токсичность</span>
+          <span class="reason-tag tag-spam">Спам</span>
+          <span class="reason-tag tag-alt">Альт аккаунты</span>
+          <span class="reason-tag tag-admin">Администрация</span>
+          <span class="reason-tag tag-doxxing">Доксинг</span>
+          <span class="reason-tag tag-bug">Эксплойты</span>
+          <span class="reason-tag tag-leak">Утечки</span>
+          <span class="reason-tag tag-ghosting">Гостинг</span>
+          <span class="reason-tag tag-permanent">Перманент</span>
+        </div>
+        
+        <div class="ban-reason">
+          Грубое нарушение правил сервера. Доксинг и распространение конфиденциальной информации.
+        </div>
+      </div>
+      
+      <!-- Пользователь 2 -->
+      <div class="banned-user fade-in delay-3" data-id="1066670684530557060" data-tags="toxic,alt,doxxing,bug,admin,permanent">
+        <div class="user-header">
+          <div class="user-avatar">W</div>
+          <div class="user-info">
+            <div class="user-name">@werex1337</div>
+            <div class="user-id" title="Кликните для копирования">ID: 1066670684530557060</div>
+          </div>
+          <div class="ban-date">02.01.2026 15:04</div>
+        </div>
+        
+        <div class="reason-tags">
+          <span class="reason-tag tag-toxic">Токсичность</span>
+          <span class="reason-tag tag-alt">Альт аккаунты</span>
+          <span class="reason-tag tag-doxxing">Доксинг</span>
+          <span class="reason-tag tag-bug">Эксплойты</span>
+          <span class="reason-tag tag-admin">Администрация</span>
+          <span class="reason-tag tag-permanent">Перманент</span>
+        </div>
+        
+        <div class="ban-reason">
+          Многократные нарушения правил сервера. Токсичное поведение и спам, мешающие нормальному общению.
+        </div>
+      </div>
+      
+      <!-- Пользователь 3 -->
+      <div class="banned-user fade-in delay-4" data-id="1197552971412684920" data-tags="ghosting,toxic,doxxing,alt,leak,bug,admin,permanent">
+        <div class="user-header">
+          <div class="user-avatar">R</div>
+          <div class="user-info">
+            <div class="user-name">@❄ ! [ 𝓡𝓥 ] | любит верекса ❄</div>
+            <div class="user-id" title="Кликните для копирования">ID: 1197552971412684920</div>
+          </div>
+          <div class="ban-date">03.01.2026 17:20</div>
+        </div>
+        
+        <div class="reason-tags">
+          <span class="reason-tag tag-ghosting">Гостинг</span>
+          <span class="reason-tag tag-toxic">Токсичность</span>
+          <span class="reason-tag tag-doxxing">Доксинг</span>
+          <span class="reason-tag tag-alt">Альт аккаунты</span>
+          <span class="reason-tag tag-leak">Утечки</span>
+          <span class="reason-tag tag-bug">Эксплойты</span>
+          <span class="reason-tag tag-admin">Администрация</span>
+          <span class="reason-tag tag-permanent">Перманент</span>
+        </div>
+        
+        <div class="ban-reason">
+          Систематическое и грубое нарушение правил Discord сервера. Полное игнорирование требований администрации.
+        </div>
+      </div>
+    </div>
+
+    <!-- Важное предупреждение -->
+    <div class="card warning-card fade-in delay-4">
+      <h2 class="card-title">⚠️ Внимание</h2>
+      
+      <div class="warning-box">
+        <p><strong>Эти пользователи внесены в чёрный список за нарушение правил сервера.</strong></p>
+        <p>Лица из чёрного списка не подлежат вступлению в клан.</p>
+      </div>
+    </div>
+
+    <!-- Информация об апелляциях -->
+    <div class="card info-card fade-in delay-4">
+      <h2 class="card-title">📩 Апелляции</h2>
+      
+      <div class="info-box">
+        <p>Если вы считаете, что произошла ошибка, вы можете подать апелляцию:</p>
+      </div>
+      
+      <div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+        <a href="https://forms.gle/dTWwBu6M9JmzNBxRA" target="_blank" class="btn">
+          📝 Подать апелляцию через Google Form
+        </a>
+      </div>
+      
+      <div class="info-box">
+        <p><strong>Важная информация:</strong></p>
+        <div style="margin-top: 0.8rem;">
+          <p>• <strong>Срок подачи апелляции:</strong> в течение 30 дней с момента бана</p>
+          <p>• <strong>Срок рассмотрения:</strong> 7-14 рабочих дней</p>
+          <p>• <strong>Повторная апелляция:</strong> возможна через 30 дней после отказа</p>
+          <p>• <strong>Ложные апелляции:</strong> Ложные апелляции по временным наказаниям — продление срока. По ЧСК апелляции рассматриваются всегда, повторная подача после ложной апелляции — через 60 дней.</p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <p>Форма для апелляции также доступна на странице <a href="join.html" style="color: #80d1ff; text-decoration: none;">вступления</a>.</p>
+      </div>
+    </div>
+
+    <!-- Теги и их значения -->
+    <div class="card fade-in delay-4">
+      <h2 class="card-title">🏷️ Теги нарушений</h2>
+      
+      <div class="tags-grid">
+        <div class="tag-item">
+          <span class="reason-tag tag-toxic" style="margin: 0; font-size: 0.7rem;">Токсичность</span>
+          <span class="tag-label">Оскорбления, буллинг</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-spam" style="margin: 0; font-size: 0.7rem;">Спам</span>
+          <span class="tag-label">Флуд, реклама</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-alt" style="margin: 0; font-size: 0.7rem;">Альт аккаунты</span>
+          <span class="tag-label">Мультиаккаунтинг</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-admin" style="margin: 0; font-size: 0.7rem;">Администрация</span>
+          <span class="tag-label">Конфликт с админами</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-harassment" style="margin: 0; font-size: 0.7rem;">Харассмент</span>
+          <span class="tag-label">Преследование</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-doxxing" style="margin: 0; font-size: 0.7rem;">Доксинг</span>
+          <span class="tag-label">Раскрытие личной инфо</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-bug" style="margin: 0; font-size: 0.7rem;">Эксплойты</span>
+          <span class="tag-label">Использование багов</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-leak" style="margin: 0; font-size: 0.7rem;">Утечки</span>
+          <span class="tag-label">Распространение инфо</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-ghosting" style="margin: 0; font-size: 0.7rem;">Гостинг</span>
+          <span class="tag-label">Использование гостинга</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-permanent" style="margin: 0; font-size: 0.7rem;">Перманент</span>
+          <span class="tag-label">Постоянный бан</span>
+        </div>
+        <div class="tag-item">
+          <span class="reason-tag tag-temporary" style="margin: 0; font-size: 0.7rem;">Временный</span>
+          <span class="tag-label">Временный бан</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="footer-text">
+      © 2026 Requiem • Чёрный список обновлён: 20.01.2026
+    </div>
+    <div class="footer-links">
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="index.html" class="footer-link">Главная</a>
+    </div>
+  </footer>
+
+  <script>
+    // Прогресс-бар
+    const progressBar = document.getElementById('progressBar');
+    const scrollTop = document.getElementById('scrollTop');
+    
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      
+      progressBar.style.width = scrolled + '%';
+      
+      // Кнопка наверх
+      if (winScroll > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+
+    // Прокрутка наверх
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Поиск и фильтрация
+    function setupSearchAndFilter() {
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      const matchCount = document.getElementById('match-count');
+      const filterTags = document.querySelectorAll('.filter-tag');
+      const bannedUsers = document.querySelectorAll('.banned-user');
+      
+      let activeFilter = 'all';
+      let currentSearch = '';
+      
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        currentSearch = searchTerm;
+        let visibleCount = 0;
+        
+        bannedUsers.forEach(user => {
+          const userId = user.getAttribute('data-id').toLowerCase();
+          const userName = user.querySelector('.user-name').textContent.toLowerCase();
+          const userTags = user.getAttribute('data-tags').toLowerCase();
+          const userReason = user.querySelector('.ban-reason').textContent.toLowerCase();
+          
+          const matchesSearch = !searchTerm || 
+            userId.includes(searchTerm) || 
+            userName.includes(searchTerm) ||
+            userTags.includes(searchTerm) ||
+            userReason.includes(searchTerm);
+          
+          const matchesFilter = activeFilter === 'all' || 
+            userTags.includes(activeFilter);
+          
+          if (matchesSearch && matchesFilter) {
+            user.style.display = 'block';
+            visibleCount++;
+            
+            if (searchTerm) {
+              highlightText(user, searchTerm);
+            } else {
+              removeHighlight(user);
+            }
+          } else {
+            user.style.display = 'none';
+            removeHighlight(user);
+          }
+        });
+        
+        matchCount.textContent = visibleCount;
+        
+        if (searchTerm || activeFilter !== 'all') {
+          searchResults.classList.add('show');
+        } else {
+          searchResults.classList.remove('show');
+        }
+      }
+      
+      function highlightText(userElement, searchTerm) {
+        const elementsToHighlight = [
+          userElement.querySelector('.user-name'),
+          userElement.querySelector('.user-id'),
+          userElement.querySelector('.ban-reason')
+        ];
+        
+        elementsToHighlight.forEach(element => {
+          if (element) {
+            const originalText = element.getAttribute('data-original') || element.innerHTML;
+            element.setAttribute('data-original', originalText);
+            
+            const highlightedText = originalText.replace(
+              new RegExp(`(${searchTerm})`, 'gi'),
+              '<mark style="background: rgba(255, 179, 71, 0.3); color: #ffd080; padding: 0 2px; border-radius: 3px;">$1</mark>'
+            );
+            element.innerHTML = highlightedText;
+          }
+        });
+      }
+      
+      function removeHighlight(userElement) {
+        const elements = [
+          userElement.querySelector('.user-name'),
+          userElement.querySelector('.user-id'),
+          userElement.querySelector('.ban-reason')
+        ];
+        
+        elements.forEach(element => {
+          if (element && element.getAttribute('data-original')) {
+            element.innerHTML = element.getAttribute('data-original');
+          }
+        });
+      }
+      
+      searchInput.addEventListener('input', performSearch);
+      
+      filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+          filterTags.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          activeFilter = this.getAttribute('data-filter');
+          performSearch();
+        });
+      });
+      
+      document.querySelectorAll('.reason-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+          const tagClass = Array.from(this.classList).find(cls => cls.startsWith('tag-'));
+          if (tagClass) {
+            const filterType = tagClass.replace('tag-', '');
+            filterTags.forEach(t => {
+              if (t.getAttribute('data-filter') === filterType) {
+                t.click();
+              }
+            });
+          }
+        });
+      });
+      
+      performSearch();
+    }
+
+    // Копирование ID при клике
+    function setupCopyID() {
+      const userIdElements = document.querySelectorAll('.user-id');
+      
+      userIdElements.forEach(element => {
+        element.addEventListener('click', function() {
+          const id = this.textContent.replace('ID: ', '');
+          
+          navigator.clipboard.writeText(id).then(() => {
+            const originalText = this.textContent;
+            this.textContent = '✅ Скопировано!';
+            this.style.background = 'rgba(0, 212, 170, 0.2)';
+            this.style.borderColor = 'rgba(0, 212, 170, 0.4)';
+            this.style.color = '#80f0d4';
+            
+            setTimeout(() => {
+              this.textContent = originalText;
+              this.style.background = '';
+              this.style.borderColor = '';
+              this.style.color = '';
+            }, 1500);
+          });
+        });
+      });
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      setupSearchAndFilter();
+      setupCopyID();
+      
+      // Горячие клавиши
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Home') {
+          scrollToTop();
+        }
+        if (e.key === 'Escape') {
+          document.getElementById('search-input').value = '';
+          document.querySelector('.filter-tag[data-filter="all"]').click();
+        }
+        if (e.key === 'f' || e.key === 'F') {
+          document.getElementById('search-input').focus();
+          document.getElementById('search-input').select();
+        }
+      });
+    });
+
+    // Кнопка наверх
+    document.querySelector('.scroll-top').addEventListener('click', scrollToTop);
+  </script>
+</body>
+</html>
