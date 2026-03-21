@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вступление • Requiem</title>
+  <meta name="description" content="Вступление и обращения в клан Requiem" />
+  <style>
+    /* ===== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ===== */
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d12;
+      --card-bg: #14141f;
+      --text-primary: #f0f0fa;
+      --text-secondary: #a0a8c0;
+      --text-muted: #707890;
+      --accent: #7c7cff;
+      --accent-hover: #6b6bff;
+      --danger: #ff4766;
+      --warning: #ffb347;
+      --success: #00d4aa;
+      --info: #47b5ff;
+      --border-color: rgba(124, 124, 255, 0.2);
+      --border-subtle: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===== СБРОС ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #0a0a0f, #0c0c12);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
+      padding: 2.5rem 1rem 2rem;
+      position: relative;
+      text-align: center;
+      border-bottom: 2px solid transparent;
+      box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(124, 124, 255, 0.5) 20%, rgba(0, 212, 170, 0.5) 50%, rgba(124, 124, 255, 0.5) 80%, transparent 100%);
+      z-index: 2;
+    }
+
+    .site-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #7c7cff 20%, #00d4aa 50%, #7c7cff 80%, transparent 100%);
+      opacity: 0.6;
+      z-index: 2;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+    }
+
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo-icon {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 15px rgba(124, 124, 255, 0.5));
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #c0c0ff, #7c7cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(124, 124, 255, 0.3);
+      line-height: 1.2;
+    }
+
+    .header-tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: rgba(20, 20, 31, 0.6);
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 25px;
+      background: rgba(20, 20, 31, 0.6);
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .nav-link:hover {
+      background: rgba(124, 124, 255, 0.15);
+      border-color: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #7c7cff, #6b6bff);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(124, 124, 255, 0.4);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .join-card {
+      background: rgba(20, 20, 31, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .join-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .join-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .join-card:hover::before { opacity: 1; }
+
+    .card-title {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      border-radius: 2px;
+    }
+
+    .warning-card { background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08)); border: 1px solid rgba(255, 71, 102, 0.2); }
+    .warning-card .card-title { color: #ff8099; }
+    .success-card { background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 180, 140, 0.08)); border: 1px solid rgba(0, 212, 170, 0.2); }
+    .success-card .card-title { color: #80f0d4; }
+    .info-card { background: linear-gradient(135deg, rgba(71, 181, 255, 0.1), rgba(50, 150, 220, 0.08)); border: 1px solid rgba(71, 181, 255, 0.2); }
+    .info-card .card-title { color: #80d1ff; }
+
+    .link-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+    .link-item { display: flex; align-items: flex-start; padding: 1.2rem; margin-bottom: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; position: relative; overflow: hidden; }
+    .link-item:hover { background: rgba(124, 124, 255, 0.05); border-color: var(--border-color); transform: translateY(-2px); }
+
+    .link-icon { display: flex; align-items: center; justify-content: center; min-width: 50px; height: 50px; background: rgba(124, 124, 255, 0.15); border-radius: 12px; margin-right: 1.2rem; flex-shrink: 0; color: var(--accent); font-size: 1.5rem; border: 1px solid var(--border-color); }
+    .link-content { flex: 1; }
+    .link-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; display: block; font-size: 1.1rem; }
+    .link-description { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 0.8rem; }
+    .link-url { display: inline-block; color: var(--accent); background: rgba(124, 124, 255, 0.1); padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--border-color); margin-bottom: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+    .link-url:hover { background: rgba(124, 124, 255, 0.2); }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.4rem; background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border: none; border-radius: 30px; text-decoration: none; font-weight: 500; cursor: pointer; transition: all 0.2s ease; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(124, 124, 255, 0.3); }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .btn-secondary { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 255, 0.05)); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-primary); box-shadow: none; }
+
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .process-step { background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; }
+    
+    .step-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; font-size: 1rem; display: block; }
+    .step-description { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.4; margin: 0; }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border-radius: 50%; font-weight: 600; margin-bottom: 1rem; font-size: 1.3rem; border: 2px solid rgba(255, 255, 255, 0.1); }
+
+    .info-box { background: linear-gradient(135deg, rgba(124, 124, 255, 0.1), rgba(100, 100, 220, 0.08)); border-left: 4px solid var(--accent); padding: 1.2rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(124, 124, 255, 0.2); }
+    .warning-box { background: linear-gradient(135deg, rgba(255, 71, 102, 0.1), rgba(255, 30, 60, 0.08)); border-left: 4px solid var(--danger); padding: 1.2rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(255, 71, 102, 0.2); }
+    .info-box p { color: #a0b4ff; }
+    .warning-box p { color: #ffa8b5; }
+
+    .scroll-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: linear-gradient(135deg, #7c7cff, #6b6bff); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 100; }
+    .scroll-top.visible { opacity: 1; visibility: visible; }
+
+    .footer { text-align: center; padding: 2.5rem 1rem; border-top: 1px solid var(--border-color); background: rgba(10, 10, 15, 0.8); }
+    .footer-text { color: var(--text-muted); margin-bottom: 1.2rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { opacity: 0; animation: fadeIn 0.6s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    @media (max-width: 768px) {
+      .site-title { font-size: 2.2rem; }
+      .link-item { flex-direction: column; }
+      .link-icon { margin-bottom: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar" style="position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #7c7cff, #00d4aa); z-index: 1000;"></div>
+
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+
+  <header class="site-header">
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">📝</span>
+        <h1 class="site-title">REQUIEM</h1>
+      </div>
+      <div class="header-tagline">Вступление в клан и обращения</div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="rules.html" class="nav-link">Правила</a>
+        <a href="news.html" class="nav-link">Новости</a>
+        <a href="join.html" class="nav-link active">Вступление</a>
+        <a href="blacklist.html" class="nav-link">Чёрный список</a>
+        <a href="requirements.html" class="nav-link">Требования</a>
+        <a href="about.html" class="nav-link">О клане</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="join-card fade-in delay-1">
+      <h2 class="card-title">📋 Процесс вступления</h2>
+      <div class="process-steps">
+        <div class="process-step"><div class="step-number">1</div><div class="step-title">Ознакомление</div><p class="step-description">Прочитайте правила и требования</p></div>
+        <div class="process-step"><div class="step-number">2</div><div class="step-title">Заявка</div><p class="step-description">Заполните форму на вступление</p></div>
+        <div class="process-step"><div class="step-number">3</div><div class="step-title">Проверка</div><p class="step-description">Ожидайте решения администрации</p></div>
+        <div class="process-step"><div class="step-number">4</div><div class="step-title">Discord</div><p class="step-description">Собеседование и получение ролей</p></div>
+      </div>
+    </div>
+
+    <div class="join-card fade-in delay-2 warning-card">
+      <h2 class="card-title">⚠️ Внимание!</h2>
+      <div class="warning-box">
+        <p><strong>Без заполненной заявки кандидатуры не рассматриваются!</strong></p>
+        <p>Пожалуйста, заполняйте формы внимательно.</p>
+      </div>
+    </div>
+
+    <div class="join-card fade-in delay-3">
+      <h2 class="card-title">📝 Заявки на вступление</h2>
+      <ul class="link-list">
+        <li class="link-item">
+          <div class="link-icon">👤</div>
+          <div class="link-content">
+            <span class="link-title">Заявка на вступление (Кандидат)</span>
+            <p class="link-description">Основная форма для тех, кто хочет попасть в REQUIEM.</p>
+            <div class="link-url" data-url="https://forms.gle/ADXzkxTs4ZwsJXdA8">forms.gle/ADXzkxTs4ZwsJXdA8</div>
+            <div><a href="https://forms.gle/ADXzkxTs4ZwsJXdA8" target="_blank" class="btn">📋 Заполнить заявку</a></div>
+          </div>
+        </li>
+        <li class="link-item">
+          <div class="link-icon">🛡️</div>
+          <div class="link-content">
+            <span class="link-title">Заявка (Администратор)</span>
+            <p class="link-description">Техническая форма, заполняемая администратором.</p>
+            <div class="link-url" data-url="https://forms.gle/45Zdbj8iVYgNgBJF8">forms.gle/45Zdbj8iVYgNgBJF8</div>
+            <div><a href="https://forms.gle/45Zdbj8iVYgNgBJF8" target="_blank" class="btn btn-secondary">⚙️ Форма админа</a></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="join-card fade-in delay-4 info-card">
+      <h2 class="card-title">⚖️ Апелляции и карьера</h2>
+      <ul class="link-list">
+        <li class="link-item">
+          <div class="link-icon">📜</div>
+          <div class="link-content">
+            <span class="link-title">Обжалование Чёрного Списка</span>
+            <p class="link-description">Форма апелляции для тех, кто попал в ЧСК.</p>
+            <div class="link-url" data-url="https://forms.gle/GLCRVbjvBkaw8Qet6">forms.gle/GLCRVbjvBkaw8Qet6</div>
+            <div><a href="https://forms.gle/GLCRVbjvBkaw8Qet6" target="_blank" class="btn">⚖️ Подать апелляцию</a></div>
+          </div>
+        </li>
+        <li class="link-item">
+          <div class="link-icon">💼</div>
+          <div class="link-content">
+            <span class="link-title">Стать администратором</span>
+            <p class="link-description">Подача заявки на должность администратора клана.</p>
+            <div class="link-url" data-url="https://forms.gle/bgZaPveuTBhjm6sUA">forms.gle/bgZaPveuTBhjm6sUA</div>
+            <div><a href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" class="btn btn-secondary">⚡ Заявка на админа</a></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="join-card fade-in delay-5 success-card">
+      <h2 class="card-title">💬 Поддержка и связь</h2>
+      <div class="link-item">
+        <div class="link-icon">🎮</div>
+        <div class="link-content">
+          <span class="link-title">Discord сервер Requiem</span>
+          <div class="link-url" data-url="https://discord.gg/u769kvpCT5">discord.gg/u769kvpCT5</div>
+          <div style="margin-top:0.5rem;"><a href="https://discord.gg/u769kvpCT5" target="_blank" class="btn">🎯 Войти в Discord</a></div>
+        </div>
+      </div>
+      <div class="link-item">
+        <div class="link-icon">🌐</div>
+        <div class="link-content">
+          <span class="link-title">Официальный сайт</span>
+          <p class="link-description">Решение спорных ситуаций и тикеты.</p>
+          <div class="link-url" data-url="https://requiemclan.qzz.io/">requiemclan.qzz.io</div>
+          <div style="margin-top:0.5rem;"><a href="https://requiemclan.qzz.io/" target="_blank" class="btn btn-secondary">🛠 Открыть сайт</a></div>
+        </div>
+      </div>
+      <div class="info-box">
+        <p><strong>Почта:</strong> <a href="mailto:Requiem.Official@outlook.com" style="color: var(--accent); text-decoration: none;">requiemclan@gmail.com</a></p>
+        <p><strong>Тех-поддержка (Discord):</strong> каналы в категории поддержки сервера.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">© 2026 Requiem • Информация актуальна</div>
+    <div class="footer-links">
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="index.html" class="footer-link">Главная</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+    </div>
+  </footer>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    const scrollTop = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progressBar.style.width = (winScroll / height * 100) + '%';
+      winScroll > 300 ? scrollTop.classList.add('visible') : scrollTop.classList.remove('visible');
+    });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    document.querySelectorAll('.link-url').forEach(link => {
+      link.addEventListener('click', function() {
+        const url = this.getAttribute('data-url');
+        navigator.clipboard.writeText(url).then(() => {
+          const original = th
