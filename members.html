@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Состав • Requiem</title>
+  <meta name="description" content="Полный состав клана Requiem" />
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --card-bg: #14141f;
+      --text-primary: #f0f0fa;
+      --text-secondary: #a0a8c0;
+      --text-muted: #707890;
+      --accent: #7c7cff;
+      --danger: #ff4766;
+      --warning: #ffb347;
+      --success: #00d4aa;
+      --info: #47b5ff;
+      --border-color: rgba(124, 124, 255, 0.2);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #0a0a0f, #0c0c12);
+      color: var(--text-primary); line-height: 1.6; min-height: 100vh;
+    }
+    .site-header {
+      background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
+      padding: 2.5rem 1rem 2rem; position: relative; text-align: center;
+      box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
+    }
+    .site-header::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,124,255,0.5) 20%, rgba(0,212,170,0.5) 50%, rgba(124,124,255,0.5) 80%, transparent);
+    }
+    .site-header::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #7c7cff 20%, #00d4aa 50%, #7c7cff 80%, transparent); opacity: 0.6;
+    }
+    .header-content { max-width: 1100px; margin: 0 auto; position: relative; z-index: 3; }
+    .logo-wrapper { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .logo-icon { font-size: 2.8rem; filter: drop-shadow(0 0 15px rgba(124,124,255,0.5)); animation: gentleFloat 4s ease-in-out infinite; }
+    @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+    .site-title {
+      margin: 0; font-size: clamp(2.2rem, 8vw, 3.5rem); font-weight: 800;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #c0c0ff, #7c7cff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2;
+    }
+    .header-tagline {
+      color: var(--text-secondary); font-size: 1.1rem; max-width: 600px;
+      margin: 0 auto 1.5rem; padding: 0.6rem 1.5rem;
+      background: rgba(20,20,31,0.6); border-radius: 30px;
+      border: 1px solid var(--border-color); backdrop-filter: blur(5px); display: inline-block;
+    }
+    .main-nav { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+    .nav-link {
+      color: var(--text-secondary); text-decoration: none; padding: 0.5rem 1.2rem;
+      border-radius: 25px; background: rgba(20,20,31,0.6); border: 1px solid var(--border-color);
+      font-weight: 500; font-size: 0.95rem; transition: all 0.2s ease; backdrop-filter: blur(5px);
+    }
+    .nav-link:hover { background: rgba(124,124,255,0.15); border-color: var(--accent); color: white; transform: translateY(-2px); }
+    .nav-link.active { background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border-color: transparent; box-shadow: 0 5px 15px rgba(124,124,255,0.4); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .card {
+      background: rgba(20,20,31,0.7); backdrop-filter: blur(10px); border-radius: 24px;
+      padding: 2rem; margin-bottom: 2rem; border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa); opacity: 0; transition: opacity 0.2s;
+    }
+    .card:hover::before { opacity: 1; }
+    .card-title {
+      margin: 0 0 1.5rem 0; font-size: 1.8rem; display: flex; align-items: center; gap: 0.8rem;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); position: relative;
+    }
+    .card-title::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; width: 60px; height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa); border-radius: 2px;
+    }
+    .stats-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .stat-pill {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+      border-radius: 20px; font-size: 0.9rem; font-weight: 600;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .search-row { display: flex; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .search-input {
+      flex: 1; min-width: 200px; background: rgba(10,10,20,0.8); color: var(--text-primary);
+      border: 1px solid var(--border-color); border-radius: 12px;
+      padding: 0.7rem 1rem; font-size: 0.95rem; outline: none; font-family: inherit; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .filter-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .filter-btn {
+      padding: 0.45rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04); color: var(--text-muted);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: rgba(124,124,255,0.15); border-color: var(--accent); color: var(--accent); }
+    .members-table { width: 100%; border-collapse: collapse; }
+    .members-table thead tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .members-table th {
+      text-align: left; padding: 0.7rem 1rem; font-size: 0.78rem;
+      font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .member-row { border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.15s; }
+    .member-row:last-child { border-bottom: none; }
+    .member-row:hover { background: rgba(124,124,255,0.04); }
+    .member-row td { padding: 0.75rem 1rem; vertical-align: middle; }
+    .member-row.hidden { display: none; }
+    .m-num { color: var(--text-muted); font-size: 0.85rem; width: 40px; }
+    .m-nick { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+    .m-id {
+      font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--accent);
+      background: rgba(124,124,255,0.08); padding: 0.2rem 0.6rem; border-radius: 8px;
+      border: 1px solid rgba(124,124,255,0.2); cursor: pointer; transition: all 0.15s;
+      white-space: nowrap; display: inline-block;
+    }
+    .m-id:hover { background: rgba(124,124,255,0.2); }
+    .role-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+    }
+    .role-владелец    { background: rgba(255,179,71,0.15);  color: #ffb347; border: 1px solid rgba(255,179,71,0.3); }
+    .role-со-владелец { background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+    .role-админ       { background: rgba(255,71,102,0.15);  color: #ff4766; border: 1px solid rgba(255,71,102,0.3); }
+    .role-модер       { background: rgba(71,181,255,0.15);  color: #47b5ff; border: 1px solid rgba(71,181,255,0.3); }
+    .role-поддержка   { background: rgba(0,212,170,0.15);   color: #00d4aa; border: 1px solid rgba(0,212,170,0.3); }
+    .role-наборщик    { background: rgba(34,211,238,0.15);  color: #22d3ee; border: 1px solid rgba(34,211,238,0.3); }
+    .role-игрок       { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.07); }
+    .role-заморожен   { background: rgba(71,181,255,0.08);  color: #93c5fd; border: 1px solid rgba(71,181,255,0.2); }
+    .role-нет-доступа { background: rgba(255,71,102,0.08);  color: #fca5a5; border: 1px solid rgba(255,71,102,0.2); }
+    .loading { text-align: center; padding: 3rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(124,124,255,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { display: none; text-align: center; padding: 2rem; color: #ff8099; background: rgba(255,71,102,0.08); border-radius: 12px; border: 1px solid rgba(255,71,102,0.2); margin-top: 1rem; }
+    .no-results-msg { display: none; text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .no-results-msg span { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(20,20,31,0.95); color: var(--text-primary); padding: 0.7rem 1.5rem; border-radius: 12px; border: 1px solid rgba(124,124,255,0.3); font-size: 0.9rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 999; white-space: nowrap; }
+    .toast.show { opacity: 1; }
+    .progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #7c7cff, #00d4aa); z-index: 1000; transition: width 0.1s; }
+    .scroll-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: linear-gradient(135deg, #7c7cff, #6b6bff); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.2s; box-shadow: 0 5px 20px rgba(124,124,255,0.3); z-index: 100; font-size: 1.3rem; }
+    .scroll-top.visible { opacity: 1; visibility: visible; }
+    .scroll-top:hover { transform: scale(1.1); }
+    .footer { text-align: center; padding: 2.5rem 1rem; border-top: 1px solid var(--border-color); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); position: relative; }
+    .footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(124,124,255,0.5), rgba(0,212,170,0.5), rgba(124,124,255,0.5), transparent); }
+    .footer-text { color: var(--text-muted); margin-bottom: 1.2rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    .footer-link:hover { color: var(--accent); }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+    @media(max-width:768px) { .site-title{font-size:2.2rem;} .card{padding:1.5rem;} .members-table th:nth-child(3),.member-row td:nth-child(3){display:none;} }
+    @media(max-width:480px) { .site-title{font-size:1.8rem;} .search-row{flex-direction:column;} }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+  <div class="toast" id="toast"></div>
+
+  <header class="site-header">
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">👥</span>
+        <h1 class="site-title">REQUIEM</h1>
+      </div>
+      <div class="header-tagline">Полный состав клана</div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="rules.html" class="nav-link">Правила</a>
+        <a href="news.html" class="nav-link">Новости</a>
+        <a href="join.html" class="nav-link">Вступление</a>
+        <a href="blacklist.html" class="nav-link">Чёрный список</a>
+        <a href="requirements.html" class="nav-link">Требования</a>
+        <a href="members.html" class="nav-link active">Состав</a>
+        <a href="about.html" class="nav-link">О клане</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card fade-in">
+      <h2 class="card-title">👥 Состав клана</h2>
+
+      <div class="stats-row">
+        <div class="stat-pill"><div class="dot" style="background:#00d4aa;box-shadow:0 0 6px #00d4aa;"></div><span>Всего: <strong id="totalCount">—</strong></span></div>
+        <div class="stat-pill"><div class="dot" style="background:#ffb347;"></div><span>Состав: <strong id="staffCount">—</strong></span></div>
+        <div class="stat-pill"><div class="dot" style="background:rgba(255,255,255,0.3);"></div><span>Игроки: <strong id="playerCount">—</strong></span></div>
+        <div class="stat-pill" style="margin-left:auto;"><span style="color:var(--text-muted);font-size:0.82rem;">Показано: <strong id="shownCount">—</strong></span></div>
+      </div>
+
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Поиск по нику или ID..." oninput="doSearch()">
+      </div>
+
+      <div class="filter-btns">
+        <button class="filter-btn active" data-role="все" onclick="setFilter(this)">Все</button>
+        <button class="filter-btn" data-role="владелец" onclick="setFilter(this)">👑 Владелец</button>
+        <button class="filter-btn" data-role="со-владелец" onclick="setFilter(this)">⭐ Со-владелец</button>
+        <button class="filter-btn" data-role="админ" onclick="setFilter(this)">🛡 Админ</button>
+        <button class="filter-btn" data-role="модер" onclick="setFilter(this)">🔵 Модер</button>
+        <button class="filter-btn" data-role="поддержка" onclick="setFilter(this)">💚 Поддержка</button>
+        <button class="filter-btn" data-role="наборщик" onclick="setFilter(this)">📋 Наборщик</button>
+        <button class="filter-btn" data-role="игрок" onclick="setFilter(this)">🎮 Игроки</button>
+        <button class="filter-btn" data-role="заморожен" onclick="setFilter(this)" style="color:#93c5fd;border-color:rgba(71,181,255,0.2);">❄️ Заморожен</button>
+        <button class="filter-btn" data-role="нет-доступа" onclick="setFilter(this)" style="color:#fca5a5;border-color:rgba(255,71,102,0.2);">🚫 Нет доступа</button>
+      </div>
+
+      <div class="loading" id="loadingBlock">
+        <div class="spinner"></div>
+        <span>Загрузка состава...</span>
+      </div>
+
+      <div class="error-msg" id="errorBlock">
+        ⚠️ Не удалось загрузить данные с GitHub. Проверьте что файл <strong>members.json</strong> находится в корне репозитория.
+      </div>
+
+      <table class="members-table" id="membersTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ник</th>
+            <th>Discord ID</th>
+            <th>Роль</th>
+          </tr>
+        </thead>
+        <tbody id="membersBody"></tbody>
+      </table>
+
+      <div class="no-results-msg" id="noResults">
+        <span>🔍</span>Ничего не найдено
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">© 2026 Requiem • Состав клана</div>
+    <div class="footer-links">
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="index.html" class="footer-link">Главная</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+    </div>
+  </footer>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      const s = document.documentElement.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progressBar.style.width = (s / h * 100) + '%';
+      s > 300 ? scrollTopBtn.classList.add('visible') : scrollTopBtn.classList.remove('visible');
+    });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    const ROLES = {
+      'владелец':    { icon: '👑', label: 'Владелец'    },
+      'со-владелец': { icon: '⭐', label: 'Со-владелец' },
+      'админ':       { icon: '🛡', label: 'Админ'       },
+      'модер':       { icon: '🔵', label: 'Модер'       },
+      'поддержка':   { icon: '💚', label: 'Поддержка'   },
+      'наборщик':    { icon: '📋', label: 'Наборщик'    },
+      'игрок':       { icon: '🎮', label: 'Игрок'       },
+      'заморожен':   { icon: '❄️', label: 'Заморожен'   },
+      'нет-доступа': { icon: '🚫', label: 'Нет доступа' },
+    };
+    const STAFF_ROLES = ['владелец','со-владелец','админ','модер','поддержка','наборщик'];
+
+    let allMembers = [];
+    let activeRole = 'все';
+
+    const JSON_URL = 'https://raw.githubusercontent.com/requiemofficialclan-byte/RequiemOfficial/main/members.json';
+
+    async function loadMembers() {
+      try {
+        const res = await fetch(JSON_URL + '?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        allMembers = await res.json();
+        renderAll();
+      } catch (e) {
+        document.getElementById('loadingBlock').style.display = 'none';
+        document.getElementById('errorBlock').style.display = 'block';
+      }
+    }
+
+    function renderAll() {
+      document.getElementById('loadingBlock').style.display = 'none';
+      document.getElementById('membersTable').style.display = 'table';
+
+      const staff  = allMembers.filter(m => STAFF_ROLES.includes(m.role)).length;
+      const players = allMembers.filter(m => m.role === 'игрок').length;
+      document.getElementById('totalCount').textContent  = allMembers.length;
+      document.getElementById('staffCount').textContent  = staff;
+      document.getElementById('playerCount').textContent = players;
+
+      document.getElementById('membersBody').innerHTML = allMembers.map((m, i) => {
+        const r = ROLES[m.role] || { icon: '🎮', label: m.role };
+        const cls = 'role-' + m.role.replace(/\s+/g, '-');
+        return `<tr class="member-row" data-role="${m.role}" data-nick="${m.nick.toLowerCase()}" data-id="${m.id.toLowerCase()}">
+          <td class="m-num">${m.num || i+1}</td>
+          <td class="m-nick">${m.nick}</td>
+          <td><span class="m-id" onclick="copyID('${m.id}')">${m.id}</span></td>
+          <td><span class="role-badge ${cls}">${r.icon} ${r.label}</span></td>
+        </tr>`;
+      }).join('');
+
+      doSearch();
+    }
+
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const rows = document.querySelectorAll('.member-row');
+      let shown = 0;
+      rows.forEach(row => {
+        const match = (!q || row.dataset.nick.includes(q) || row.dataset.id.includes(q))
+                   && (activeRole === 'все' || row.dataset.role === activeRole);
+        row.classList.toggle('hidden', !match);
+        if (match) shown++;
+      });
+      document.getElementById('shownCount').textContent = shown + ' / ' + allMembers.length;
+      document.getElementById('noResults').style.display = shown === 0 ? 'block' : 'none';
+    }
+
+    function setFilter(btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeRole = btn.dataset.role;
+      doSearch();
+    }
+
+    function copyID(id) {
+      navigator.clipboard.writeText(id).then(() => showToast('✅ ID скопирован: ' + id));
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    loadMembers();
+  </script>
+</body>
+</html>
