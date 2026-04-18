@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Состав • Requiem</title>
+  <meta name="description" content="Полный состав клана Requiem" />
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0d0d12;
+      --card-bg: #14141f;
+      --text-primary: #f0f0fa;
+      --text-secondary: #a0a8c0;
+      --text-muted: #707890;
+      --accent: #7c7cff;
+      --danger: #ff4766;
+      --warning: #ffb347;
+      --success: #00d4aa;
+      --info: #47b5ff;
+      --border-color: rgba(124, 124, 255, 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(180deg, #0a0a0f, #0c0c12);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      background: linear-gradient(180deg, #0c0c14 0%, #0f0f18 100%);
+      padding: 2.5rem 1rem 2rem;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,124,255,0.5) 20%, rgba(0,212,170,0.5) 50%, rgba(124,124,255,0.5) 80%, transparent);
+    }
+    .site-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #7c7cff 20%, #00d4aa 50%, #7c7cff 80%, transparent);
+      opacity: 0.6;
+    }
+    .header-content { max-width: 1100px; margin: 0 auto; position: relative; z-index: 3; }
+    .logo-wrapper { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .logo-icon {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 15px rgba(124,124,255,0.5));
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+    @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+    .site-title {
+      margin: 0;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #c0c0ff, #7c7cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+    .header-tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: rgba(20,20,31,0.6);
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+    }
+    .main-nav {
+      display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .nav-link {
+      color: var(--text-secondary); text-decoration: none;
+      padding: 0.5rem 1.2rem; border-radius: 25px;
+      background: rgba(20,20,31,0.6); border: 1px solid var(--border-color);
+      font-weight: 500; font-size: 0.95rem; transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+    }
+    .nav-link:hover { background: rgba(124,124,255,0.15); border-color: var(--accent); color: white; transform: translateY(-2px); }
+    .nav-link.active { background: linear-gradient(135deg, #7c7cff, #6b6bff); color: white; border-color: transparent; box-shadow: 0 5px 15px rgba(124,124,255,0.4); }
+
+    /* ===== CONTAINER ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+    /* ===== CARD ===== */
+    .card {
+      background: rgba(20,20,31,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .card:hover::before { opacity: 1; }
+    .card-title {
+      margin: 0 0 1.5rem 0; font-size: 1.8rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+    .card-title::after {
+      content: ''; position: absolute; bottom: -1px; left: 0;
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      border-radius: 2px;
+    }
+
+    /* ===== STATS ===== */
+    .stats-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .stat-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 20px;
+      font-size: 0.9rem; font-weight: 600;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .stat-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ===== SEARCH ===== */
+    .search-row {
+      display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1; min-width: 200px;
+      background: rgba(10,10,20,0.8); color: var(--text-primary);
+      border: 1px solid var(--border-color); border-radius: 12px;
+      padding: 0.7rem 1rem; font-size: 0.95rem; outline: none;
+      font-family: inherit; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .filter-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04); color: var(--text-muted);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: rgba(124,124,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+    /* ===== MEMBERS TABLE ===== */
+    .members-table { width: 100%; border-collapse: collapse; }
+    .members-table thead tr {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .members-table th {
+      text-align: left; padding: 0.7rem 1rem;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .member-row {
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      transition: background 0.15s;
+    }
+    .member-row:last-child { border-bottom: none; }
+    .member-row:hover { background: rgba(124,124,255,0.04); }
+    .member-row td { padding: 0.75rem 1rem; vertical-align: middle; }
+    .member-row.hidden { display: none; }
+
+    /* Номер */
+    .m-num { color: var(--text-muted); font-size: 0.85rem; width: 40px; }
+
+    /* Ник */
+    .m-nick { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+
+    /* ID */
+    .m-id {
+      font-family: 'Courier New', monospace; font-size: 0.82rem;
+      color: var(--accent); background: rgba(124,124,255,0.08);
+      padding: 0.2rem 0.6rem; border-radius: 8px;
+      border: 1px solid rgba(124,124,255,0.2);
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+      display: inline-block;
+    }
+    .m-id:hover { background: rgba(124,124,255,0.2); }
+
+    /* Роль бейдж */
+    .role-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.7rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+    }
+    .role-owner    { background: rgba(255,179,71,0.15);  color: #ffb347; border: 1px solid rgba(255,179,71,0.3); }
+    .role-coowner  { background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+    .role-admin    { background: rgba(255,71,102,0.15);  color: #ff4766; border: 1px solid rgba(255,71,102,0.3); }
+    .role-moder    { background: rgba(71,181,255,0.15);  color: #47b5ff; border: 1px solid rgba(71,181,255,0.3); }
+    .role-support  { background: rgba(0,212,170,0.15);   color: #00d4aa; border: 1px solid rgba(0,212,170,0.3); }
+    .role-player   { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.07); }
+
+    /* No results */
+    .no-results-msg {
+      display: none; text-align: center; padding: 3rem 1rem;
+      color: var(--text-muted); font-size: 1rem;
+    }
+    .no-results-msg span { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: rgba(20,20,31,0.95); color: var(--text-primary);
+      padding: 0.7rem 1.5rem; border-radius: 12px;
+      border: 1px solid rgba(124,124,255,0.3);
+      font-size: 0.9rem; font-weight: 500;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+      z-index: 999; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; width: 0%; height: 3px;
+      background: linear-gradient(90deg, #7c7cff, #00d4aa);
+      z-index: 1000; transition: width 0.1s;
+    }
+    .scroll-top {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, #7c7cff, #6b6bff);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: white; cursor: pointer; opacity: 0; visibility: hidden;
+      transition: all 0.2s; box-shadow: 0 5px 20px rgba(124,124,255,0.3);
+      z-index: 100; font-size: 1.3rem;
+    }
+    .scroll-top.visible { opacity: 1; visibility: visible; }
+    .scroll-top:hover { transform: scale(1.1); }
+
+    /* Footer */
+    .footer {
+      text-align: center; padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border-color);
+      background: rgba(10,10,15,0.8); backdrop-filter: blur(10px);
+      position: relative;
+    }
+    .footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,124,255,0.5), rgba(0,212,170,0.5), rgba(124,124,255,0.5), transparent);
+    }
+    .footer-text { color: var(--text-muted); margin-bottom: 1.2rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .footer-link { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    .footer-link:hover { color: var(--accent); }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity: 0; animation: fadeIn 0.6s ease forwards; }
+
+    @media(max-width:768px) {
+      .site-title { font-size: 2.2rem; }
+      .card { padding: 1.5rem; }
+      .members-table th:nth-child(3), .member-row td:nth-child(3) { display: none; }
+      .m-id { font-size: 0.75rem; }
+    }
+    @media(max-width:480px) {
+      .site-title { font-size: 1.8rem; }
+      .search-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+  <div class="toast" id="toast"></div>
+
+  <header class="site-header">
+    <div class="header-content">
+      <div class="logo-wrapper">
+        <span class="logo-icon">👥</span>
+        <h1 class="site-title">REQUIEM</h1>
+      </div>
+      <div class="header-tagline">Полный состав клана</div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="rules.html" class="nav-link">Правила</a>
+        <a href="news.html" class="nav-link">Новости</a>
+        <a href="join.html" class="nav-link">Вступление</a>
+        <a href="blacklist.html" class="nav-link">Чёрный список</a>
+        <a href="requirements.html" class="nav-link">Требования</a>
+        <a href="members.html" class="nav-link active">Состав</a>
+        <a href="about.html" class="nav-link">О клане</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card fade-in">
+      <h2 class="card-title">👥 Состав клана</h2>
+
+      <!-- Статистика -->
+      <div class="stats-row">
+        <div class="stat-pill">
+          <div class="dot" style="background:#00d4aa;box-shadow:0 0 6px #00d4aa;"></div>
+          <span>Всего: <strong id="totalCount">32</strong></span>
+        </div>
+        <div class="stat-pill">
+          <div class="dot" style="background:#ffb347;"></div>
+          <span>Состав: <strong id="staffCount">3</strong></span>
+        </div>
+        <div class="stat-pill">
+          <div class="dot" style="background:rgba(255,255,255,0.3);"></div>
+          <span>Игроки: <strong id="playerCount">29</strong></span>
+        </div>
+        <div class="stat-pill" style="margin-left:auto;">
+          <span style="color:var(--text-muted);font-size:0.82rem;">Показано: <strong id="shownCount">32</strong> / 32</span>
+        </div>
+      </div>
+
+      <!-- Поиск и фильтры -->
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Поиск по нику или ID..." oninput="doSearch()">
+      </div>
+      <div class="filter-btns" style="margin-bottom:1.2rem;">
+        <button class="filter-btn active" data-role="all" onclick="setFilter(this)">Все</button>
+        <button class="filter-btn" data-role="владелец" onclick="setFilter(this)">👑 Владелец</button>
+        <button class="filter-btn" data-role="со-владелец" onclick="setFilter(this)">⭐ Со-владелец</button>
+        <button class="filter-btn" data-role="админ" onclick="setFilter(this)">🛡 Админ</button>
+        <button class="filter-btn" data-role="игрок" onclick="setFilter(this)">🎮 Игроки</button>
+      </div>
+
+      <!-- Таблица -->
+      <table class="members-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ник</th>
+            <th>Discord ID</th>
+            <th>Роль</th>
+          </tr>
+        </thead>
+        <tbody id="membersBody">
+          <!-- Владелец -->
+          <tr class="member-row" data-role="владелец" data-nick="𝕽𝖊𝖖𝖚𝖎𝖊𝖒 𝕾𝖔𝖚𝖑" data-id="UBE5eMZaK9">
+            <td class="m-num">1</td>
+            <td class="m-nick">𝕽𝖊𝖖𝖚𝖎𝖊𝖒 𝕾𝖔𝖚𝖑</td>
+            <td><span class="m-id" onclick="copyID('UBE5eMZaK9')">UBE5eMZaK9</span></td>
+            <td><span class="role-badge role-owner">👑 Владелец</span></td>
+          </tr>
+          <!-- Со-владелец -->
+          <tr class="member-row" data-role="со-владелец" data-nick="venlor" data-id="YTKcB0KYmx">
+            <td class="m-num">2</td>
+            <td class="m-nick">venlor</td>
+            <td><span class="m-id" onclick="copyID('YTKcB0KYmx')">YTKcB0KYmx</span></td>
+            <td><span class="role-badge role-coowner">⭐ Со-владелец</span></td>
+          </tr>
+          <!-- Админ -->
+          <tr class="member-row" data-role="админ" data-nick="Серега КПЗ" data-id="NmwKbbEcc8">
+            <td class="m-num">3</td>
+            <td class="m-nick">Серега КПЗ</td>
+            <td><span class="m-id" onclick="copyID('NmwKbbEcc8')">NmwKbbEcc8</span></td>
+            <td><span class="role-badge role-admin">🛡 Админ</span></td>
+          </tr>
+          <!-- Игроки -->
+          <tr class="member-row" data-role="игрок" data-nick="Lucky_m" data-id="3JsKZr8qre">
+            <td class="m-num">4</td>
+            <td class="m-nick">Lucky_m</td>
+            <td><span class="m-id" onclick="copyID('3JsKZr8qre')">3JsKZr8qre</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="2-ПР | РЯД | Лу мин Ми" data-id="mhOMWh6Vgo">
+            <td class="m-num">5</td>
+            <td class="m-nick">2-ПР | РЯД | Лу мин Ми</td>
+            <td><span class="m-id" onclick="copyID('mhOMWh6Vgo')">mhOMWh6Vgo</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="@Придурок" data-id="S4A1gnYAyS">
+            <td class="m-num">6</td>
+            <td class="m-nick">@Придурок</td>
+            <td><span class="m-id" onclick="copyID('S4A1gnYAyS')">S4A1gnYAyS</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="hypergay223" data-id="FsT73CyvbD">
+            <td class="m-num">7</td>
+            <td class="m-nick">hypergay223</td>
+            <td><span class="m-id" onclick="copyID('FsT73CyvbD')">FsT73CyvbD</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="kitsune" data-id="Crw0uEjDaD">
+            <td class="m-num">8</td>
+            <td class="m-nick">kitsune</td>
+            <td><span class="m-id" onclick="copyID('Crw0uEjDaD')">Crw0uEjDaD</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Makato" data-id="czuk2AFpNw">
+            <td class="m-num">9</td>
+            <td class="m-nick">Makato</td>
+            <td><span class="m-id" onclick="copyID('czuk2AFpNw')">czuk2AFpNw</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="sava125data" data-id="zvVvdJbCkK">
+            <td class="m-num">10</td>
+            <td class="m-nick">sava125data</td>
+            <td><span class="m-id" onclick="copyID('zvVvdJbCkK')">zvVvdJbCkK</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Vair" data-id="0b8Q2fqRNZ">
+            <td class="m-num">11</td>
+            <td class="m-nick">Vair</td>
+            <td><span class="m-id" onclick="copyID('0b8Q2fqRNZ')">0b8Q2fqRNZ</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Димон" data-id="v1nEIAU4js">
+            <td class="m-num">12</td>
+            <td class="m-nick">Димон</td>
+            <td><span class="m-id" onclick="copyID('v1nEIAU4js')">v1nEIAU4js</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="netrema" data-id="gUhvNcAsTo">
+            <td class="m-num">13</td>
+            <td class="m-nick">netrema</td>
+            <td><span class="m-id" onclick="copyID('gUhvNcAsTo')">gUhvNcAsTo</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="MAKSS" data-id="Adt4tPov1Z">
+            <td class="m-num">14</td>
+            <td class="m-nick">MAKSS</td>
+            <td><span class="m-id" onclick="copyID('Adt4tPov1Z')">Adt4tPov1Z</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="ra_seest39655" data-id="MMOnKWCbGf">
+            <td class="m-num">15</td>
+            <td class="m-nick">ra_seest39655</td>
+            <td><span class="m-id" onclick="copyID('MMOnKWCbGf')">MMOnKWCbGf</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="sierin" data-id="m82WB8DjF6">
+            <td class="m-num">16</td>
+            <td class="m-nick">sierin</td>
+            <td><span class="m-id" onclick="copyID('m82WB8DjF6')">m82WB8DjF6</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="любовница BUSHI || Дениси" data-id="tHtZpiN6Zv">
+            <td class="m-num">17</td>
+            <td class="m-nick">любовница BUSHI || Дениси</td>
+            <td><span class="m-id" onclick="copyID('tHtZpiN6Zv')">tHtZpiN6Zv</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="-уебан I-" data-id="2nFhYswzf4">
+            <td class="m-num">18</td>
+            <td class="m-nick">-уебан I-</td>
+            <td><span class="m-id" onclick="copyID('2nFhYswzf4')">2nFhYswzf4</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="_Jabka_" data-id="FvdoS5stEA">
+            <td class="m-num">19</td>
+            <td class="m-nick">_Jabka_</td>
+            <td><span class="m-id" onclick="copyID('FvdoS5stEA')">FvdoS5stEA</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="ExLemon" data-id="326n3eMqv4">
+            <td class="m-num">20</td>
+            <td class="m-nick">ExLemon</td>
+            <td><span class="m-id" onclick="copyID('326n3eMqv4')">326n3eMqv4</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Femboi_Felix" data-id="QAUnJb6EK4">
+            <td class="m-num">21</td>
+            <td class="m-nick">Femboi_Felix</td>
+            <td><span class="m-id" onclick="copyID('QAUnJb6EK4')">QAUnJb6EK4</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="How Azeroy Sound" data-id="9Hj93JrJPK">
+            <td class="m-num">22</td>
+            <td class="m-nick">How Azeroy Sound</td>
+            <td><span class="m-id" onclick="copyID('9Hj93JrJPK')">9Hj93JrJPK</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Kostyancik" data-id="84zUP2M3Vu">
+            <td class="m-num">23</td>
+            <td class="m-nick">Kostyancik</td>
+            <td><span class="m-id" onclick="copyID('84zUP2M3Vu')">84zUP2M3Vu</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="LI4KXA" data-id="9IhoqL3uL1">
+            <td class="m-num">24</td>
+            <td class="m-nick">LI4KXA</td>
+            <td><span class="m-id" onclick="copyID('9IhoqL3uL1')">9IhoqL3uL1</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="LokciMD" data-id="DTFV0C4s4e">
+            <td class="m-num">25</td>
+            <td class="m-nick">LokciMD</td>
+            <td><span class="m-id" onclick="copyID('DTFV0C4s4e')">DTFV0C4s4e</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="shadowraze" data-id="PdltukiZII">
+            <td class="m-num">26</td>
+            <td class="m-nick">shadowraze</td>
+            <td><span class="m-id" onclick="copyID('PdltukiZII')">PdltukiZII</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Support(vipAngelVip)" data-id="0vGM3iJY2Q">
+            <td class="m-num">27</td>
+            <td class="m-nick">Support(vipAngelVip)</td>
+            <td><span class="m-id" onclick="copyID('0vGM3iJY2Q')">0vGM3iJY2Q</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Гематоген" data-id="2NY4Qrv1zQ">
+            <td class="m-num">28</td>
+            <td class="m-nick">Гематоген</td>
+            <td><span class="m-id" onclick="copyID('2NY4Qrv1zQ')">2NY4Qrv1zQ</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Саша | Alexandr | 326999" data-id="Mjn6mq8Utg">
+            <td class="m-num">29</td>
+            <td class="m-nick">Саша | Alexandr | 326999</td>
+            <td><span class="m-id" onclick="copyID('Mjn6mq8Utg')">Mjn6mq8Utg</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="Чиловий Дима" data-id="qj6JPvZIRG">
+            <td class="m-num">30</td>
+            <td class="m-nick">Чиловий Дима</td>
+            <td><span class="m-id" onclick="copyID('qj6JPvZIRG')">qj6JPvZIRG</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="🤨⁴²" data-id="zfSJSwnRSE">
+            <td class="m-num">31</td>
+            <td class="m-nick">🤨⁴²</td>
+            <td><span class="m-id" onclick="copyID('zfSJSwnRSE')">zfSJSwnRSE</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+          <tr class="member-row" data-role="игрок" data-nick="𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱" data-id="T27aYJtO3x">
+            <td class="m-num">32</td>
+            <td class="m-nick">𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱</td>
+            <td><span class="m-id" onclick="copyID('T27aYJtO3x')">T27aYJtO3x</span></td>
+            <td><span class="role-badge role-player">🎮 Игрок</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="no-results-msg" id="noResults">
+        <span>🔍</span>
+        Ничего не найдено
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-text">© 2026 Requiem • Состав клана</div>
+    <div class="footer-links">
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+      <a href="index.html" class="footer-link">Главная</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+    </div>
+  </footer>
+
+  <script>
+    // Прогресс-бар
+    const progressBar = document.getElementById('progressBar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      const s = document.documentElement.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progressBar.style.width = (s / h * 100) + '%';
+      s > 300 ? scrollTopBtn.classList.add('visible') : scrollTopBtn.classList.remove('visible');
+    });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    // Копирование ID
+    function copyID(id) {
+      navigator.clipboard.writeText(id).then(() => showToast('✅ ID скопирован: ' + id));
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    // Фильтр + поиск
+    let activeRole = 'all';
+
+    function setFilter(btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeRole = btn.getAttribute('data-role');
+      doSearch();
+    }
+
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const rows = document.querySelectorAll('.member-row');
+      let shown = 0;
+
+      rows.forEach(row => {
+        const nick = row.getAttribute('data-nick').toLowerCase();
+        const id   = row.getAttribute('data-id').toLowerCase();
+        const role = row.getAttribute('data-role');
+
+        const matchSearch = !q || nick.includes(q) || id.includes(q);
+        const matchRole   = activeRole === 'all' || role === activeRole;
+
+        if (matchSearch && matchRole) {
+          row.classList.remove('hidden');
+          shown++;
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('shownCount').textContent = shown;
+      document.getElementById('noResults').style.display = shown === 0 ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
