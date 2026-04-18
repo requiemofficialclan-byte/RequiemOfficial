@@ -31,5 +31,5 @@
   { "num": 30, "nick": "Чиловий Дима",                "id": "qj6JPvZIRG", "role": "игрок"       },
   { "num": 31, "nick": "🤨⁴²",                        "id": "zfSJSwnRSE", "role": "игрок"       },
   { "num": 32, "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",           "id": "T27aYJtO3x", "role": "игрок"       },
-  { "num": 33, "nick": "Test",              "id": "T32412", "role": "Поддержка"       }
+  { "num": 33, "nick": "Test",              "id": "T32412", "role": "поддержка"       }
 ]
