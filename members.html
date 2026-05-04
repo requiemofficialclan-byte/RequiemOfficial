@@ -136,6 +136,20 @@
     .role-игрок       { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.07); }
     .role-заморожен   { background: rgba(71,181,255,0.08);  color: #93c5fd; border: 1px solid rgba(71,181,255,0.2); }
     .role-нет-доступа { background: rgba(255,71,102,0.08);  color: #fca5a5; border: 1px solid rgba(255,71,102,0.2); }
+    .col-settings {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      padding: 0.7rem 1rem; background: rgba(255,255,255,0.03);
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 1rem;
+    }
+    .col-toggle {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;
+      user-select: none;
+    }
+    .col-toggle input { accent-color: var(--accent); cursor: pointer; width: 14px; height: 14px; }
+    .col-toggle:hover { color: var(--text-primary); }
+
     .loading { text-align: center; padding: 3rem; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
     .spinner { width: 36px; height: 36px; border: 3px solid rgba(124,124,255,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -214,6 +228,15 @@
         <button class="filter-btn" data-role="нет-доступа" onclick="setFilter(this)" style="color:#fca5a5;border-color:rgba(255,71,102,0.2);">🚫 Нет доступа</button>
       </div>
 
+      <!-- Настройки отображения -->
+      <div class="col-settings">
+        <span style="font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Показывать:</span>
+        <label class="col-toggle"><input type="checkbox" id="col-nick" checked onchange="updateCols()"> Ник</label>
+        <label class="col-toggle"><input type="checkbox" id="col-username" checked onchange="updateCols()"> @Username</label>
+        <label class="col-toggle"><input type="checkbox" id="col-clan-id" checked onchange="updateCols()"> Клан ID</label>
+        <label class="col-toggle"><input type="checkbox" id="col-discord-id" onchange="updateCols()"> Discord ID</label>
+      </div>
+
       <div class="loading" id="loadingBlock">
         <div class="spinner"></div>
         <span>Загрузка состава...</span>
@@ -227,9 +250,10 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Ник</th>
-            <th>Username</th>
-            <th>Клан ID</th>
+            <th class="th-nick">Ник</th>
+            <th class="th-username">@Username</th>
+            <th class="th-clan-id">Клан ID</th>
+            <th class="th-discord-id" style="display:none;">Discord ID</th>
             <th>Роль</th>
           </tr>
         </thead>
@@ -280,6 +304,20 @@
     let activeRole = 'все';
 
     const JSON_URL = 'https://cdn.jsdelivr.net/gh/requiemofficialclan-byte/RequiemOfficial@main/members.json';
+
+    function updateCols() {
+      const show = {
+        nick:       document.getElementById('col-nick').checked,
+        username:   document.getElementById('col-username').checked,
+        clanId:     document.getElementById('col-clan-id').checked,
+        discordId:  document.getElementById('col-discord-id').checked,
+      };
+      const d = v => v ? '' : 'none';
+      document.querySelectorAll('.th-nick, .td-nick').forEach(el => el.style.display = d(show.nick));
+      document.querySelectorAll('.th-username, .td-username').forEach(el => el.style.display = d(show.username));
+      document.querySelectorAll('.th-clan-id, .td-clan-id').forEach(el => el.style.display = d(show.clanId));
+      document.querySelectorAll('.th-discord-id, .td-discord-id').forEach(el => el.style.display = d(show.discordId));
+    }
 
     async function forceReload() {
       showToast('🔄 Очистка кэша...');
@@ -338,9 +376,10 @@
         const untilBadge = m.until ? `<span style="font-size:0.75rem;color:#fca5a5;margin-left:0.4rem;">до ${m.until}</span>` : '';
         return `<tr class="member-row" data-roles="${allRolesStr}" data-nick="${m.nick.toLowerCase()}" data-id="${m.id.toLowerCase()}" data-username="${username.toLowerCase()}">
           <td class="m-num">${m.num || i+1}</td>
-          <td class="m-nick">${m.nick}${untilBadge}</td>
-          <td style="color:var(--text-muted);font-size:0.85rem;">@${username}</td>
-          <td><span class="m-id" onclick="copyID('${m.id}')">${m.id}</span></td>
+          <td class="td-nick m-nick">${m.nick}${untilBadge}</td>
+          <td class="td-username" style="color:var(--text-muted);font-size:0.85rem;">@${username}</td>
+          <td class="td-clan-id"><span class="m-id" onclick="copyID('${m.id}')">${m.id}</span></td>
+          <td class="td-discord-id" style="display:none;color:var(--text-muted);font-size:0.82rem;font-family:'Courier New',monospace;">${m.discord_id || '—'}</td>
           <td>${rolesHtml}</td>
         </tr>`;
       }).join('');
