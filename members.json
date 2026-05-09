@@ -32,5 +32,6 @@
   { "num": 31, "nick": "🤨⁴²",                       "username": "blakzefirk",               "id": "zfSJSwnRSE", "discord_id": "1368937651968933950", "role": ["игрок"]             },
   { "num": 32, "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",             "username": "santa484283",              "id": "T27aYJtO3x", "discord_id": "1038459551273463828", "role": ["нет-доступа"],      "until": "19.12.2028 20:36" },
   { "num": 33, "nick": "mrsans8933",                 "username": "sans1376",                 "id": "OeFVi1AKV7", "discord_id": "1006113480631386182", "role": ["наборщик", "модер"] },
-  { "num": 34, "nick": "Gyro",                       "username": "kusbka_lord",              "id": "2Ues4oyO4L", "discord_id": "1402658983927349288", "role": ["игрок"]             }
+  { "num": 34, "nick": "Gyro",                       "username": "kusbka_lord",              "id": "2Ues4oyO4L", "discord_id": "1402658983927349288", "role": ["игрок"]             },
+  { "num": 35, "nick": "YeYbaby",                    "username": "sudarshan0115",            "id": "5RNjNcqb1c", "discord_id": "1381253501887447041", "role": ["игрок"]             }
 ]
