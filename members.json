@@ -1,37 +1,277 @@
 [
-  { "num": 1,  "nick": "𝕽𝖊𝖖𝖚𝖎𝖊𝖒 𝕾𝖔𝖚𝖑",           "username": "nightbringer888",          "id": "UBE5eMZaK9", "discord_id": "865650684623716362",  "role": ["владелец"]          },
-  { "num": 2,  "nick": "venlor",                     "username": "venlor1",                  "id": "YTKcB0KYmx", "discord_id": "1314906281919647777", "role": ["со-владелец"]       },
-  { "num": 3,  "nick": "Серега КПЗ",                 "username": "seregacpz",                "id": "NmwKbbEcc8", "discord_id": "1011558542823653376", "role": ["админ"]             },
-  { "num": 4,  "nick": "Lucky_m",                    "username": "lucky_m_official",         "id": "3JsKZr8qre", "discord_id": "1469012480092143747", "role": ["игрок"]             },
-  { "num": 5,  "nick": "2-ПР | РЯД | Лу мин Ми",    "username": "sdeniskrd_58725",          "id": "mhOMWh6Vgo", "discord_id": "1429612211449630772", "role": ["игрок"]             },
-  { "num": 6,  "nick": "@Придурок",                  "username": "eclipseseller",            "id": "S4A1gnYAyS", "discord_id": "931192776211718144",  "role": ["игрок"]             },
-  { "num": 7,  "nick": "hypergay223",                "username": "megaknightsss",            "id": "FsT73CyvbD", "discord_id": "1363483561503494255", "role": ["админ"]             },
-  { "num": 8,  "nick": "kitsune",                    "username": "dewl_kitsune_45762",       "id": "Crw0uEjDaD", "discord_id": "1467952403947983065", "role": ["игрок"]             },
-  { "num": 9,  "nick": "Makato",                     "username": "l.makato",                 "id": "czuk2AFpNw", "discord_id": "1082311673811050587", "role": ["игрок"]             },
-  { "num": 10, "nick": "sava125data",                "username": "sava125data",              "id": "zvVvdJbCkK", "discord_id": "1017784248557633536", "role": ["игрок"]             },
-  { "num": 11, "nick": "Vair",                       "username": "thisisprotocii",           "id": "0b8Q2fqRNZ", "discord_id": "1371515104025247795", "role": ["игрок"]             },
-  { "num": 12, "nick": "Димон",                      "username": "dima00807",                "id": "v1nEIAU4js", "discord_id": "1150364953757351986", "role": ["игрок"]             },
-  { "num": 13, "nick": "netrema",                    "username": "netrema",                  "id": "gUhvNcAsTo", "discord_id": "783216136665563176",  "role": ["игрок"]             },
-  { "num": 14, "nick": "MAKSS",                      "username": "maksym0",                  "id": "Adt4tPov1Z", "discord_id": "1438622511293272085", "role": ["игрок"]             },
-  { "num": 15, "nick": "ra_seest39655",              "username": "gari_lopata",              "id": "MMOnKWCbGf", "discord_id": "828132279619551232",  "role": ["игрок"]             },
-  { "num": 16, "nick": "sierin",                     "username": "sierin0563",               "id": "m82WB8DjF6", "discord_id": "1363814851444736031", "role": ["игрок"]             },
-  { "num": 17, "nick": "любовница BUSHI || Дениси",  "username": "sakurai123",               "id": "tHtZpiN6Zv", "discord_id": "664756658257395733",  "role": ["игрок"]             },
-  { "num": 18, "nick": "-уебан I-",                  "username": "godro228",                 "id": "2nFhYswzf4", "discord_id": "1248904059394592810", "role": ["игрок"]             },
-  { "num": 19, "nick": "_Jabka_",                    "username": "74530",                    "id": "FvdoS5stEA", "discord_id": "1136885054849687623", "role": ["игрок"]             },
-  { "num": 20, "nick": "ExLemon",                    "username": "nikolayc0686",             "id": "326n3eMqv4", "discord_id": "1349093076257214557", "role": ["игрок"]             },
-  { "num": 21, "nick": "Femboi_Felix",               "username": "lodggesh",                 "id": "QAUnJb6EK4", "discord_id": "1440366698367553586", "role": ["игрок"]             },
-  { "num": 22, "nick": "How Azeroy Sound",           "username": "liinaliiiis",              "id": "9Hj93JrJPK", "discord_id": "1438521336061366354", "role": ["игрок"]             },
-  { "num": 23, "nick": "Kostyancik",                 "username": "matviy1234_",              "id": "84zUP2M3Vu", "discord_id": "1097904188559728741", "role": ["игрок"]             },
-  { "num": 24, "nick": "LI4KXA",                     "username": "vladnerte_32443",          "id": "9IhoqL3uL1", "discord_id": "1411719789046661250", "role": ["игрок"]             },
-  { "num": 25, "nick": "LokciMD",                    "username": "adic0224",                 "id": "DTFV0C4s4e", "discord_id": "969171462260936764",  "role": ["игрок"]             },
-  { "num": 26, "nick": "shadowraze",                 "username": "shadowpozers",             "id": "PdltukiZII", "discord_id": "918440923770277938",  "role": ["игрок"]             },
-  { "num": 27, "nick": "Support(vipAngelVip)",       "username": "supportvipangelvip_55905", "id": "0vGM3iJY2Q", "discord_id": "1403460919543206031", "role": ["игрок"]             },
-  { "num": 28, "nick": "Гематоген",                  "username": "gemotogen988_54511",       "id": "2NY4Qrv1zQ", "discord_id": "1442165890119368805", "role": ["игрок"]             },
-  { "num": 29, "nick": "Саша | Alexandr | 326999",   "username": "22_34",                    "id": "Mjn6mq8Utg", "discord_id": "676439391404556317",  "role": ["игрок"]             },
-  { "num": 30, "nick": "Чиловий Дима",               "username": "dimas2288243",             "id": "qj6JPvZIRG", "discord_id": "1037995316185665586", "role": ["игрок"]             },
-  { "num": 31, "nick": "🤨⁴²",                       "username": "blakzefirk",               "id": "zfSJSwnRSE", "discord_id": "1368937651968933950", "role": ["игрок"]             },
-  { "num": 32, "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",             "username": "santa484283",              "id": "T27aYJtO3x", "discord_id": "1038459551273463828", "role": ["нет-доступа"],      "until": "19.12.2028 20:36" },
-  { "num": 33, "nick": "mrsans8933",                 "username": "sans1376",                 "id": "OeFVi1AKV7", "discord_id": "1006113480631386182", "role": ["наборщик", "модер"] },
-  { "num": 34, "nick": "Gyro",                       "username": "kusbka_lord",              "id": "2Ues4oyO4L", "discord_id": "1402658983927349288", "role": ["игрок"]             },
-  { "num": 35, "nick": "YeYbaby",                    "username": "sudarshan0115",            "id": "5RNjNcqb1c", "discord_id": "1381253501887447041", "role": ["игрок"]             }
+  {
+    "num": 1,
+    "nick": "𝕽𝖊𝖖𝖚𝖎𝖊𝖒 𝕾𝖔𝖚𝖑",
+    "id": "UBE5eMZaK9",
+    "role": [
+      "владелец"
+    ]
+  },
+  {
+    "num": 2,
+    "nick": "venlor",
+    "id": "YTKcB0KYmx",
+    "role": [
+      "со-владелец"
+    ]
+  },
+  {
+    "num": 3,
+    "nick": "Серега КПЗ",
+    "id": "NmwKbbEcc8",
+    "role": [
+      "админ"
+    ]
+  },
+  {
+    "num": 4,
+    "nick": "Lucky_m",
+    "id": "3JsKZr8qre",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 5,
+    "nick": "2-ПР | РЯД | Лу мин Ми",
+    "id": "mhOMWh6Vgo",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 6,
+    "nick": "@Придурок",
+    "id": "S4A1gnYAyS",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 7,
+    "nick": "hypergay223",
+    "id": "FsT73CyvbD",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 8,
+    "nick": "kitsune",
+    "id": "Crw0uEjDaD",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 9,
+    "nick": "Makato",
+    "id": "czuk2AFpNw",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 10,
+    "nick": "sava125data",
+    "id": "zvVvdJbCkK",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 11,
+    "nick": "Vair",
+    "id": "0b8Q2fqRNZ",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 12,
+    "nick": "Димон",
+    "id": "v1nEIAU4js",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 13,
+    "nick": "netrema",
+    "id": "gUhvNcAsTo",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 14,
+    "nick": "MAKSS",
+    "id": "Adt4tPov1Z",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 15,
+    "nick": "ra_seest39655",
+    "id": "MMOnKWCbGf",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 16,
+    "nick": "sierin",
+    "id": "m82WB8DjF6",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 17,
+    "nick": "любовница BUSHI || Дениси",
+    "id": "tHtZpiN6Zv",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 18,
+    "nick": "-уебан I-",
+    "id": "2nFhYswzf4",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 19,
+    "nick": "_Jabka_",
+    "id": "FvdoS5stEA",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 20,
+    "nick": "ExLemon",
+    "id": "326n3eMqv4",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 21,
+    "nick": "Femboi_Felix",
+    "id": "QAUnJb6EK4",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 22,
+    "nick": "How Azeroy Sound",
+    "id": "9Hj93JrJPK",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 23,
+    "nick": "Kostyancik",
+    "id": "84zUP2M3Vu",
+    "role": [
+      "админ"
+    ]
+  },
+  {
+    "num": 24,
+    "nick": "LI4KXA",
+    "id": "9IhoqL3uL1",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 25,
+    "nick": "LokciMD",
+    "id": "DTFV0C4s4e",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 26,
+    "nick": "shadowraze",
+    "id": "PdltukiZII",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 27,
+    "nick": "Support(vipAngelVip)",
+    "id": "0vGM3iJY2Q",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 28,
+    "nick": "Гематоген",
+    "id": "2NY4Qrv1zQ",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 29,
+    "nick": "Саша | Alexandr | 326999",
+    "id": "Mjn6mq8Utg",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 30,
+    "nick": "Чиловий Дима",
+    "id": "qj6JPvZIRG",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 31,
+    "nick": "🤨⁴²",
+    "id": "zfSJSwnRSE",
+    "role": [
+      "игрок"
+    ]
+  },
+  {
+    "num": 32,
+    "nick": "mrsans8933",
+    "id": "OeFVi1AKV7",
+    "role": [
+      "наборщик",
+      "модер"
+    ]
+  },
+  {
+    "num": 33,
+    "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",
+    "id": "T27aYJtO3x",
+    "role": [
+      "нет-доступа"
+    ]
+  },
+  {
+    "num": 34,
+    "nick": ".",
+    "username": "dimal1742",
+    "id": "MuXj5KQ5H5",
+    "role": [
+      "игрок"
+    ],
+    "discord_id": "1096853831440150548"
+  }
 ]
