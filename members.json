@@ -30,7 +30,7 @@
   { "num": 29, "nick": "Саша | Alexandr | 326999",            "username": "22_34",                    "id": "Mjn6mq8Utg", "discord_id": "676439391404556317",  "role": ["игрок"]             },
   { "num": 30, "nick": "Чиловий Дима",                        "username": "dimas2288243",             "id": "qj6JPvZIRG", "discord_id": "1037995316185665586", "role": ["игрок"]             },
   { "num": 31, "nick": "🤨⁴²",                                "username": "blakzefirk",               "id": "zfSJSwnRSE", "discord_id": "1368937651968933950", "role": ["игрок"]             },
-  { "num": 32, "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",                    "username": "santa484283",              "id": "T27aYJtO3x", "discord_id": "1038459551273463828", "role": ["нет-доступа"],      "until": "19.12.2028 20:36" },
+  { "num": 32, "nick": "𝒜𝑀@𝒯𝐸𝑅𝒜𝒮𝒜_𝒵𝒪𝒱",                    "username": "santa484283",              "id": "T27aYJtO3x", "discord_id": "1038459551273463828", "role": ["игрок"],      "until": "19.12.2028 20:36" },
   { "num": 33, "nick": "mrsans8933",                          "username": "sans1376",                 "id": "OeFVi1AKV7", "discord_id": "1006113480631386182", "role": ["наборщик", "модер"] },
   { "num": 34, "nick": "Gyro",                                "username": "kusbka_lord",              "id": "2Ues4oyO4L", "discord_id": "1402658983927349288", "role": ["игрок"]             },
   { "num": 35, "nick": ".",                                   "username": "dimal1742",                "id": "MuXj5KQ5H5", "discord_id": "1096853831440150548", "role": ["игрок"]             },
