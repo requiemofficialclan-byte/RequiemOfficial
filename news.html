@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Новости — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.news-card {
+  background: var(--glass);
+  border: 1px solid rgba(232,0,58,0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+.news-card:hover {
+  border-color: var(--red-light);
+  transform: translateY(-4px);
+}
+.news-image {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.news-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent, rgba(8,0,13,0.85));
+}
+.news-content {
+  padding: 1.5rem;
+}
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+}
+.category {
+  background: rgba(232,0,58,0.15);
+  color: var(--red-light);
+  padding: 0.2rem 0.8rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="scroll-top" id="scrollTop">↑</button>
+
+<header>
+  <div class="container">
+    <div class="site-brand">
+      <span class="brand-icon">⚔️</span>
+      <span class="brand-name">Requiem</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="rules.html" class="nav-link">Правила</a>
+      <a href="news.html" class="nav-link active">Новости</a>
+      <a href="join.html" class="nav-link">Вступление</a>
+      <a href="requirements.html" class="nav-link">Требования</a>
+      <a href="blacklist.html" class="nav-link">Чёрный список</a>
+      <a href="members.html" class="nav-link">Состав</a>
+      <a href="about.html" class="nav-link">О клане</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <span class="page-hero-label">Лента клана</span>
+    <h1>Новости Requiem</h1>
+    <p>Последние события, обновления и объявления клана.</p>
+  </section>
+
+  <div class="container">
+    <div id="newsContainer"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">REQUIEM</div>
+    <div class="footer-links">
+      <a href="index.html">Главная</a>
+      <a href="rules.html">Правила</a>
+      <a href="news.html">Новости</a>
+      <a href="join.html">Вступление</a>
+      <a href="https://discord.gg/u769kvpCT5" target="_blank">Discord</a>
+    </div>
+    <div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div>
+  </div>
+</footer>
+
+<script>
+async function loadNews() {
+  try {
+    const response = await fetch('news.json');
+    const news = await response.json();
+    renderNews(news);
+  } catch (e) {
+    console.error(e);
+    document.getElementById('newsContainer').innerHTML = `
+      <div class="card" style="text-align:center;padding:4rem;color:var(--text-muted);">
+        Ошибка загрузки новостей
+      </div>`;
+  }
+}
+
+function renderNews(news) {
+  const container = document.getElementById('newsContainer');
+  
+  if (news.length === 0) {
+    container.innerHTML = `<div class="card" style="text-align:center;padding:3rem;">Пока нет новостей</div>`;
+    return;
+  }
+
+  container.innerHTML = news.reverse().map(item => `
+    <div class="news-card">
+      ${item.image ? `
+      <div class="news-image" style="background-image: url('${item.image}')"></div>
+      ` : ''}
+      <div class="news-content">
+        <div class="news-header">
+          <span class="category">${item.category}</span>
+          <span style="color:var(--text-muted);">${item.date}</span>
+        </div>
+        <h2 style="margin-bottom:0.8rem;font-size:1.35rem;">${item.title}</h2>
+        <p style="color:var(--text-secondary);line-height:1.6;margin-bottom:1.2rem;">${item.short}</p>
+        <details style="color:var(--text-secondary);font-size:0.95rem;">
+          <summary style="cursor:pointer;color:var(--red-light);margin-bottom:0.5rem;">Читать полностью ↓</summary>
+          <div style="margin-top:1rem;white-space:pre-wrap;">${item.content}</div>
+        </details>
+      </div>
+    </div>
+  `).join('');
+}
+
+loadNews();
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
