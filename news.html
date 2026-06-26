@@ -114,8 +114,6 @@
   </section>
 
   <div class="container">
-    <div class="card" style="margin-bottom:1.5rem;" id="categoryLegend"></div>
-
     <div class="card" style="margin-bottom:1.5rem;">
       <h2 class="card-title" style="margin-bottom:0.75rem;">📂 Фильтр по категории</h2>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на категорию, чтобы отфильтровать новости.</p>
@@ -172,20 +170,6 @@ function renderNewsFilterBar(active) {
   for (const [key, info] of Object.entries(NEWS_CATEGORY_INFO)) {
     const activeClass = key === active ? ' active' : '';
     html += `<button class="filter-tag${activeClass}" data-news-filter="${key}">${info.label}</button>`;
-  }
-  html += '</div>';
-  return html;
-}
-
-function renderLegendList(data, title, desc) {
-  let html = `<h3 style="margin-bottom:0.5rem;">${title}</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">${desc}</p><div class="filter-tags">`;
-  for (const [key, info] of Object.entries(data)) {
-    if (key === 'all') {
-      html += `<button class="legend-tag-btn" data-news-filter="${key}">${info.label}</button>`;
-    } else {
-      const cls = info.class ? ` ${info.class}` : '';
-      html += `<button class="legend-tag-btn${cls}" data-news-filter="${key}">${info.label}</button>`;
-    }
   }
   html += '</div>';
   return html;
@@ -275,11 +259,6 @@ async function loadNews() {
     if (!Array.isArray(newsData)) throw new Error('Invalid JSON');
 
     document.getElementById('filterBar').innerHTML = renderNewsFilterBar('all');
-    document.getElementById('categoryLegend').innerHTML = renderLegendList(
-      NEWS_CATEGORY_INFO,
-      '🏷 Категории новостей',
-      'Нажми на категорию, чтобы отфильтровать новости.'
-    );
     renderNews(newsData);
   } catch (e) {
     console.error(e);
