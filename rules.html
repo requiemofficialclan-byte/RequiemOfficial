@@ -746,26 +746,38 @@ function render() {
   if (hasPerm) {
     maxLvl = 5;
   } else {
-    // Суммируем с учётом роли
-    let total = 0;
-    violations.forEach(v => {
-    total += v.sev;
-    });
-
-    // Группируем по типу для учёта повторов
     const counts = {};
     violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
 
-    // Эскалация при повторах
-    let baseMax = Math.max(...violations.map(v => SEV_TO_RESULT[v.type] || 1));
-    if (counts['warn'] >= 3 || counts['mute'] >= 3 || counts['vcmute'] >= 3) baseMax = Math.max(baseMax, 4);
-    if (counts['ban'] >= 2) baseMax = 5;
+    // Разделяем нарушения по зонам
+    const hasChat  = violations.some(v => ['warn','mute','ban'].includes(v.type));
+    const hasVoice = violations.some(v => v.type === 'vcmute');
+    const hasBan   = violations.some(v => v.type === 'ban');
 
-    // Итог: максимум из базового уровня и суммарного
-    maxLvl = Math.min(5, Math.max(baseMax, total > 5 ? 4 : total > 3 ? 3 : baseMax));
+    // Базовый уровень — самое тяжёлое нарушение
+    let baseMax = Math.max(...violations.map(v => SEV_TO_RESULT[v.type] || 1));
+
+    // Эскалация при повторах
+    if ((counts['warn'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
+    if ((counts['mute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
+    if ((counts['vcmute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
+    if ((counts['ban'] || 0) >= 2) baseMax = 5;
+
+    // Если нарушения и в чате и в войсе — минимум "Везде замучен" (уровень 4 = бан, но тут мут везде)
+    // Используем уровень 2.5 → показываем оба мута → итог = бан временный
+    if (hasChat && hasVoice && !hasBan) baseMax = Math.max(baseMax, 4);
+
+    maxLvl = Math.min(5, baseMax);
   }
 
-  const p = RESULTS[maxLvl];
+  // Если чат + войс без бана — показываем "Мут везде"
+  const _hasChat  = violations.some(v => ['warn','mute'].includes(v.type));
+  const _hasVoice = violations.some(v => v.type === 'vcmute');
+  const _hasBan   = violations.some(v => v.type === 'ban');
+  let p = { ...RESULTS[maxLvl] };
+  if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
+    p = { icon:'🔇', title:'Мут везде', desc:'Мут в чате + мут в войсе одновременно', cls:'r-ban' };
+  }
   const dur = getBanDuration(violations, maxLvl);
   resEl.className = `calc-result ${p.cls}`;
   resEl.innerHTML = `
