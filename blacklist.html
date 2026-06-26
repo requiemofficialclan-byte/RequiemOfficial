@@ -35,6 +35,7 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 }
 .filter-tag:hover, .tag:hover {
   transform: translateY(-1px);
@@ -156,7 +157,7 @@ const BLACKLIST_TAG_INFO = {
 function formatBlacklistTag(tag) {
   const info = BLACKLIST_TAG_INFO[tag];
   if (!info) return `<span class="tag tag-unknown">${escapeHtml(tag)}</span>`;
-  return `<span class="tag ${info.class}" data-bl-filter="${tag}" style="cursor:pointer;">${info.label}</span>`;
+  return `<span class="tag ${info.class}" data-bl-filter="${tag}">${info.label}</span>`;
 }
 
 function renderBlacklistFilterBar(active) {
@@ -206,8 +207,11 @@ function getFilteredData() {
 
 function renderBlacklist(data) {
   const container = document.getElementById('blacklistContainer');
-  document.getElementById('matchCount').textContent = data.length;
-  document.getElementById('filterResults').classList.toggle('show', activeTagFilter !== 'all' || searchTerm);
+  const matchCount = document.getElementById('matchCount');
+  const filterResults = document.getElementById('filterResults');
+
+  matchCount.textContent = data.length;
+  filterResults.classList.toggle('show', activeTagFilter !== 'all' || searchTerm);
 
   if (!data.length) {
     container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Ничего не найдено</div>';
@@ -236,10 +240,12 @@ function setTagFilter(tag) {
   renderBlacklist(getFilteredData());
 }
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', function(e) {
   const btn = e.target.closest('[data-bl-filter]');
   if (!btn) return;
-  setTagFilter(btn.getAttribute('data-bl-filter'));
+  e.preventDefault();
+  const tag = btn.getAttribute('data-bl-filter');
+  setTagFilter(tag);
 });
 
 async function loadBlacklist() {
@@ -256,11 +262,11 @@ async function loadBlacklist() {
   } catch (e) {
     console.error(e);
     document.getElementById('blacklistContainer').innerHTML =
-      '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Ошибка загрузки blacklist.json.</div>';
+      '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Ошибка загрузки blacklist.json</div>';
   }
 }
 
-document.getElementById('searchInput').addEventListener('input', (e) => {
+document.getElementById('searchInput').addEventListener('input', function(e) {
   searchTerm = e.target.value.toLowerCase().trim();
   renderBlacklist(getFilteredData());
 });
