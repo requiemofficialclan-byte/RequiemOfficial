@@ -91,8 +91,6 @@
       </div>
     </div>
 
-    <div class="card" style="margin-bottom:1.5rem;" id="tagLegend"></div>
-
     <div class="card">
       <h2 class="card-title" style="margin-bottom:0.75rem;">🔍 Фильтр по тегам</h2>
       <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на тег, чтобы показать только записи с ним.</p>
@@ -157,20 +155,6 @@ function renderBlacklistFilterBar(active) {
   for (const [key, info] of Object.entries(BLACKLIST_TAG_INFO)) {
     const activeClass = key === active ? ' active' : '';
     html += `<button class="filter-tag${activeClass}" data-bl-filter="${key}">${info.label}</button>`;
-  }
-  html += '</div>';
-  return html;
-}
-
-function renderLegendList(data, title, desc) {
-  let html = `<h3 style="margin-bottom:0.5rem;">${title}</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">${desc}</p><div class="filter-tags">`;
-  for (const [key, info] of Object.entries(data)) {
-    if (key === 'all') {
-      html += `<button class="legend-tag-btn" data-bl-filter="${key}">${info.label}</button>`;
-    } else {
-      const cls = info.class ? ` ${info.class}` : '';
-      html += `<button class="legend-tag-btn${cls}" data-bl-filter="${key}">${info.label}</button>`;
-    }
   }
   html += '</div>';
   return html;
@@ -259,11 +243,6 @@ async function loadBlacklist() {
     document.getElementById('count').textContent = blacklistData.length;
     document.getElementById('lastUpdate').textContent = getLatestBlacklistDate(blacklistData);
     document.getElementById('filterBar').innerHTML = renderBlacklistFilterBar('all');
-    document.getElementById('tagLegend').innerHTML = renderLegendList(
-      BLACKLIST_TAG_INFO,
-      '🏷 Теги в чёрном списке',
-      'Нажми на тег, чтобы отфильтровать записи.'
-    );
     renderBlacklist(blacklistData);
   } catch (e) {
     console.error(e);
