@@ -118,7 +118,7 @@
 
     <div class="card" style="margin-bottom:1.5rem;">
       <h2 class="card-title" style="margin-bottom:0.75rem;">📂 Фильтр по категории</h2>
-      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на категорию в новости или в панели ниже — отфильтрует ленту.</p>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на категорию, чтобы отфильтровать новости.</p>
       <div id="filterBar"></div>
       <div class="filter-results" id="filterResults">Показано новостей: <span id="matchCount">0</span></div>
     </div>
@@ -177,15 +177,14 @@ function renderNewsFilterBar(active) {
   return html;
 }
 
-function renderLegendList(data, title, desc, type) {
-  const attr = type === 'news' ? 'data-news-filter' : 'data-bl-filter';
+function renderLegendList(data, title, desc) {
   let html = `<h3 style="margin-bottom:0.5rem;">${title}</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">${desc}</p><div class="filter-tags">`;
   for (const [key, info] of Object.entries(data)) {
     if (key === 'all') {
-      html += `<button class="legend-tag-btn" ${attr}="${key}">${info.label}</button>`;
+      html += `<button class="legend-tag-btn" data-news-filter="${key}">${info.label}</button>`;
     } else {
       const cls = info.class ? ` ${info.class}` : '';
-      html += `<button class="legend-tag-btn${cls}" ${attr}="${key}">${info.label}</button>`;
+      html += `<button class="legend-tag-btn${cls}" data-news-filter="${key}">${info.label}</button>`;
     }
   }
   html += '</div>';
@@ -196,32 +195,6 @@ function setActiveFilterButtons(attr, activeKey) {
   document.querySelectorAll(`[${attr}]`).forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute(attr) === activeKey);
   });
-}
-
-const BLACKLIST_TAG_INFO = {
-  'all': { label: 'Все', class: '' },
-  'dox': { label: 'Доксинг', class: 'tag-dox' },
-  'toxic': { label: 'Токсичность', class: 'tag-toxic' },
-  'spam': { label: 'Спам', class: 'tag-spam' },
-  'alt': { label: 'Альт', class: 'tag-alt' },
-  'ghost': { label: 'Призрак', class: 'tag-ghost' },
-  'perm': { label: 'Перманент', class: 'tag-perm' }
-};
-
-function formatBlacklistTag(tag) {
-  const info = BLACKLIST_TAG_INFO[tag];
-  if (!info) return `<span class="tag tag-unknown">${escapeHtml(tag)}</span>`;
-  return `<span class="tag ${info.class}" data-bl-filter="${tag}" style="cursor:pointer;">${info.label}</span>`;
-}
-
-function renderBlacklistFilterBar(active) {
-  let html = '<div class="filter-tags">';
-  for (const [key, info] of Object.entries(BLACKLIST_TAG_INFO)) {
-    const activeClass = key === active ? ' active' : '';
-    html += `<button class="filter-tag${activeClass}" data-bl-filter="${key}">${info.label}</button>`;
-  }
-  html += '</div>';
-  return html;
 }
 
 let newsData = [];
@@ -305,8 +278,7 @@ async function loadNews() {
     document.getElementById('categoryLegend').innerHTML = renderLegendList(
       NEWS_CATEGORY_INFO,
       '🏷 Категории новостей',
-      'Нажми на категорию — отфильтрует новости. При добавлении через Python-скрипт используй только названия из списка.',
-      'news'
+      'Нажми на категорию, чтобы отфильтровать новости.'
     );
     renderNews(newsData);
   } catch (e) {
