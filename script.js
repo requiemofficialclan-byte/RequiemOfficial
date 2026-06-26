@@ -1,4 +1,4 @@
-// Безопасный вывод текста в HTML
+
 function escapeHtml(str) {
   if (str == null) return '';
   return String(str)
@@ -9,7 +9,6 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// Теги чёрного списка — только эти названия используйте в blacklist.json
 const BLACKLIST_TAG_INFO = {
   'Доксинг': 'Публикация чужих личных данных без согласия',
   'Токсичность': 'Оскорбления, токс, провокации и конфликты',
@@ -28,7 +27,6 @@ const BLACKLIST_TAG_SLUG = {
   'Перманент': 'perm'
 };
 
-// Категории новостей — только эти названия используйте в news.json
 const NEWS_CATEGORY_INFO = {
   'Обновление': 'Изменения на сайте, сервере или в правилах',
   'Набор': 'Открыт или закрыт набор в клан',
@@ -114,7 +112,7 @@ function bindBlacklistFilters(onFilter) {
 }
 
 function bindNewsFilters(onFilter) {
-  // делегирование — один обработчик на страницу
+  
   if (bindNewsFilters.ready) return;
   bindNewsFilters.ready = true;
   document.addEventListener('click', (e) => {
@@ -130,7 +128,6 @@ function setActiveFilterButtons(attr, value) {
   });
 }
 
-// Прогресс бар + кнопка наверх
 (function() {
   const pb = document.getElementById('progressBar');
   const st = document.getElementById('scrollTop');
