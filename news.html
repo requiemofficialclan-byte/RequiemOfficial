@@ -145,8 +145,85 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
 <script>
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+const NEWS_CATEGORY_INFO = {
+  'all': { label: 'Все', class: '' },
+  'update': { label: 'Обновление', class: 'cat-update' },
+  'recruit': { label: 'Набор', class: 'cat-recruit' },
+  'event': { label: 'Событие', class: 'cat-event' },
+  'important': { label: 'Важное', class: 'cat-important' }
+};
+
+function formatNewsCategory(category) {
+  const info = NEWS_CATEGORY_INFO[category];
+  if (!info) return `<span class="category category-unknown">${escapeHtml(category) || 'Без категории'}</span>`;
+  return `<span class="category ${info.class}">${info.label}</span>`;
+}
+
+function renderNewsFilterBar(active) {
+  let html = '<div class="filter-tags">';
+  for (const [key, info] of Object.entries(NEWS_CATEGORY_INFO)) {
+    const activeClass = key === active ? ' active' : '';
+    html += `<button class="filter-tag${activeClass}" data-news-filter="${key}">${info.label}</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderLegendList(data, title, desc, type) {
+  const attr = type === 'news' ? 'data-news-filter' : 'data-bl-filter';
+  let html = `<h3 style="margin-bottom:0.5rem;">${title}</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">${desc}</p><div class="filter-tags">`;
+  for (const [key, info] of Object.entries(data)) {
+    if (key === 'all') {
+      html += `<button class="legend-tag-btn" ${attr}="${key}">${info.label}</button>`;
+    } else {
+      const cls = info.class ? ` ${info.class}` : '';
+      html += `<button class="legend-tag-btn${cls}" ${attr}="${key}">${info.label}</button>`;
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+function setActiveFilterButtons(attr, activeKey) {
+  document.querySelectorAll(`[${attr}]`).forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute(attr) === activeKey);
+  });
+}
+
+const BLACKLIST_TAG_INFO = {
+  'all': { label: 'Все', class: '' },
+  'dox': { label: 'Доксинг', class: 'tag-dox' },
+  'toxic': { label: 'Токсичность', class: 'tag-toxic' },
+  'spam': { label: 'Спам', class: 'tag-spam' },
+  'alt': { label: 'Альт', class: 'tag-alt' },
+  'ghost': { label: 'Призрак', class: 'tag-ghost' },
+  'perm': { label: 'Перманент', class: 'tag-perm' }
+};
+
+function formatBlacklistTag(tag) {
+  const info = BLACKLIST_TAG_INFO[tag];
+  if (!info) return `<span class="tag tag-unknown">${escapeHtml(tag)}</span>`;
+  return `<span class="tag ${info.class}" data-bl-filter="${tag}" style="cursor:pointer;">${info.label}</span>`;
+}
+
+function renderBlacklistFilterBar(active) {
+  let html = '<div class="filter-tags">';
+  for (const [key, info] of Object.entries(BLACKLIST_TAG_INFO)) {
+    const activeClass = key === active ? ' active' : '';
+    html += `<button class="filter-tag${activeClass}" data-bl-filter="${key}">${info.label}</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
 let newsData = [];
 let activeCategory = 'all';
 
@@ -173,7 +250,6 @@ function renderNews(news) {
 
   if (!Array.isArray(news) || news.length === 0) {
     container.innerHTML = `<div class="card" style="text-align:center;padding:3rem;color:var(--text-muted);">Ничего не найдено</div>`;
-    bindNewsFilters(setCategoryFilter);
     return;
   }
 
