@@ -94,11 +94,11 @@
     <div class="card" style="margin-bottom:1.5rem;" id="tagLegend"></div>
 
     <div class="card">
-      <h2 class="card-title" style="margin-bottom:0.75rem;">🔍 Поиск и фильтр</h2>
-      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на тег — покажет только записи с этим тегом. Можно комбинировать с поиском.</p>
+      <h2 class="card-title" style="margin-bottom:0.75rem;">🔍 Фильтр по тегам</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на тег, чтобы показать только записи с ним.</p>
       <div id="filterBar"></div>
       <div class="filter-results" id="filterResults">Показано: <span id="matchCount">0</span></div>
-      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по нику, ID, причине или тегу...">
+      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по нику, ID или причине...">
       <div id="blacklistContainer" style="margin-top:1.5rem;"></div>
     </div>
   </div>
@@ -162,15 +162,14 @@ function renderBlacklistFilterBar(active) {
   return html;
 }
 
-function renderLegendList(data, title, desc, type) {
-  const attr = type === 'news' ? 'data-news-filter' : 'data-bl-filter';
+function renderLegendList(data, title, desc) {
   let html = `<h3 style="margin-bottom:0.5rem;">${title}</h3><p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">${desc}</p><div class="filter-tags">`;
   for (const [key, info] of Object.entries(data)) {
     if (key === 'all') {
-      html += `<button class="legend-tag-btn" ${attr}="${key}">${info.label}</button>`;
+      html += `<button class="legend-tag-btn" data-bl-filter="${key}">${info.label}</button>`;
     } else {
       const cls = info.class ? ` ${info.class}` : '';
-      html += `<button class="legend-tag-btn${cls}" ${attr}="${key}">${info.label}</button>`;
+      html += `<button class="legend-tag-btn${cls}" data-bl-filter="${key}">${info.label}</button>`;
     }
   }
   html += '</div>';
@@ -263,8 +262,7 @@ async function loadBlacklist() {
     document.getElementById('tagLegend').innerHTML = renderLegendList(
       BLACKLIST_TAG_INFO,
       '🏷 Теги в чёрном списке',
-      'Нажми на тег — отфильтрует записи. При добавлении через Python-скрипт используй только названия из списка.',
-      'blacklist'
+      'Нажми на тег, чтобы отфильтровать записи.'
     );
     renderBlacklist(blacklistData);
   } catch (e) {
