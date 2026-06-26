@@ -19,8 +19,13 @@
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(232,0,58,0.15);
 }
-.filter-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-.filter-tag, .tag, .legend-tag-btn {
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.filter-tag, .tag {
   font-family: inherit;
   font-size: 0.78rem;
   padding: 0.35rem 0.85rem;
@@ -31,27 +36,31 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.filter-tag:hover, .tag:hover, .legend-tag-btn:hover {
+.filter-tag:hover, .tag:hover {
   transform: translateY(-1px);
   border-color: var(--red-light);
   color: var(--text);
 }
-.filter-tag.active, .legend-tag-btn.active {
+.filter-tag.active {
   background: var(--red-subtle);
   border-color: rgba(232,0,58,0.45);
   color: var(--red-light);
   box-shadow: 0 0 12px rgba(232,0,58,0.15);
 }
-.tag { margin: 0.2rem 0.3rem 0.2rem 0; }
+.tag { margin: 0.2rem 0.3rem 0.2rem 0; display: inline-block; }
 .tag-unknown { border-style: dashed; opacity: 0.85; }
-.legend-tag-btn { min-width: 7rem; text-align: center; }
 .tag-dox { background: rgba(163,230,53,0.1); border-color: rgba(163,230,53,0.3); color: #c9f76f; }
 .tag-toxic { background: rgba(232,0,58,0.1); border-color: rgba(232,0,58,0.3); color: #ff8099; }
 .tag-spam { background: rgba(255,179,71,0.1); border-color: rgba(255,179,71,0.3); color: #ffd080; }
 .tag-alt { background: rgba(100,200,100,0.1); border-color: rgba(100,200,100,0.3); color: #80ff80; }
 .tag-ghost { background: rgba(0,212,170,0.1); border-color: rgba(0,212,170,0.3); color: #80f0d4; }
 .tag-perm { background: rgba(150,0,0,0.15); border-color: rgba(232,0,58,0.4); color: #ff6b6b; }
-.filter-results { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; display: none; }
+.filter-results {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: none;
+}
 .filter-results.show { display: block; }
 </style>
 </head>
