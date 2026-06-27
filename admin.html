@@ -17,7 +17,7 @@
 .tc-id   { font-weight:800; font-size:1rem; color:var(--red-light); }
 .tc-date { font-size:0.78rem; color:var(--text-muted); }
 .tc-meta { font-size:0.82rem; color:var(--text-muted); margin-bottom:0.6rem; }
-.status-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.18rem 0.7rem; border-radius999px; font-size:0.75rem; font-weight:700; }
+.status-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.18rem 0.7rem; border-radius: 999px; font-size:0.75rem; font-weight:700; }
 .sb-pending  { background:rgba(255,179,71,0.1);  color:#ffb347; border:1px solid rgba(255,179,71,0.25); border-radius: 999px; }
 .sb-answered { background:rgba(0,212,170,0.1);   color:#00d4aa; border:1px solid rgba(0,212,170,0.25); border-radius: 999px; }
 .sb-closed   { background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid rgba(255,255,255,0.08); border-radius: 999px; }
@@ -169,6 +169,7 @@ const db   = getFirestore(app);
 
 let allTickets = [];
 let currentFilter = 'all';
+let adminRefreshIntervalId = null;
 
 onAuthStateChanged(auth, user => {
   if (user) {
@@ -176,11 +177,27 @@ onAuthStateChanged(auth, user => {
     document.getElementById('adminPanel').style.display = 'block';
     document.getElementById('adminUser').textContent = '👤 ' + user.email;
     loadTickets();
+    startAdminAutoRefresh();
   } else {
     document.getElementById('loginSection').style.display = 'block';
     document.getElementById('adminPanel').style.display = 'none';
+    stopAdminAutoRefresh();
   }
 });
+
+function startAdminAutoRefresh() {
+  stopAdminAutoRefresh();
+  adminRefreshIntervalId = setInterval(() => {
+    silentRefreshAdminTickets();
+  }, 5000);
+}
+
+function stopAdminAutoRefresh() {
+  if (adminRefreshIntervalId) {
+    clearInterval(adminRefreshIntervalId);
+    adminRefreshIntervalId = null;
+  }
+}
 
 window.doLogin = async function() {
   const email = document.getElementById('adminEmail').value.trim();
@@ -230,6 +247,16 @@ window.loadTickets = async function() {
   }
 };
 
+async function silentRefreshAdminTickets() {
+  try {
+    const q = query(collection(db,'tickets'), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    updateStats();
+    renderTickets();
+  } catch(e) {}
+}
+
 function updateStats() {
   const pending  = allTickets.filter(t => t.status === 'pending').length;
   const answered = allTickets.filter(t => t.status === 'answered').length;
@@ -263,6 +290,9 @@ function renderTickets() {
     const s    = statusMap[t.status] || statusMap.pending;
     const date = t.createdAt ? new Date(t.createdAt).toLocaleString('ru-RU') : '—';
     
+    const textareaEl = document.getElementById(`ans-${t._id}`);
+    const activeDraft = textareaEl ? textareaEl.value : '';
+
     let messagesHtml = '';
     if (t.messages && Array.isArray(t.messages)) {
       t.messages.forEach(m => {
@@ -292,6 +322,25 @@ function renderTickets() {
       `;
     }
 
+    const container = document.getElementById(`adminChat-${t._id}`);
+    const oldScrollHeight = container ? container.scrollHeight : 0;
+    const oldScrollTop = container ? container.scrollTop : 0;
+    const oldClientHeight = container ? container.clientHeight : 0;
+    const wasAtBottom = (oldScrollHeight - oldScrollTop - oldClientHeight) < 15;
+
+    setTimeout(() => {
+      const currentTextarea = document.getElementById(`ans-${t._id}`);
+      if (currentTextarea && activeDraft) {
+        currentTextarea.value = activeDraft;
+      }
+      const currentContainer = document.getElementById(`adminChat-${t._id}`);
+      if (currentContainer && (wasAtBottom || oldScrollHeight === 0)) {
+        currentContainer.scrollTop = currentContainer.scrollHeight;
+      } else if (currentContainer && container) {
+        currentContainer.scrollTop = oldScrollTop;
+      }
+    }, 0);
+
     return `
     <div class="ticket-card" id="card-${t._id}">
       <div class="tc-head">
@@ -314,13 +363,6 @@ function renderTickets() {
       ${inputAndButtonsHtml}
     </div>`;
   }).join('');
-
-  filtered.forEach(t => {
-    const container = document.getElementById(`adminChat-${t._id}`);
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
-  });
 }
 
 window.sendAnswer = async function(docId) {
