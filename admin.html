@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.login-wrap { max-width:380px; margin:100px auto 0; }
+.ticket-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.2rem 1.4rem; margin-bottom: 0.9rem;
+  transition: border-color 0.18s;
+}
+.ticket-card:hover { border-color: var(--border-hover); }
+.tc-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.4rem; }
+.tc-id   { font-weight:800; font-size:1rem; color:var(--red-light); }
+.tc-date { font-size:0.78rem; color:var(--text-muted); }
+.tc-meta { font-size:0.82rem; color:var(--text-muted); margin-bottom:0.6rem; }
+.tc-msg  { font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin-bottom:0.9rem; padding:0.7rem 0.9rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.05); }
+.status-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.18rem 0.7rem; border-radius:999px; font-size:0.75rem; font-weight:700; }
+.sb-pending  { background:rgba(255,179,71,0.1);  color:#ffb347; border:1px solid rgba(255,179,71,0.25); }
+.sb-answered { background:rgba(0,212,170,0.1);   color:#00d4aa; border:1px solid rgba(0,212,170,0.25); }
+.sb-closed   { background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid rgba(255,255,255,0.08); }
+.answer-area {
+  width:100%; background:rgba(5,0,10,0.5); color:var(--text);
+  border:1px solid var(--border); border-radius:10px;
+  padding:0.65rem 0.9rem; font-size:0.9rem; font-family:inherit;
+  outline:none; resize:vertical; min-height:80px; transition:border-color 0.18s; margin-bottom:0.6rem;
+}
+.answer-area:focus { border-color:rgba(232,0,58,0.4); }
+.existing-answer { background:rgba(0,212,170,0.06); border:1px solid rgba(0,212,170,0.18); border-radius:8px; padding:0.7rem 0.9rem; font-size:0.88rem; color:var(--text); line-height:1.6; margin-bottom:0.6rem; }
+.existing-answer-label { font-size:0.72rem; font-weight:700; color:#00d4aa; margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.06em; }
+.filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+.ftab { padding:0.35rem 0.9rem; border-radius:999px; font-size:0.83rem; font-weight:600; border:1px solid var(--border); background:var(--card-bg); color:var(--text-muted); cursor:pointer; font-family:inherit; transition:all 0.18s; }
+.ftab:hover { color:var(--text); border-color:var(--border-hover); }
+.ftab.active { background:var(--red-subtle); color:var(--red-light); border-color:rgba(232,0,58,0.3); }
+.admin-input { width:100%; background:rgba(5,0,10,0.6); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:0.72rem 1rem; font-size:0.93rem; font-family:inherit; outline:none; transition:border-color 0.18s; margin-top:0.4rem; }
+.admin-input:focus { border-color:rgba(232,0,58,0.4); }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <div class="container">
+    <div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">← На сайт</a>
+      <a href="admin.html" class="nav-link active">⚙️ Админка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Логин -->
+  <div id="loginSection">
+    <div class="login-wrap">
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🔐</span>Вход</h2>
+        <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1.1rem;">Только для администрации Requiem.</p>
+        <div style="margin-bottom:0.8rem;">
+          <label style="font-size:0.8rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Email</label>
+          <input type="email" id="adminEmail" class="admin-input" placeholder="admin@requiem.gg">
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Пароль</label>
+          <input type="password" id="adminPass" class="admin-input" placeholder="••••••••">
+        </div>
+        <div id="loginError" style="color:var(--red-light);font-size:0.85rem;margin-bottom:0.7rem;display:none;"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">Войти</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Панель -->
+  <div id="adminPanel" style="display:none;">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.8rem;">
+        <div>
+          <h1 style="font-size:1.6rem;font-weight:800;">Заявки поддержки</h1>
+          <div id="adminUser" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem;"></div>
+        </div>
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <span id="statsEl" style="font-size:0.85rem;color:var(--text-muted);"></span>
+          <button class="btn btn-ghost" onclick="loadTickets()" style="padding:0.4rem 0.9rem;font-size:0.83rem;">🔄 Обновить</button>
+          <button class="btn btn-ghost" onclick="doLogout()" style="padding:0.4rem 0.9rem;font-size:0.83rem;">Выйти</button>
+        </div>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="ftab active" onclick="setFilter('all',this)">Все</button>
+        <button class="ftab" onclick="setFilter('pending',this)">⏳ Ожидают</button>
+        <button class="ftab" onclick="setFilter('answered',this)">✅ Отвечено</button>
+        <button class="ftab" onclick="setFilter('closed',this)">🔒 Закрыто</button>
+      </div>
+
+      <div id="ticketsList"></div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { getFirestore, collection, query, orderBy, getDocs, doc, updateDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDA-Zg7z8_SH-1cvd7MMw75q5tkXzScmDI",
+  authDomain: "supportrequiem-4481f.firebaseapp.com",
+  projectId: "supportrequiem-4481f",
+  storageBucket: "supportrequiem-4481f.firebasestorage.app",
+  messagingSenderId: "554859594853",
+  appId: "1:554859594853:web:908c519dbe00543ff2328c",
+  measurementId: "G-L8KW04PF5M"
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+let allTickets = [];
+let currentFilter = 'all';
+
+// Следим за состоянием авторизации
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('adminUser').textContent = '👤 ' + user.email;
+    loadTickets();
+  } else {
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+});
+
+window.doLogin = async function() {
+  const email = document.getElementById('adminEmail').value.trim();
+  const pass  = document.getElementById('adminPass').value;
+  const err   = document.getElementById('loginError');
+  err.style.display = 'none';
+
+  if (!email || !pass) {
+    err.textContent = 'Заполни email и пароль';
+    err.style.display = 'block';
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    const msgs = {
+      'auth/invalid-credential': 'Неверный email или пароль',
+      'auth/user-not-found': 'Пользователь не найден',
+      'auth/wrong-password': 'Неверный пароль',
+      'auth/too-many-requests': 'Слишком много попыток. Подожди немного.',
+    };
+    err.textContent = msgs[e.code] || 'Ошибка входа: ' + e.message;
+    err.style.display = 'block';
+  }
+};
+
+window.doLogout = async function() {
+  await signOut(auth);
+};
+
+// Enter для логина
+document.getElementById('adminPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.doLogin();
+});
+
+window.loadTickets = async function() {
+  const list = document.getElementById('ticketsList');
+  list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">Загрузка...</p>';
+  try {
+    const q    = query(collection(db,'tickets'), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    updateStats();
+    renderTickets();
+  } catch(e) {
+    list.innerHTML = '<p style="color:var(--red-light);">Ошибка загрузки: ' + e.message + '</p>';
+  }
+};
+
+function updateStats() {
+  const pending  = allTickets.filter(t => t.status === 'pending').length;
+  const answered = allTickets.filter(t => t.status === 'answered').length;
+  document.getElementById('statsEl').textContent =
+    `Всего: ${allTickets.length} · Ожидают: ${pending} · Отвечено: ${answered}`;
+}
+
+window.setFilter = function(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTickets();
+};
+
+function renderTickets() {
+  const list = document.getElementById('ticketsList');
+  const filtered = currentFilter === 'all' ? allTickets : allTickets.filter(t => t.status === currentFilter);
+
+  if (!filtered.length) {
+    list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">Заявок нет.</p>';
+    return;
+  }
+
+  const statusMap = {
+    pending:  { cls:'sb-pending',  icon:'⏳', label:'Ожидает' },
+    answered: { cls:'sb-answered', icon:'✅', label:'Отвечено' },
+    closed:   { cls:'sb-closed',   icon:'🔒', label:'Закрыто' },
+  };
+
+  list.innerHTML = filtered.map(t => {
+    const s    = statusMap[t.status] || statusMap.pending;
+    const date = t.createdAt ? new Date(t.createdAt.seconds*1000).toLocaleString('ru-RU') : '—';
+    return `
+    <div class="ticket-card">
+      <div class="tc-head">
+        <span class="tc-id">${t.ticketId}</span>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <span class="status-badge ${s.cls}">${s.icon} ${s.label}</span>
+          <span class="tc-date">${date}</span>
+        </div>
+      </div>
+      <div class="tc-meta">
+        👤 <strong style="color:var(--text);">${t.nick}</strong>
+        ${t.discordId ? `· 🆔 <code style="background:rgba(255,255,255,0.05);padding:0.1rem 0.4rem;border-radius:5px;font-size:0.8rem;">${t.discordId}</code>` : ''}
+        · 📂 ${t.category}
+      </div>
+      <div class="tc-msg">${t.message}</div>
+      ${t.answer ? `<div class="existing-answer-label">Твой ответ</div><div class="existing-answer">${t.answer}</div>` : ''}
+      <textarea class="answer-area" id="ans-${t._id}" placeholder="Напиши ответ...">${t.answer || ''}</textarea>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-primary" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="sendAnswer('${t._id}')">
+          ${t.answer ? '✏️ Обновить' : '✅ Ответить'}
+        </button>
+        ${t.status !== 'closed' ? `<button class="btn btn-ghost" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="closeTicket('${t._id}')">🔒 Закрыть</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.sendAnswer = async function(docId) {
+  const answer = document.getElementById(`ans-${docId}`).value.trim();
+  if (!answer) return;
+  try {
+    await updateDoc(doc(db,'tickets',docId), { answer, status:'answered', answeredAt: serverTimestamp() });
+    const t = allTickets.find(t => t._id === docId);
+    if (t) { t.answer = answer; t.status = 'answered'; }
+    updateStats(); renderTickets();
+  } catch(e) { alert('Ошибка: ' + e.message); }
+};
+
+window.closeTicket = async function(docId) {
+  try {
+    await updateDoc(doc(db,'tickets',docId), { status:'closed' });
+    const t = allTickets.find(t => t._id === docId);
+    if (t) t.status = 'closed';
+    updateStats(); renderTickets();
+  } catch(e) { alert('Ошибка: ' + e.message); }
+};
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
