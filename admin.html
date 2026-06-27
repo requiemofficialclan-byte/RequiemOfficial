@@ -17,26 +17,74 @@
 .tc-id   { font-weight:800; font-size:1rem; color:var(--red-light); }
 .tc-date { font-size:0.78rem; color:var(--text-muted); }
 .tc-meta { font-size:0.82rem; color:var(--text-muted); margin-bottom:0.6rem; }
-.tc-msg  { font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin-bottom:0.9rem; padding:0.7rem 0.9rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.05); }
-.status-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.18rem 0.7rem; border-radius:999px; font-size:0.75rem; font-weight:700; }
-.sb-pending  { background:rgba(255,179,71,0.1);  color:#ffb347; border:1px solid rgba(255,179,71,0.25); }
-.sb-answered { background:rgba(0,212,170,0.1);   color:#00d4aa; border:1px solid rgba(0,212,170,0.25); }
-.sb-closed   { background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid rgba(255,255,255,0.08); }
+.status-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.18rem 0.7rem; border-radius999px; font-size:0.75rem; font-weight:700; }
+.sb-pending  { background:rgba(255,179,71,0.1);  color:#ffb347; border:1px solid rgba(255,179,71,0.25); border-radius: 999px; }
+.sb-answered { background:rgba(0,212,170,0.1);   color:#00d4aa; border:1px solid rgba(0,212,170,0.25); border-radius: 999px; }
+.sb-closed   { background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid rgba(255,255,255,0.08); border-radius: 999px; }
 .answer-area {
   width:100%; background:rgba(5,0,10,0.5); color:var(--text);
   border:1px solid var(--border); border-radius:10px;
   padding:0.65rem 0.9rem; font-size:0.9rem; font-family:inherit;
-  outline:none; resize:vertical; min-height:80px; transition:border-color 0.18s; margin-bottom:0.6rem;
+  outline:none; resize:vertical; min-height:60px; transition:border-color 0.18s; margin-bottom:0.6rem;
 }
 .answer-area:focus { border-color:rgba(232,0,58,0.4); }
-.existing-answer { background:rgba(0,212,170,0.06); border:1px solid rgba(0,212,170,0.18); border-radius:8px; padding:0.7rem 0.9rem; font-size:0.88rem; color:var(--text); line-height:1.6; margin-bottom:0.6rem; }
-.existing-answer-label { font-size:0.72rem; font-weight:700; color:#00d4aa; margin-bottom:0.3rem; text-transform:uppercase; letter-spacing:0.06em; }
 .filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.2rem; }
 .ftab { padding:0.35rem 0.9rem; border-radius:999px; font-size:0.83rem; font-weight:600; border:1px solid var(--border); background:var(--card-bg); color:var(--text-muted); cursor:pointer; font-family:inherit; transition:all 0.18s; }
 .ftab:hover { color:var(--text); border-color:var(--border-hover); }
 .ftab.active { background:var(--red-subtle); color:var(--red-light); border-color:rgba(232,0,58,0.3); }
 .admin-input { width:100%; background:rgba(5,0,10,0.6); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:0.72rem 1rem; font-size:0.93rem; font-family:inherit; outline:none; transition:border-color 0.18s; margin-top:0.4rem; }
 .admin-input:focus { border-color:rgba(232,0,58,0.4); }
+
+.admin-chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.admin-chat-msg {
+  max-width: 85%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.admin-chat-msg.amsg-user {
+  align-self: flex-end;
+  background: rgba(232,0,58,0.1);
+  border: 1px solid rgba(232,0,58,0.2);
+  color: var(--text);
+}
+.admin-chat-msg.amsg-admin {
+  align-self: flex-start;
+  background: rgba(0,212,170,0.06);
+  border: 1px solid rgba(0,212,170,0.18);
+  color: var(--text);
+}
+.admin-msg-time {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  text-align: right;
+}
+.admin-closed-banner {
+  text-align: center;
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
 </style>
 </head>
 <body>
@@ -53,7 +101,6 @@
 </header>
 
 <main>
-  <!-- Логин -->
   <div id="loginSection">
     <div class="login-wrap">
       <div class="card">
@@ -73,7 +120,6 @@
     </div>
   </div>
 
-  <!-- Панель -->
   <div id="adminPanel" style="display:none;">
     <div class="container">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.8rem;">
@@ -104,7 +150,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { getFirestore, collection, query, orderBy, getDocs, doc, updateDoc, serverTimestamp }
+import { getFirestore, collection, query, orderBy, getDocs, doc, updateDoc }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -124,7 +170,6 @@ const db   = getFirestore(app);
 let allTickets = [];
 let currentFilter = 'all';
 
-// Следим за состоянием авторизации
 onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById('loginSection').style.display = 'none';
@@ -167,7 +212,6 @@ window.doLogout = async function() {
   await signOut(auth);
 };
 
-// Enter для логина
 document.getElementById('adminPass').addEventListener('keydown', e => {
   if (e.key === 'Enter') window.doLogin();
 });
@@ -217,9 +261,39 @@ function renderTickets() {
 
   list.innerHTML = filtered.map(t => {
     const s    = statusMap[t.status] || statusMap.pending;
-    const date = t.createdAt ? new Date(t.createdAt.seconds*1000).toLocaleString('ru-RU') : '—';
+    const date = t.createdAt ? new Date(t.createdAt).toLocaleString('ru-RU') : '—';
+    
+    let messagesHtml = '';
+    if (t.messages && Array.isArray(t.messages)) {
+      t.messages.forEach(m => {
+        const mClass = m.author === 'user' ? 'amsg-user' : 'amsg-admin';
+        const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
+        messagesHtml += `
+          <div class="admin-chat-msg ${mClass}">
+            ${m.text}
+            <span class="admin-msg-time">${mTime}</span>
+          </div>
+        `;
+      });
+    }
+
+    let inputAndButtonsHtml = '';
+    if (t.status === 'closed') {
+      inputAndButtonsHtml = `<div class="admin-closed-banner">Тикет закрыт</div>`;
+    } else {
+      inputAndButtonsHtml = `
+        <textarea class="answer-area" id="ans-${t._id}" placeholder="Напиши ответ..."></textarea>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn btn-primary" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="sendAnswer('${t._id}')">
+            ✅ Ответить
+          </button>
+          <button class="btn btn-ghost" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="closeTicket('${t._id}')">🔒 Закрыть</button>
+        </div>
+      `;
+    }
+
     return `
-    <div class="ticket-card">
+    <div class="ticket-card" id="card-${t._id}">
       <div class="tc-head">
         <span class="tc-id">${t.ticketId}</span>
         <div style="display:flex;gap:0.5rem;align-items:center;">
@@ -232,36 +306,66 @@ function renderTickets() {
         ${t.discordId ? `· 🆔 <code style="background:rgba(255,255,255,0.05);padding:0.1rem 0.4rem;border-radius:5px;font-size:0.8rem;">${t.discordId}</code>` : ''}
         · 📂 ${t.category}
       </div>
-      <div class="tc-msg">${t.message}</div>
-      ${t.answer ? `<div class="existing-answer-label">Твой ответ</div><div class="existing-answer">${t.answer}</div>` : ''}
-      <textarea class="answer-area" id="ans-${t._id}" placeholder="Напиши ответ...">${t.answer || ''}</textarea>
-      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-        <button class="btn btn-primary" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="sendAnswer('${t._id}')">
-          ${t.answer ? '✏️ Обновить' : '✅ Ответить'}
-        </button>
-        ${t.status !== 'closed' ? `<button class="btn btn-ghost" style="font-size:0.82rem;padding:0.45rem 1rem;" onclick="closeTicket('${t._id}')">🔒 Закрыть</button>` : ''}
+      
+      <div class="admin-chat-container" id="adminChat-${t._id}">
+        ${messagesHtml}
       </div>
+
+      ${inputAndButtonsHtml}
     </div>`;
   }).join('');
+
+  filtered.forEach(t => {
+    const container = document.getElementById(`adminChat-${t._id}`);
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  });
 }
 
 window.sendAnswer = async function(docId) {
-  const answer = document.getElementById(`ans-${docId}`).value.trim();
+  const ansEl = document.getElementById(`ans-${docId}`);
+  const answer = ansEl.value.trim();
   if (!answer) return;
   try {
-    await updateDoc(doc(db,'tickets',docId), { answer, status:'answered', answeredAt: serverTimestamp() });
-    const t = allTickets.find(t => t._id === docId);
-    if (t) { t.answer = answer; t.status = 'answered'; }
-    updateStats(); renderTickets();
+    const t = allTickets.find(ticket => ticket._id === docId);
+    if (!t) return;
+
+    const currentMessages = t.messages || [];
+    const newMessage = {
+      author: "admin",
+      text: answer,
+      time: Date.now()
+    };
+    currentMessages.push(newMessage);
+
+    await updateDoc(doc(db,'tickets',docId), { 
+      messages: currentMessages, 
+      status: 'answered' 
+    });
+
+    t.messages = currentMessages;
+    t.status = 'answered';
+    
+    updateStats(); 
+    renderTickets();
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 
 window.closeTicket = async function(docId) {
   try {
-    await updateDoc(doc(db,'tickets',docId), { status:'closed' });
-    const t = allTickets.find(t => t._id === docId);
-    if (t) t.status = 'closed';
-    updateStats(); renderTickets();
+    const nowMs = Date.now();
+    await updateDoc(doc(db,'tickets',docId), { 
+      status: 'closed',
+      closedAt: nowMs
+    });
+    const t = allTickets.find(ticket => ticket._id === docId);
+    if (t) {
+      t.status = 'closed';
+      t.closedAt = nowMs;
+    }
+    updateStats(); 
+    renderTickets();
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 </script>
