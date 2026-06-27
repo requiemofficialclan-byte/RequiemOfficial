@@ -63,13 +63,57 @@
 .ts-closed   { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
 
 .ts-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem; }
-.ts-q    { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
-.ts-answer-box {
-  background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.18);
-  border-radius: 10px; padding: 1rem;
-  font-size: 0.92rem; color: var(--text); line-height: 1.6;
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 350px;
+  overflow-y: auto;
+  margin: 1rem 0;
+  padding-right: 0.4rem;
 }
-.ts-answer-label { font-size: 0.75rem; font-weight: 700; color: #00d4aa; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.chat-msg {
+  max-width: 80%;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  position: relative;
+  word-break: break-word;
+}
+.chat-msg.msg-user {
+  align-self: flex-end;
+  background: rgba(232,0,58,0.12);
+  border: 1px solid rgba(232,0,58,0.25);
+  color: var(--text);
+}
+.chat-msg.msg-admin {
+  align-self: flex-start;
+  background: rgba(0,212,170,0.08);
+  border: 1px solid rgba(0,212,170,0.22);
+  color: var(--text);
+}
+.msg-time {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  text-align: right;
+}
+.chat-reply-wrap {
+  margin-top: 0.8rem;
+}
+.chat-closed-banner {
+  text-align: center;
+  padding: 0.6rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -103,7 +147,6 @@
   <div class="container">
     <div class="grid-2" style="align-items:start;">
 
-      <!-- Форма -->
       <div class="card">
         <h2 class="card-title"><span class="icon">📩</span>Новая заявка</h2>
 
@@ -144,7 +187,6 @@
         </div>
       </div>
 
-      <!-- Проверка статуса -->
       <div>
         <div class="card">
           <h2 class="card-title"><span class="icon">🔍</span>Проверить заявку</h2>
@@ -183,7 +225,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp }
+import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -198,6 +240,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+
+let currentActiveDocId = null;
 
 function genId() {
   return 'R-' + Math.floor(1000 + Math.random() * 9000);
@@ -218,12 +262,17 @@ window.submitTicket = async function() {
   btn.textContent = 'Отправка...';
   btn.disabled = true;
 
-  // Генерируем уникальный ID
   let ticketId = genId();
-  // Проверяем уникальность
   const q = query(collection(db,'tickets'), where('ticketId','==',ticketId));
   const snap = await getDocs(q);
   if (!snap.empty) ticketId = genId() + '-' + Date.now().toString().slice(-3);
+
+  const nowMs = Date.now();
+  const initialMessage = {
+    author: "user",
+    text: message,
+    time: nowMs
+  };
 
   try {
     await addDoc(collection(db, 'tickets'), {
@@ -231,11 +280,10 @@ window.submitTicket = async function() {
       nick,
       discordId: discordId || null,
       category,
-      message,
       status: 'pending',
-      answer: null,
-      createdAt: serverTimestamp(),
-      answeredAt: null
+      createdAt: nowMs,
+      closedAt: null,
+      messages: [initialMessage]
     });
 
     document.getElementById('supportForm').style.display = 'none';
@@ -263,11 +311,15 @@ window.checkTicket = async function() {
 
     if (snap.empty) {
       box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена. Проверь номер.</p>';
+      currentActiveDocId = null;
       return;
     }
 
-    const t = snap.docs[0].data();
-    const date = t.createdAt ? new Date(t.createdAt.seconds*1000).toLocaleDateString('ru-RU') : '—';
+    const docSnap = snap.docs[0];
+    currentActiveDocId = docSnap.id;
+    const t = docSnap.data();
+    
+    const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
     const statusMap = {
       pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
@@ -276,22 +328,95 @@ window.checkTicket = async function() {
     };
     const s = statusMap[t.status] || statusMap.pending;
 
+    let messagesHtml = '';
+    if (t.messages && Array.isArray(t.messages)) {
+      t.messages.forEach(m => {
+        const mClass = m.author === 'user' ? 'msg-user' : 'msg-admin';
+        const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
+        messagesHtml += `
+          <div class="chat-msg ${mClass}">
+            ${m.text}
+            <span class="msg-time">${mTime}</span>
+          </div>
+        `;
+      });
+    }
+
+    let actionHtml = '';
+    if (t.status === 'closed') {
+      actionHtml = `<div class="chat-closed-banner">Тикет закрыт</div>`;
+    } else {
+      actionHtml = `
+        <div class="chat-reply-wrap">
+          <textarea id="chatReplyText" class="support-textarea" style="min-height:70px;margin-bottom:0.5rem;" placeholder="Введите ответное сообщение..."></textarea>
+          <button id="chatReplyBtn" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.6rem;" onclick="sendChatReply()">Отправить</button>
+        </div>
+      `;
+    }
+
     box.innerHTML = `
       <div class="ticket-status ${s.cls}" style="display:block;">
         <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
         <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
-        <div class="ts-q">📝 ${t.message}</div>
-        ${t.answer ? `
-          <div class="ts-answer-label">Ответ администрации</div>
-          <div class="ts-answer-box">${t.answer}</div>
-        ` : '<p style="font-size:0.82rem;color:var(--text-muted);">Ответ ещё не получен. Обычно отвечаем за 1–3 дня.</p>'}
+        
+        <div class="chat-container" id="chatContainer">
+          ${messagesHtml}
+        </div>
+        
+        ${actionHtml}
       </div>`;
+
+    const chatContainer = document.getElementById('chatContainer');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
   } catch(e) {
     box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Ошибка. Попробуй позже.</p>';
   }
 };
 
-// Enter в поле проверки
+window.sendChatReply = async function() {
+  if (!currentActiveDocId) return;
+  const txtEl = document.getElementById('chatReplyText');
+  const btnEl = document.getElementById('chatReplyBtn');
+  const text = txtEl.value.trim();
+  if (!text) return;
+
+  btnEl.disabled = true;
+
+  try {
+    const q = query(collection(db,'tickets'), where('ticketId','==',document.getElementById('checkInput').value.trim().toUpperCase()));
+    const snap = await getDocs(q);
+    if (snap.empty) return;
+    
+    const docRef = doc(db, 'tickets', currentActiveDocId);
+    const t = snap.docs[0].data();
+    
+    const currentMessages = t.messages || [];
+    const newMessage = {
+      author: "user",
+      text: text,
+      time: Date.now()
+    };
+    
+    currentMessages.push(newMessage);
+
+    await updateDoc(docRef, {
+      messages: currentMessages,
+      status: 'pending'
+    });
+
+    txtEl.value = '';
+    btnEl.disabled = false;
+    await window.checkTicket();
+
+  } catch(e) {
+    btnEl.disabled = false;
+    alert('Ошибка отправки: ' + e.message);
+  }
+};
+
 document.getElementById('checkInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') window.checkTicket();
 });
