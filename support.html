@@ -225,7 +225,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc }
+import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc, onSnapshot }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -242,24 +242,10 @@ const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
 let currentActiveDocId = null;
-let refreshIntervalId = null;
+let unsubTicket = null;
 
 function genId() {
   return 'R-' + Math.floor(1000 + Math.random() * 9000);
-}
-
-function startAutoRefresh() {
-  stopAutoRefresh();
-  refreshIntervalId = setInterval(() => {
-    silentRefreshTicket();
-  }, 5000);
-}
-
-function stopAutoRefresh() {
-  if (refreshIntervalId) {
-    clearInterval(refreshIntervalId);
-    refreshIntervalId = null;
-  }
 }
 
 window.submitTicket = async function() {
@@ -318,166 +304,107 @@ window.checkTicket = async function() {
   const box = document.getElementById('ticketStatus');
   if (!id) return;
 
+  if (unsubTicket) {
+    unsubTicket();
+    unsubTicket = null;
+  }
+
   box.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;margin-top:0.8rem;">Ищем...</p>';
 
   try {
-    const q    = query(collection(db,'tickets'), where('ticketId','==',id));
+    const q = query(collection(db,'tickets'), where('ticketId','==',id));
     const snap = await getDocs(q);
 
     if (snap.empty) {
       box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена. Проверь номер.</p>';
       currentActiveDocId = null;
-      stopAutoRefresh();
       return;
     }
 
-    const docSnap = snap.docs[0];
-    currentActiveDocId = docSnap.id;
-    const t = docSnap.data();
-    
-    const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
-
-    const statusMap = {
-      pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
-      answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
-      closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
-    };
-    const s = statusMap[t.status] || statusMap.pending;
-
-    let messagesHtml = '';
-    if (t.messages && Array.isArray(t.messages)) {
-      t.messages.forEach(m => {
-        const mClass = m.author === 'user' ? 'msg-user' : 'msg-admin';
-        const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
-        messagesHtml += `
-          <div class="chat-msg ${mClass}">
-            ${m.text}
-            <span class="msg-time">${mTime}</span>
-          </div>
-        `;
-      });
-    }
-
-    let actionHtml = '';
-    if (t.status === 'closed') {
-      actionHtml = `<div class="chat-closed-banner">Тикет закрыт</div>`;
-      stopAutoRefresh();
-    } else {
-      actionHtml = `
-        <div class="chat-reply-wrap">
-          <textarea id="chatReplyText" class="support-textarea" style="min-height:70px;margin-bottom:0.5rem;" placeholder="Введите ответное сообщение..."></textarea>
-          <button id="chatReplyBtn" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.6rem;" onclick="sendChatReply()">Отправить</button>
-        </div>
-      `;
-      startAutoRefresh();
-    }
+    currentActiveDocId = snap.docs[0].id;
 
     box.innerHTML = `
-      <div class="ticket-status ${s.cls}" style="display:block;">
-        <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
-        <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
-        
-        <div class="chat-container" id="chatContainer">
-          ${messagesHtml}
-        </div>
-        
-        ${actionHtml}
+      <div class="ticket-status" id="ticketStatusCard" style="display:block;">
+        <div class="ts-meta" id="ticketMetaHead"></div>
+        <div class="ts-meta" id="ticketMetaSub"></div>
+        <div class="chat-container" id="chatContainer"></div>
+        <div id="chatActionArea"></div>
       </div>`;
 
-    const chatContainer = document.getElementById('chatContainer');
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
+    unsubTicket = onSnapshot(doc(db, 'tickets', currentActiveDocId), (docSnap) => {
+      if (!docSnap.exists()) return;
+      const t = docSnap.data();
+
+      const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
+      const statusMap = {
+        pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
+        answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
+        closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
+      };
+      const s = statusMap[t.status] || statusMap.pending;
+
+      const cardEl = document.getElementById('ticketStatusCard');
+      if (cardEl) {
+        cardEl.className = `ticket-status ${s.cls}`;
+      }
+
+      const headEl = document.getElementById('ticketMetaHead');
+      if (headEl) {
+        headEl.innerHTML = `${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}`;
+      }
+
+      const subEl = document.getElementById('ticketMetaSub');
+      if (subEl) {
+        subEl.innerHTML = `Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}`;
+      }
+
+      const chatContainer = document.getElementById('chatContainer');
+      if (chatContainer) {
+        let messagesHtml = '';
+        if (t.messages && Array.isArray(t.messages)) {
+          t.messages.forEach(m => {
+            const mClass = m.author === 'user' ? 'msg-user' : 'msg-admin';
+            const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
+            messagesHtml += `
+              <div class="chat-msg ${mClass}">
+                ${m.text}
+                <span class="msg-time">${mTime}</span>
+              </div>
+            `;
+          });
+        }
+        
+        const oldScrollHeight = chatContainer.scrollHeight;
+        const oldScrollTop = chatContainer.scrollTop;
+        const oldClientHeight = chatContainer.clientHeight;
+        const wasAtBottom = (oldScrollHeight - oldScrollTop - oldClientHeight) < 15;
+
+        chatContainer.innerHTML = messagesHtml;
+
+        if (wasAtBottom || oldScrollHeight === 0) {
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+      }
+
+      const actionArea = document.getElementById('chatActionArea');
+      if (actionArea) {
+        if (t.status === 'closed') {
+          actionArea.innerHTML = `<div class="chat-closed-banner">Тикет закрыт</div>`;
+        } else if (!document.getElementById('chatReplyText')) {
+          actionArea.innerHTML = `
+            <div class="chat-reply-wrap">
+              <textarea id="chatReplyText" class="support-textarea" style="min-height:70px;margin-bottom:0.5rem;" placeholder="Введите ответное сообщение..."></textarea>
+              <button id="chatReplyBtn" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.6rem;" onclick="sendChatReply()">Отправить</button>
+            </div>
+          `;
+        }
+      }
+    });
 
   } catch(e) {
     box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Ошибка. Попробуй позже.</p>';
   }
 };
-
-async function silentRefreshTicket() {
-  if (!currentActiveDocId) return;
-  const id = document.getElementById('checkInput').value.trim().toUpperCase();
-  if (!id) return;
-
-  try {
-    const q = query(collection(db,'tickets'), where('ticketId','==',id));
-    const snap = await getDocs(q);
-    if (snap.empty) return;
-
-    const t = snap.docs[0].data();
-    const chatContainer = document.getElementById('chatContainer');
-    const replyTextarea = document.getElementById('chatReplyText');
-    
-    let activeDraft = '';
-    if (replyTextarea) {
-      activeDraft = replyTextarea.value;
-    }
-
-    let messagesHtml = '';
-    if (t.messages && Array.isArray(t.messages)) {
-      t.messages.forEach(m => {
-        const mClass = m.author === 'user' ? 'msg-user' : 'msg-admin';
-        const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
-        messagesHtml += `
-          <div class="chat-msg ${mClass}">
-            ${m.text}
-            <span class="msg-time">${mTime}</span>
-          </div>
-        `;
-      });
-    }
-
-    const oldScrollHeight = chatContainer ? chatContainer.scrollHeight : 0;
-    const oldScrollTop = chatContainer ? chatContainer.scrollTop : 0;
-    const oldClientHeight = chatContainer ? chatContainer.clientHeight : 0;
-    const wasAtBottom = (oldScrollHeight - oldScrollTop - oldClientHeight) < 15;
-
-    const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
-    const statusMap = {
-      pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
-      answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
-      closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
-    };
-    const s = statusMap[t.status] || statusMap.pending;
-
-    let actionHtml = '';
-    if (t.status === 'closed') {
-      actionHtml = `<div class="chat-closed-banner">Тикет закрыт</div>`;
-      stopAutoRefresh();
-    } else {
-      actionHtml = `
-        <div class="chat-reply-wrap">
-          <textarea id="chatReplyText" class="support-textarea" style="min-height:70px;margin-bottom:0.5rem;" placeholder="Введите ответное сообщение..."></textarea>
-          <button id="chatReplyBtn" class="btn btn-primary" style="width:100%;justify-content:center;padding:0.6rem;" onclick="sendChatReply()">Отправить</button>
-        </div>
-      `;
-    }
-
-    const box = document.getElementById('ticketStatus');
-    box.innerHTML = `
-      <div class="ticket-status ${s.cls}" style="display:block;">
-        <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
-        <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
-        
-        <div class="chat-container" id="chatContainer">
-          ${messagesHtml}
-        </div>
-        
-        ${actionHtml}
-      </div>`;
-
-    const newReplyTextarea = document.getElementById('chatReplyText');
-    if (newReplyTextarea && activeDraft) {
-      newReplyTextarea.value = activeDraft;
-    }
-
-    const newChatContainer = document.getElementById('chatContainer');
-    if (newChatContainer && wasAtBottom) {
-      newChatContainer.scrollTop = newChatContainer.scrollHeight;
-    }
-
-  } catch(e) {}
-}
 
 window.sendChatReply = async function() {
   if (!currentActiveDocId) return;
@@ -512,7 +439,6 @@ window.sendChatReply = async function() {
 
     txtEl.value = '';
     btnEl.disabled = false;
-    await window.checkTicket();
 
   } catch(e) {
     btnEl.disabled = false;
