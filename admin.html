@@ -150,7 +150,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { getFirestore, collection, query, orderBy, getDocs, doc, updateDoc }
+import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -169,7 +169,7 @@ const db   = getFirestore(app);
 
 let allTickets = [];
 let currentFilter = 'all';
-let adminRefreshIntervalId = null;
+let unsubTickets = null;
 
 onAuthStateChanged(auth, user => {
   if (user) {
@@ -177,27 +177,15 @@ onAuthStateChanged(auth, user => {
     document.getElementById('adminPanel').style.display = 'block';
     document.getElementById('adminUser').textContent = '👤 ' + user.email;
     loadTickets();
-    startAdminAutoRefresh();
   } else {
     document.getElementById('loginSection').style.display = 'block';
     document.getElementById('adminPanel').style.display = 'none';
-    stopAdminAutoRefresh();
+    if (unsubTickets) {
+      unsubTickets();
+      unsubTickets = null;
+    }
   }
 });
-
-function startAdminAutoRefresh() {
-  stopAdminAutoRefresh();
-  adminRefreshIntervalId = setInterval(() => {
-    silentRefreshAdminTickets();
-  }, 5000);
-}
-
-function stopAdminAutoRefresh() {
-  if (adminRefreshIntervalId) {
-    clearInterval(adminRefreshIntervalId);
-    adminRefreshIntervalId = null;
-  }
-}
 
 window.doLogin = async function() {
   const email = document.getElementById('adminEmail').value.trim();
@@ -233,29 +221,24 @@ document.getElementById('adminPass').addEventListener('keydown', e => {
   if (e.key === 'Enter') window.doLogin();
 });
 
-window.loadTickets = async function() {
+window.loadTickets = function() {
+  if (unsubTickets) {
+    unsubTickets();
+  }
+
   const list = document.getElementById('ticketsList');
   list.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">Загрузка...</p>';
-  try {
-    const q    = query(collection(db,'tickets'), orderBy('createdAt','desc'));
-    const snap = await getDocs(q);
-    allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-    updateStats();
-    renderTickets();
-  } catch(e) {
-    list.innerHTML = '<p style="color:var(--red-light);">Ошибка загрузки: ' + e.message + '</p>';
-  }
-};
 
-async function silentRefreshAdminTickets() {
-  try {
-    const q = query(collection(db,'tickets'), orderBy('createdAt','desc'));
-    const snap = await getDocs(q);
+  const q = query(collection(db,'tickets'), orderBy('createdAt','desc'));
+  
+  unsubTickets = onSnapshot(q, (snap) => {
     allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
     updateStats();
     renderTickets();
-  } catch(e) {}
-}
+  }, (e) => {
+    list.innerHTML = '<p style="color:var(--red-light);">Ошибка загрузки: ' + e.message + '</p>';
+  });
+};
 
 function updateStats() {
   const pending  = allTickets.filter(t => t.status === 'pending').length;
@@ -286,13 +269,24 @@ function renderTickets() {
     closed:   { cls:'sb-closed',   icon:'🔒', label:'Закрыто' },
   };
 
+  filtered.forEach(t => {
+    const textareaEl = document.getElementById(`ans-${t._id}`);
+    if (textareaEl) {
+      t._draftValue = textareaEl.value;
+    }
+    const container = document.getElementById(`adminChat-${t._id}`);
+    if (container) {
+      t._oldScrollTop = container.scrollTop;
+      t._oldScrollHeight = container.scrollHeight;
+      t._oldClientHeight = container.clientHeight;
+      t._wasAtBottom = (t._oldScrollHeight - t._oldScrollTop - t._oldClientHeight) < 15;
+    }
+  });
+
   list.innerHTML = filtered.map(t => {
     const s    = statusMap[t.status] || statusMap.pending;
     const date = t.createdAt ? new Date(t.createdAt).toLocaleString('ru-RU') : '—';
     
-    const textareaEl = document.getElementById(`ans-${t._id}`);
-    const activeDraft = textareaEl ? textareaEl.value : '';
-
     let messagesHtml = '';
     if (t.messages && Array.isArray(t.messages)) {
       t.messages.forEach(m => {
@@ -322,25 +316,6 @@ function renderTickets() {
       `;
     }
 
-    const container = document.getElementById(`adminChat-${t._id}`);
-    const oldScrollHeight = container ? container.scrollHeight : 0;
-    const oldScrollTop = container ? container.scrollTop : 0;
-    const oldClientHeight = container ? container.clientHeight : 0;
-    const wasAtBottom = (oldScrollHeight - oldScrollTop - oldClientHeight) < 15;
-
-    setTimeout(() => {
-      const currentTextarea = document.getElementById(`ans-${t._id}`);
-      if (currentTextarea && activeDraft) {
-        currentTextarea.value = activeDraft;
-      }
-      const currentContainer = document.getElementById(`adminChat-${t._id}`);
-      if (currentContainer && (wasAtBottom || oldScrollHeight === 0)) {
-        currentContainer.scrollTop = currentContainer.scrollHeight;
-      } else if (currentContainer && container) {
-        currentContainer.scrollTop = oldScrollTop;
-      }
-    }, 0);
-
     return `
     <div class="ticket-card" id="card-${t._id}">
       <div class="tc-head">
@@ -363,6 +338,21 @@ function renderTickets() {
       ${inputAndButtonsHtml}
     </div>`;
   }).join('');
+
+  filtered.forEach(t => {
+    const textareaEl = document.getElementById(`ans-${t._id}`);
+    if (textareaEl && t._draftValue !== undefined) {
+      textareaEl.value = t._draftValue;
+    }
+    const container = document.getElementById(`adminChat-${t._id}`);
+    if (container) {
+      if (t._wasAtBottom || t._oldScrollHeight === undefined) {
+        container.scrollTop = container.scrollHeight;
+      } else {
+        container.scrollTop = t._oldScrollTop;
+      }
+    }
+  });
 }
 
 window.sendAnswer = async function(docId) {
@@ -386,11 +376,7 @@ window.sendAnswer = async function(docId) {
       status: 'answered' 
     });
 
-    t.messages = currentMessages;
-    t.status = 'answered';
-    
-    updateStats(); 
-    renderTickets();
+    if (ansEl) ansEl.value = '';
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 
@@ -401,13 +387,6 @@ window.closeTicket = async function(docId) {
       status: 'closed',
       closedAt: nowMs
     });
-    const t = allTickets.find(ticket => ticket._id === docId);
-    if (t) {
-      t.status = 'closed';
-      t.closedAt = nowMs;
-    }
-    updateStats(); 
-    renderTickets();
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 </script>
