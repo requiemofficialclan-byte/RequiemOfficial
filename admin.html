@@ -357,8 +357,14 @@ function renderTickets() {
 
 window.sendAnswer = async function(docId) {
   const ansEl = document.getElementById(`ans-${docId}`);
+  if (!ansEl) return;
+  
   const answer = ansEl.value.trim();
   if (!answer) return;
+
+  // Моментально очищаем поле ввода до отправки, чтобы избежать повторных кликов/отправок
+  ansEl.value = '';
+
   try {
     const t = allTickets.find(ticket => ticket._id === docId);
     if (!t) return;
@@ -371,13 +377,20 @@ window.sendAnswer = async function(docId) {
     };
     currentMessages.push(newMessage);
 
+    // Локально обновляем черновик, чтобы повторный рендер не вернул старый текст
+    t._draftValue = '';
+
     await updateDoc(doc(db,'tickets',docId), { 
       messages: currentMessages, 
       status: 'answered' 
     });
 
-    if (ansEl) ansEl.value = '';
-  } catch(e) { alert('Ошибка: ' + e.message); }
+  } catch(e) { 
+    // Если произошла сетевая ошибка — возвращаем текст на место, чтобы админ его не потерял
+    alert('Ошибка при отправке: ' + e.message); 
+    const currentAnsEl = document.getElementById(`ans-${docId}`);
+    if (currentAnsEl) currentAnsEl.value = answer;
+  }
 };
 
 window.closeTicket = async function(docId) {
