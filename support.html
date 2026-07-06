@@ -241,7 +241,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit, onSnapshot, updateDoc, arrayUnion }
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -277,18 +277,9 @@ function stopWatchingTicket() {
 
 async function resolveTicket(id) {
   if (!TICKET_ID_RE.test(id)) return null;
-
   const directRef = doc(db, 'tickets', id);
   const direct = await getDoc(directRef);
   if (direct.exists()) return { ref: directRef, data: direct.data() };
-
-  const snap = await getDocs(
-    query(collection(db, 'tickets'), where('ticketId', '==', id), limit(1))
-  );
-  if (!snap.empty) {
-    const d = snap.docs[0];
-    return { ref: d.ref, data: d.data() };
-  }
   return null;
 }
 
