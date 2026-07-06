@@ -60,16 +60,10 @@
 }
 .ts-pending  { background: rgba(255,179,71,0.07); border: 1px solid rgba(255,179,71,0.2); }
 .ts-answered { background: rgba(0,212,170,0.07);  border: 1px solid rgba(0,212,170,0.2); }
-.ts-closed   { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+.ts-closed   { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); }
 
 .ts-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.6rem; }
 .ts-q    { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; }
-.ts-answer-box {
-  background: rgba(0,212,170,0.06); border: 1px solid rgba(0,212,170,0.18);
-  border-radius: 10px; padding: 1rem;
-  font-size: 0.92rem; color: var(--text); line-height: 1.6;
-}
-.ts-answer-label { font-size: 0.75rem; font-weight: 700; color: #00d4aa; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
 .client-chat-container {
   display: flex;
@@ -130,6 +124,21 @@
   min-height: 40px;
 }
 .client-reply-in:focus { border-color: rgba(232,0,58,0.4); }
+
+.archive-box {
+  background: rgba(255,255,255,0.01);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-top: 0.5rem;
+}
+.archive-field {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+.archive-field:last-child { margin-bottom: 0; }
+.archive-field strong { color: var(--text); }
 </style>
 </head>
 <body>
@@ -287,10 +296,26 @@ function renderTicketView(t, id) {
   const box = document.getElementById('ticketStatus');
   const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
+  if (t.status === 'closed') {
+    box.innerHTML = `
+      <div class="ticket-status ts-closed" style="display:block;margin-top:0.8rem;">
+        <div class="ts-meta">🔒 <strong>Заявка закрыта</strong> · ${t.ticketId}</div>
+        <div class="archive-box">
+          <div class="archive-field">Ник: <strong>${t.nick}</strong></div>
+          <div class="archive-field">Discord ID: <strong>${t.discordId || 'не указан'}</strong></div>
+          <div class="archive-field">Категория: <strong>${t.category}</strong></div>
+          <div class="archive-field">Дата создания: <strong>${date}</strong></div>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.8rem;text-align:center;margin-bottom:0;">
+          Эта заявка была решена администрацией и перенесена в архив.
+        </p>
+      </div>`;
+    return;
+  }
+
   const statusMap = {
     pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
     answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
-    closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
   };
   const s = statusMap[t.status] || statusMap.pending;
 
@@ -308,23 +333,18 @@ function renderTicketView(t, id) {
     });
   }
 
-  const canReply = t.status !== 'closed';
-  const replyHtml = canReply ? `
-    <div class="client-reply-row">
-      <textarea class="client-reply-in" id="userReplyText" placeholder="Дополнить заявку..." rows="2"></textarea>
-      <button class="btn btn-primary" style="padding:0.52rem 0.9rem;font-size:0.82rem;white-space:nowrap;" onclick="sendUserReply()">
-        Отправить
-      </button>
-    </div>
-    <div id="userReplyErr" style="color:var(--red-light);font-size:0.82rem;margin-top:0.4rem;display:none;"></div>
-  ` : '';
-
   box.innerHTML = `
     <div class="ticket-status ${s.cls}" style="display:block;margin-top:0.8rem;">
       <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
       <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
       <div class="client-chat-container" id="clientChatBox">${chatHtml}</div>
-      ${replyHtml}
+      <div class="client-reply-row">
+        <textarea class="client-reply-in" id="userReplyText" placeholder="Дополнить заявку..." rows="2"></textarea>
+        <button class="btn btn-primary" style="padding:0.52rem 0.9rem;font-size:0.82rem;white-space:nowrap;" onclick="sendUserReply()">
+          Отправить
+        </button>
+      </div>
+      <div id="userReplyErr" style="color:var(--red-light);font-size:0.82rem;margin-top:0.4rem;display:none;"></div>
     </div>`;
 
   const chatBox = document.getElementById('clientChatBox');
