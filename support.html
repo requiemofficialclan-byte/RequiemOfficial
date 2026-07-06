@@ -297,18 +297,27 @@ function renderTicketView(t, id) {
   const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
   if (t.status === 'closed') {
+    let lastAdminMsg = 'Ответ от администрации отсутствует.';
+    if (t.messages && Array.isArray(t.messages)) {
+      const adminMessages = t.messages.filter(m => isAdminMessage(m));
+      if (adminMessages.length > 0) {
+        lastAdminMsg = adminMessages[adminMessages.length - 1].text;
+      }
+    }
+
     box.innerHTML = `
       <div class="ticket-status ts-closed" style="display:block;margin-top:0.8rem;">
-        <div class="ts-meta">🔒 <strong>Заявка закрыта</strong> · ${t.ticketId}</div>
+        <div class="ts-meta">🔒 <strong>Заявка архивирована</strong> · ${t.ticketId}</div>
         <div class="archive-box">
-          <div class="archive-field">Ник: <strong>${t.nick}</strong></div>
-          <div class="archive-field">Discord ID: <strong>${t.discordId || 'не указан'}</strong></div>
+          <div class="archive-field">Ник: <strong>***</strong></div>
+          <div class="archive-field">Discord ID: <strong>***</strong></div>
           <div class="archive-field">Категория: <strong>${t.category}</strong></div>
           <div class="archive-field">Дата создания: <strong>${date}</strong></div>
+          <div style="margin-top:0.8rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:0.6rem;">
+            <div style="font-size:0.75rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.25rem;">Финальное решение:</div>
+            <div class="client-chat-msg cmsg-admin" style="max-width:100%;align-self:stretch;">${lastAdminMsg}</div>
+          </div>
         </div>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.8rem;text-align:center;margin-bottom:0;">
-          Эта заявка была решена администрацией и перенесена в архив.
-        </p>
       </div>`;
     return;
   }
