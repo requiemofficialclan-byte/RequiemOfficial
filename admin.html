@@ -111,7 +111,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { getFirestore, collection, query, orderBy, getDocs, doc, updateDoc, arrayUnion }
+import { getFirestore, collection, query, orderBy, doc, updateDoc, arrayUnion, onSnapshot }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -129,6 +129,27 @@ const db   = getFirestore(app);
 
 let allTickets = [];
 let currentFilter = 'all';
+let ticketsUnsub = null;
+
+function isAdminMessage(m) {
+  return m.author === 'admin' || m.from === 'admin';
+}
+
+function saveReplyDrafts() {
+  const drafts = {};
+  document.querySelectorAll('.reply-in').forEach(el => {
+    const id = el.id.replace('ans-', '');
+    if (el.value) drafts[id] = el.value;
+  });
+  return drafts;
+}
+
+function restoreReplyDrafts(drafts) {
+  Object.entries(drafts).forEach(([id, val]) => {
+    const el = document.getElementById('ans-' + id);
+    if (el) el.value = val;
+  });
+}
 
 function fmtTime(ts) {
   if (!ts) return '';
@@ -141,8 +162,12 @@ onAuthStateChanged(auth, user => {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
     document.getElementById('adminUser').textContent = '👤 ' + user.email;
-    loadTickets();
+    subscribeTickets();
   } else {
+    if (ticketsUnsub) {
+      ticketsUnsub();
+      ticketsUnsub = null;
+    }
     document.getElementById('loginSection').style.display = 'block';
     document.getElementById('adminPanel').style.display = 'none';
   }
@@ -166,17 +191,28 @@ window.doLogin = async function() {
 window.doLogout = () => signOut(auth);
 document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key==='Enter') window.doLogin(); });
 
-window.loadTickets = async function() {
+function subscribeTickets() {
   const list = document.getElementById('ticketsList');
   list.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;">Загрузка...</p>';
-  try {
-    const snap = await getDocs(query(collection(db,'tickets'), orderBy('createdAt','desc')));
-    allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-    updateStats(); renderTickets();
-  } catch(e) {
-    list.innerHTML = '<p style="color:var(--red-light);">Ошибка: ' + e.message + '</p>';
-  }
-};
+
+  if (ticketsUnsub) ticketsUnsub();
+
+  ticketsUnsub = onSnapshot(
+    query(collection(db, 'tickets'), orderBy('createdAt', 'desc')),
+    snap => {
+      const drafts = saveReplyDrafts();
+      allTickets = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+      updateStats();
+      renderTickets();
+      restoreReplyDrafts(drafts);
+    },
+    err => {
+      list.innerHTML = '<p style="color:var(--red-light);">Ошибка: ' + err.message + '</p>';
+    }
+  );
+}
+
+window.loadTickets = subscribeTickets;
 
 function updateStats() {
   const p = allTickets.filter(t=>t.status==='pending').length;
@@ -210,8 +246,8 @@ function renderTickets() {
 
     const chatHtml = msgs.length
       ? msgs.map(m => `
-          <div class="chat-bubble ${m.from==='admin' ? 'bubble-admin' : 'bubble-user'}">
-            <div class="bubble-meta">${m.from==='admin' ? '⚜️ Администрация' : '👤 '+(m.nick||t.nick)} · ${fmtTime(m.time)}</div>
+          <div class="chat-bubble ${isAdminMessage(m) ? 'bubble-admin' : 'bubble-user'}">
+            <div class="bubble-meta">${isAdminMessage(m) ? '⚜️ Администрация' : '👤 '+(m.nick||t.nick)} · ${fmtTime(m.time)}</div>
             ${m.text.replace(/\n/g,'<br>')}
           </div>`).join('')
       : '<p style="color:var(--text-muted);font-size:0.82rem;">Нет сообщений</p>';
@@ -253,24 +289,17 @@ window.sendReply = async function(docId) {
   if (!text) return;
   try {
     await updateDoc(doc(db,'tickets',docId), {
-      messages: arrayUnion({ from:'admin', nick:'Администрация', text, time: Date.now() }),
+      messages: arrayUnion({ author:'admin', nick:'Администрация', text, time: Date.now() }),
       status: 'answered'
     });
-    const t = allTickets.find(t=>t._id===docId);
-    if (t) {
-      t.messages = [...(t.messages||[]), { from:'admin', nick:'Администрация', text, time: Date.now() }];
-      t.status = 'answered';
-    }
-    updateStats(); renderTickets();
+    const input = document.getElementById('ans-' + docId);
+    if (input) input.value = '';
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 
 window.closeTicket = async function(docId) {
   try {
     await updateDoc(doc(db,'tickets',docId), { status:'closed' });
-    const t = allTickets.find(t=>t._id===docId);
-    if (t) t.status = 'closed';
-    updateStats(); renderTickets();
   } catch(e) { alert('Ошибка: ' + e.message); }
 };
 </script>
