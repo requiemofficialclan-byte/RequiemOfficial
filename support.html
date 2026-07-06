@@ -221,7 +221,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc }
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -236,6 +236,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+
+const TICKET_ID_RE = /^R-[A-Z0-9]+$/;
+
+async function fetchTicket(id) {
+  if (!TICKET_ID_RE.test(id)) return null;
+
+  const direct = await getDoc(doc(db, 'tickets', id));
+  if (direct.exists()) return direct.data();
+
+  const snap = await getDocs(
+    query(collection(db, 'tickets'), where('ticketId', '==', id), limit(1))
+  );
+  if (!snap.empty) return snap.docs[0].data();
+  return null;
+}
 
 window.submitTicket = async function() {
   const nick      = document.getElementById('fNick').value.trim();
@@ -288,18 +303,20 @@ window.checkTicket = async function() {
   const id  = document.getElementById('checkInput').value.trim().toUpperCase();
   const box = document.getElementById('ticketStatus');
   if (!id) return;
+  if (!TICKET_ID_RE.test(id)) {
+    box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Неверный формат номера. Пример: R-ABC123</p>';
+    return;
+  }
 
   box.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;margin-top:0.8rem;">Ищем...</p>';
 
   try {
-    const snap = await getDoc(doc(db, 'tickets', id));
+    const t = await fetchTicket(id);
 
-    if (!snap.exists()) {
+    if (!t) {
       box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена. Проверь номер.</p>';
       return;
     }
-
-    const t = snap.data();
     const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
     const statusMap = {
