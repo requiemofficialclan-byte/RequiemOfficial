@@ -110,6 +110,26 @@
   margin-top: 0.25rem;
   text-align: right;
 }
+.client-reply-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-top: 0.6rem;
+}
+.client-reply-in {
+  flex: 1;
+  background: rgba(5,0,10,0.6);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.58rem 0.85rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  min-height: 40px;
+}
+.client-reply-in:focus { border-color: rgba(232,0,58,0.4); }
 </style>
 </head>
 <body>
@@ -221,7 +241,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit }
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit, onSnapshot, updateDoc, arrayUnion }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -238,19 +258,126 @@ const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
 const TICKET_ID_RE = /^R-[A-Z0-9]+$/;
+let activeTicketRef = null;
+let activeTicketId = null;
+let ticketUnsub = null;
 
-async function fetchTicket(id) {
+function isAdminMessage(m) {
+  return m.author === 'admin' || m.from === 'admin';
+}
+
+function stopWatchingTicket() {
+  if (ticketUnsub) {
+    ticketUnsub();
+    ticketUnsub = null;
+  }
+  activeTicketRef = null;
+  activeTicketId = null;
+}
+
+async function resolveTicket(id) {
   if (!TICKET_ID_RE.test(id)) return null;
 
-  const direct = await getDoc(doc(db, 'tickets', id));
-  if (direct.exists()) return direct.data();
+  const directRef = doc(db, 'tickets', id);
+  const direct = await getDoc(directRef);
+  if (direct.exists()) return { ref: directRef, data: direct.data() };
 
   const snap = await getDocs(
     query(collection(db, 'tickets'), where('ticketId', '==', id), limit(1))
   );
-  if (!snap.empty) return snap.docs[0].data();
+  if (!snap.empty) {
+    const d = snap.docs[0];
+    return { ref: d.ref, data: d.data() };
+  }
   return null;
 }
+
+function renderTicketView(t, id) {
+  const box = document.getElementById('ticketStatus');
+  const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
+
+  const statusMap = {
+    pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
+    answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
+    closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
+  };
+  const s = statusMap[t.status] || statusMap.pending;
+
+  let chatHtml = '';
+  if (t.messages && Array.isArray(t.messages)) {
+    t.messages.forEach(m => {
+      const mClass = isAdminMessage(m) ? 'cmsg-admin' : 'cmsg-user';
+      const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
+      chatHtml += `
+        <div class="client-chat-msg ${mClass}">
+          ${m.text}
+          <span class="client-msg-time">${mTime}</span>
+        </div>
+      `;
+    });
+  }
+
+  const canReply = t.status !== 'closed';
+  const replyHtml = canReply ? `
+    <div class="client-reply-row">
+      <textarea class="client-reply-in" id="userReplyText" placeholder="Дополнить заявку..." rows="2"></textarea>
+      <button class="btn btn-primary" style="padding:0.52rem 0.9rem;font-size:0.82rem;white-space:nowrap;" onclick="sendUserReply()">
+        Отправить
+      </button>
+    </div>
+    <div id="userReplyErr" style="color:var(--red-light);font-size:0.82rem;margin-top:0.4rem;display:none;"></div>
+  ` : '';
+
+  box.innerHTML = `
+    <div class="ticket-status ${s.cls}" style="display:block;margin-top:0.8rem;">
+      <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
+      <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
+      <div class="client-chat-container" id="clientChatBox">${chatHtml}</div>
+      ${replyHtml}
+    </div>`;
+
+  const chatBox = document.getElementById('clientChatBox');
+  if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function startWatchingTicket(ref, id) {
+  if (activeTicketRef && activeTicketRef.path === ref.path) return;
+
+  stopWatchingTicket();
+  activeTicketRef = ref;
+  activeTicketId = id;
+
+  ticketUnsub = onSnapshot(ref, snap => {
+    if (!snap.exists()) {
+      document.getElementById('ticketStatus').innerHTML =
+        '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена.</p>';
+      stopWatchingTicket();
+      return;
+    }
+    const draft = document.getElementById('userReplyText')?.value || '';
+    renderTicketView(snap.data(), id);
+    const input = document.getElementById('userReplyText');
+    if (input && draft) input.value = draft;
+  });
+}
+
+window.sendUserReply = async function() {
+  const text = document.getElementById('userReplyText')?.value.trim();
+  const errEl = document.getElementById('userReplyErr');
+  if (!text || !activeTicketRef) return;
+
+  errEl.style.display = 'none';
+  try {
+    await updateDoc(activeTicketRef, {
+      messages: arrayUnion({ author: 'user', text, time: Date.now() }),
+      status: 'pending'
+    });
+    document.getElementById('userReplyText').value = '';
+  } catch (e) {
+    errEl.textContent = 'Не удалось отправить. Попробуй позже.';
+    errEl.style.display = 'block';
+  }
+};
 
 window.submitTicket = async function() {
   const nick      = document.getElementById('fNick').value.trim();
@@ -304,51 +431,24 @@ window.checkTicket = async function() {
   const box = document.getElementById('ticketStatus');
   if (!id) return;
   if (!TICKET_ID_RE.test(id)) {
+    stopWatchingTicket();
     box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Неверный формат номера. Пример: R-ABC123</p>';
     return;
   }
 
+  stopWatchingTicket();
   box.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;margin-top:0.8rem;">Ищем...</p>';
 
   try {
-    const t = await fetchTicket(id);
+    const ticket = await resolveTicket(id);
 
-    if (!t) {
+    if (!ticket) {
       box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена. Проверь номер.</p>';
       return;
     }
-    const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
-    const statusMap = {
-      pending:  { cls:'ts-pending',  icon:'⏳', label:'Ожидает ответа' },
-      answered: { cls:'ts-answered', icon:'✅', label:'Отвечено' },
-      closed:   { cls:'ts-closed',   icon:'🔒', label:'Закрыто' },
-    };
-    const s = statusMap[t.status] || statusMap.pending;
-
-    let chatHtml = '';
-    if (t.messages && Array.isArray(t.messages)) {
-      t.messages.forEach(m => {
-        const mClass = m.author === 'user' ? 'cmsg-user' : 'cmsg-admin';
-        const mTime = m.time ? new Date(m.time).toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'}) : '';
-        chatHtml += `
-          <div class="client-chat-msg ${mClass}">
-            ${m.text}
-            <span class="client-msg-time">${mTime}</span>
-          </div>
-        `;
-      });
-    }
-
-    box.innerHTML = `
-      <div class="ticket-status ${s.cls}" style="display:block;">
-        <div class="ts-meta">${s.icon} <strong>${s.label}</strong> · ${t.ticketId} · ${date}</div>
-        <div class="ts-meta">Ник: <strong style="color:var(--text);">${t.nick}</strong>${t.discordId ? ' · ID: ' + t.discordId : ''} · ${t.category}</div>
-        
-        <div class="client-chat-container">
-          ${chatHtml}
-        </div>
-      </div>`;
+    renderTicketView(ticket.data, id);
+    startWatchingTicket(ticket.ref, id);
   } catch(e) {
     box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Ошибка. Попробуй позже.</p>';
   }
