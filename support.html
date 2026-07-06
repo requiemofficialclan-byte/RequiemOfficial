@@ -221,7 +221,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, getDocs }
+import { getFirestore, doc, setDoc, getDoc }
   from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -236,10 +236,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
-
-function genId() {
-  return 'R-' + Math.floor(1000 + Math.random() * 9000);
-}
 
 window.submitTicket = async function() {
   const nick      = document.getElementById('fNick').value.trim();
@@ -256,13 +252,11 @@ window.submitTicket = async function() {
   btn.textContent = 'Отправка...';
   btn.disabled = true;
 
-  // Уникальный ID без list-запроса: время + случайное число
-  let ticketId = 'R-' + Math.random().toString(36).slice(2,5).toUpperCase() + Math.floor(Math.random()*900+100);
+  const ticketId = 'R-' + Math.random().toString(36).slice(2, 5).toUpperCase() + Math.floor(Math.random() * 900 + 100);
   try {
-
     const nowMs = Date.now();
 
-    await addDoc(collection(db, 'tickets'), {
+    await setDoc(doc(db, 'tickets', ticketId), {
       ticketId,
       nick,
       discordId: discordId || null,
@@ -298,15 +292,14 @@ window.checkTicket = async function() {
   box.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;margin-top:0.8rem;">Ищем...</p>';
 
   try {
-    const q    = query(collection(db,'tickets'), where('ticketId','==',id));
-    const snap = await getDocs(q);
+    const snap = await getDoc(doc(db, 'tickets', id));
 
-    if (snap.empty) {
+    if (!snap.exists()) {
       box.innerHTML = '<p style="color:var(--red-light);font-size:0.88rem;margin-top:0.8rem;">Заявка не найдена. Проверь номер.</p>';
       return;
     }
 
-    const t = snap.docs[0].data();
+    const t = snap.data();
     const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('ru-RU') : '—';
 
     const statusMap = {
