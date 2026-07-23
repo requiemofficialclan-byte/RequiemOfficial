@@ -89,7 +89,8 @@
 }
 .calc-select {
   flex: 1; min-width: 180px;
-  background: rgba(10,5,15,0.8); color: var(--text);
+  color-scheme: dark;
+  background: #0f0a12; color: var(--text);
   border: 1px solid var(--glass-border); border-radius: 12px;
   padding: 0.7rem 1rem; font-size: 0.9rem;
   outline: none; font-family: inherit; cursor: pointer; transition: border-color 0.2s;
@@ -152,11 +153,13 @@
 .custom-form.open { display: flex; }
 .custom-form label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .custom-input {
-  background: rgba(10,5,15,0.7); color: var(--text);
+  color-scheme: dark;
+  background: #0f0a12; color: var(--text);
   border: 1px solid var(--glass-border); border-radius: 10px;
   padding: 0.6rem 0.9rem; font-size: 0.9rem;
   font-family: inherit; outline: none; transition: border-color 0.2s; width: 100%;
 }
+.custom-input option { background: #0f000a; color: var(--text); }
 .custom-input:focus { border-color: rgba(232,0,58,0.4); }
 .custom-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .custom-row .custom-input { flex: 1; min-width: 120px; }
@@ -487,6 +490,21 @@
         </div>
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Снятие с должности + возможный ЧС</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main">
+          <div class="rule-num">4.1.4</div>
+          <div>
+            <span class="rule-title">Халатность</span>
+            <p class="rule-desc">Систематическое неисполнение своих обязанностей: игнорирование обращений участников, тикетов и жалоб без уважительной причины, длительное бездействие на посту, небрежное отношение к модерации.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение от владельца</span></div>
+          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Официальный выговор</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-permban">⛔ Снятие с должности</span></div>
         </div>
       </div>
     </div>
