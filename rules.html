@@ -66,6 +66,9 @@
 .pb-vcmute  { background: rgba(100,220,255,0.1);  color: #64dcff; border: 1px solid rgba(100,220,255,0.2); }
 .pb-ban     { background: rgba(232,0,58,0.1);     color: var(--red-light); border: 1px solid rgba(232,0,58,0.25); }
 .pb-permban { background: rgba(150,0,0,0.15);     color: #ff6b6b; border: 1px solid rgba(150,0,0,0.3); }
+.pb-frozen  { background: rgba(127,216,255,0.1);  color: #7fd8ff; border: 1px solid rgba(127,216,255,0.25); }
+.pb-noaccess{ background: rgba(255,138,91,0.12);  color: #ff8a5b; border: 1px solid rgba(255,138,91,0.28); }
+.pb-videomute{ background: rgba(255,92,168,0.1);  color: #ff5ca8; border: 1px solid rgba(255,92,168,0.25); }
 
 .section-header {
   display: flex; align-items: center; gap: 0.8rem;
@@ -238,6 +241,18 @@
         <strong style="color:var(--text);">Варн</strong> — официальное предупреждение, записывается. 3 варна за 60 дней = бан.<br>
         У большинства правил одинаковая лестница: <strong style="color:var(--text);">пред → варн → мут → бан</strong>. Критические нарушения — сразу пермабан.
       </p>
+
+      <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Дополнительные статусы</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
+        <span class="p-badge pb-frozen">❄️ Заморожен</span>
+        <span class="p-badge pb-noaccess">🚫 Нет доступа</span>
+        <span class="p-badge pb-videomute">📵 Мут видео</span>
+      </div>
+      <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65;">
+        <strong style="color:var(--text);">Заморожен</strong> — не отдельное наказание, а временная техническая мера: участнику закрывают доступ к каналам на время разбирательства жалобы или спорной ситуации, до решения администрации. Не влияет на историю варнов.<br>
+        <strong style="color:var(--text);">Нет доступа</strong> — самостоятельное наказание (полное отстранение от сервера без исключения) за конкретные нарушения — см. §2.4.<br>
+        <strong style="color:var(--text);">Мут видео</strong> — отдельное наказание, ограничивающее только камеру и трансляцию экрана, без запрета писать в чат или говорить в войсе — см. §3.5.
+      </p>
       <p style="font-size:0.83rem;color:var(--text-muted);">
         Варны сгорают через <strong style="color:var(--text);">60 дней</strong> без нарушений. Апелляция — только через тикет в Discord. Администрация вправе смягчить или ужесточить наказание по ситуации.
       </p>
@@ -346,6 +361,21 @@
           <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Наказание основного аккаунта на все альты + ЧС</span></div>
         </div>
       </div>
+
+      <div class="rule-block critical">
+        <div class="rule-main">
+          <div class="rule-num">2.4</div>
+          <div>
+            <span class="rule-title">Мошенничество внутри клана</span>
+            <p class="rule-desc">Обман участников с целью получения выгоды: продажа несуществующих товаров/услуг, выдача себя за администрацию, попытки выманить данные аккаунта под видом розыгрышей или помощи. Отличается от общего нарушения ToS Discord (§5) тем, что направлено конкретно против участников клана.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа до разбирательства</span></div>
+          <div class="punishment-row"><span class="p-label">Подтверждено</span><span class="p-badge pb-ban">🔨 Бан 7–14 дней</span></div>
+          <div class="punishment-row"><span class="p-label">Повторно</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС</span></div>
+        </div>
+      </div>
     </div>
 
     
@@ -414,6 +444,22 @@
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-vcmute">🎤 Войс-мут 2–6ч</span></div>
           <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-warn">⚠️ Варн + войс-мут 12ч</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main">
+          <div class="rule-num">3.5</div>
+          <div>
+            <span class="rule-title">Неприемлемый видеоконтент (не NSFW)</span>
+            <p class="rule-desc">Показ чужого лица или личных данных через камеру без согласия человека, спам мигающим/стробоскопическим контентом через трансляцию, показ рекламы стороннего проекта через демонстрацию экрана. Не путать с правилом 3.3 — там речь о NSFW/шокирующем контенте.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
+          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 2–6ч</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 24ч + варн</span></div>
+          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 7 дней</span></div>
         </div>
       </div>
     </div>
@@ -591,12 +637,14 @@
             <option value="advert|warn|1|chat">Реклама (1-й раз)</option>
             <option value="advert2|mute|2|chat">Реклама (повторно)</option>
             <option value="nsfw_chat|mute|2|chat">NSFW / шокирующий контент</option>
+            <option value="scam|noaccess|3|chat">Мошенничество внутри клана</option>
           </optgroup>
           <optgroup label="🎤 Голосовой чат">
             <option value="toxic_vc|vcmute|1|voice">Токсичность в войсе</option>
             <option value="noise|vcmute|1|voice">Помехи / шум / саундборды</option>
             <option value="nsfw_vc|ban|4|voice">18+ контент через камеру / стрим</option>
             <option value="ignore_vc|vcmute|1|voice">Игнор требований адм. в войсе</option>
+            <option value="video_bad|videomute|2|voice">Неприемлемый видеоконтент (не NSFW)</option>
           </optgroup>
           <optgroup label="⚜️ Нарушения против администрации">
             <option value="adm_insult|warn|1|chat">Оскорбление состава клана</option>
@@ -629,6 +677,8 @@
                 <option value="warn">⚠️ Предупреждение</option>
                 <option value="mute">🔇 Мут в чате</option>
                 <option value="vcmute">🎤 Мут в войсе</option>
+                <option value="videomute">📵 Мут видео</option>
+                <option value="noaccess">🚫 Нет доступа</option>
                 <option value="ban">🔨 Бан</option>
                 <option value="permaban">⛔ Пермабан</option>
               </select>
@@ -678,8 +728,8 @@ let violations = [];
 let nid = 0;
 let currentZone = 'chat';
 
-const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', ban:'pb-ban', permaban:'pb-permban' };
-const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', ban:'🔨 Бан', permaban:'⛔ Пермабан' };
+const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', noaccess:'pb-noaccess', ban:'pb-ban', permaban:'pb-permban' };
+const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', noaccess:'🚫 Нет доступа', ban:'🔨 Бан', permaban:'⛔ Пермабан' };
 
 const RESULTS = [
   { icon:'✅', title:'Чисто', desc:'Нарушений нет', cls:'r-ok' },
@@ -716,7 +766,7 @@ function getBanDuration(violations, lvl) {
   return null; 
 }
 
-const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, ban:4, permaban:5 };
+const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, noaccess:4, ban:4, permaban:5 };
 
 function setZone(zone, btn) {
   currentZone = zone;
