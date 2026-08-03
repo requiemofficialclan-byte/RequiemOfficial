@@ -510,6 +510,55 @@
     </div>
 
     
+    <div class="card fade-in d4" style="margin-bottom:1.5rem;">
+      <div class="section-header">
+        <div class="section-icon">📄</div>
+        <div><div class="section-title">§5 — Нарушение правил Discord (ToS)</div><div class="section-subtitle">Нарушение официальных правил платформы = нарушение правил клана</div></div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main">
+          <div class="rule-num">5.1</div>
+          <div>
+            <span class="rule-title">Нарушение условий использования Discord</span>
+            <p class="rule-desc">Нарушение официальных условий использования Discord (Discord Terms of Service) или Правил сообщества (Discord Community Guidelines) — например, обход возрастных ограничений, читы/чит-инструменты, вредоносные ссылки, самореклама ботов-спамеров — считается нарушением и правил клана, независимо от того, применит ли сам Discord санкции к аккаунту.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
+          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 3–7 дней</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block critical">
+        <div class="rule-main">
+          <div class="rule-num">5.2</div>
+          <div>
+            <span class="rule-title">⛔ Грубое нарушение правил Discord</span>
+            <p class="rule-desc">Тяжкие нарушения официальных правил Discord — эксплуатация несовершеннолетних, экстремизм и терроризм, торговля людьми, мошенничество, распространение вредоносного ПО и другие категории, за которые Discord предусматривает немедленную блокировку — влекут максимальное наказание внутри клана вне зависимости от решения самого Discord.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС навсегда</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main">
+          <div class="rule-num">5.3</div>
+          <div>
+            <span class="rule-title">Санкция Discord как основание</span>
+            <p class="rule-desc">Официальное предупреждение, таймаут или бан аккаунта от самого Discord за действия на сервере клана рассматривается администрацией как подтверждённое нарушение и наказывается по клановой лестнице отдельно от санкций Discord.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-warn">⚠️ Варн + доп. наказание по решению адм.</span></div>
+        </div>
+      </div>
+    </div>
+
+    
     <div class="card fade-in d4">
       <div class="section-header">
         <div class="section-icon">🧮</div>
@@ -552,6 +601,10 @@
           <optgroup label="⚜️ Нарушения против администрации">
             <option value="adm_insult|warn|1|chat">Оскорбление состава клана</option>
             <option value="adm_public|mute|1|chat">Публичный спор с администрацией</option>
+          </optgroup>
+          <optgroup label="📄 Правила Discord">
+            <option value="tos_minor|warn|1|both">Нарушение ToS Discord (лёгкое)</option>
+            <option value="tos_severe|permaban|5|both">⛔ Грубое нарушение ToS Discord</option>
           </optgroup>
           <optgroup label="⛔ Критические нарушения">
             <option value="threat|permaban|5|both">⛔ Угрозы / Доксинг</option>
