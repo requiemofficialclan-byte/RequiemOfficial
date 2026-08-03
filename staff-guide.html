@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для администрации — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-bottom:1rem}.guide-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.25rem}.guide-card h3{font-size:1rem;margin-bottom:.55rem}.guide-card p,.guide-card li{font-size:.86rem;color:var(--text-secondary);line-height:1.65}.guide-card ul,.guide-card ol{padding-left:1.2rem}.guide-card li+li{margin-top:.35rem}.notice{padding:1rem 1.1rem;border:1px solid rgba(232,0,58,.25);background:rgba(232,0,58,.06);border-radius:14px;color:var(--text-secondary);font-size:.86rem;line-height:1.65}.step{display:flex;gap:.8rem;align-items:flex-start}.step-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--red-subtle);border:1px solid rgba(232,0,58,.3);color:var(--red-light);font-weight:800}.application-box{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem;border-radius:16px;background:linear-gradient(135deg,rgba(232,0,58,.11),rgba(232,0,58,.03));border:1px solid rgba(232,0,58,.28)}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="scroll-top" id="scrollTop">↑</button>
+<header><div class="container"><div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div><nav class="main-nav">
+<a href="index.html" class="nav-link">Главная</a><a href="rules.html" class="nav-link">Правила</a><a href="news.html" class="nav-link">Новости</a><a href="join.html" class="nav-link">Вступление</a><a href="requirements.html" class="nav-link">Требования</a><a href="blacklist.html" class="nav-link">Чёрный список</a><a href="members.html" class="nav-link">Состав</a><a href="staff-guide.html" class="nav-link active">Для администрации</a><a href="about.html" class="nav-link">О клане</a><a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
+</nav></div></header>
+<main>
+<section class="page-hero"><span class="page-hero-label">Регламент состава</span><h1>Для администрации</h1><p>Обязанности, ограничения и порядок повышения Модератора до Администратора.</p></section>
+<div class="container">
+<div class="notice" style="margin-bottom:1rem"><strong style="color:var(--text)">Главное правило:</strong> полномочия используются только для порядка на сервере. Личные конфликты, помощь друзьям в обход требований и выдача ролей без проверки запрещены.</div>
+<div class="guide-grid">
+<div class="guide-card"><h3>🛡️ Обязанности Модератора</h3><ul><li>Следить за чатами и голосовыми каналами.</li><li>Рассматривать жалобы и сохранять доказательства серьёзных нарушений.</li><li>Выдавать наказания по правилам и объяснять причину.</li><li>Передавать спорные ситуации Заместителю или Создателю.</li><li>Проверять заявки на Администратора, но не выдавать роль без окончательного подтверждения.</li></ul></div>
+<div class="guide-card"><h3>⚜️ Что запрещено</h3><ul><li>Использовать роль в личных целях.</li><li>Наказывать без причины или доказательств.</li><li>Выдавать роли друзьям без проверки.</li><li>Скрывать нарушения участников состава.</li><li>Одобрять слабую заявку, понимая, что кандидат не подходит.</li></ul></div>
+</div>
+<div class="card" style="margin-bottom:1rem"><h2 class="card-title"><span class="icon">📋</span>Повышение до Администратора</h2><div style="display:flex;flex-direction:column;gap:1rem">
+<div class="step"><div class="step-num">1</div><div><strong>Заявка</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Кандидат заполняет официальную форму. Неполная, несерьёзная или заведомо ложная заявка отклоняется.</p></div></div>
+<div class="step"><div class="step-num">2</div><div><strong>Проверка Модератором</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Модератор проверяет ответы, историю поведения и знание правил. Он может рекомендовать кандидата, но не должен выдавать роль самостоятельно.</p></div></div>
+<div class="step"><div class="step-num">3</div><div><strong>Мини-тест или мини-обзвон</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Кандидату задают несколько ситуационных вопросов: выбор наказания, действия при недостатке доказательств, апелляция и личный конфликт.</p></div></div>
+<div class="step"><div class="step-num">4</div><div><strong>Окончательное решение</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Повышение окончательно подтверждает Заместитель или Создатель клана. Только после этого выдаётся роль Администратора.</p></div></div>
+</div></div>
+<div class="application-box" style="margin-bottom:1rem"><div><div style="font-weight:800;font-size:1.05rem">Заявка на Администратора</div><div style="font-size:.82rem;color:var(--text-secondary);margin-top:.2rem">Заполняется кандидатом перед проверкой и тестом.</div></div><a class="btn btn-primary" href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" rel="noopener noreferrer">Открыть заявку ↗</a></div>
+<div class="card"><h2 class="card-title"><span class="icon">⚠️</span>Ошибки при рассмотрении заявок</h2><div class="guide-grid" style="margin-bottom:0"><div class="guide-card"><h3>Случайная ошибка</h3><p><strong>1-й раз:</strong> разбор ошибки и предупреждение.<br><strong>2-й раз:</strong> официальный выговор.<br><strong>Дальше:</strong> наказание по пункту о халатности.</p></div><div class="guide-card"><h3>Намеренное нарушение</h3><p>Если Модератор знал, что заявка плохая, но специально одобрил её, выдал роль без разрешения или помог знакомому обойти требования — это считается злоупотреблением полномочиями и может привести к снятию с должности.</p></div></div></div>
+</div></main>
+<footer><div class="container"><div class="footer-brand">REQUIEM</div><div class="footer-links"><a href="index.html" class="footer-link">Главная</a><a href="rules.html" class="footer-link">Правила</a><a href="join.html" class="footer-link">Вступление</a><a href="members.html" class="footer-link">Состав</a><a href="staff-guide.html" class="footer-link">Для администрации</a><a href="support.html" class="footer-link">Поддержка</a></div><div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div></div></footer>
+<script src="script.js"></script>
+</body></html>
