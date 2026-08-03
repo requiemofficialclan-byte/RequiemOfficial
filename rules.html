@@ -232,7 +232,7 @@
       <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
         <span class="p-badge pb-warn">💬 Предупреждение</span>
         <span class="p-badge pb-warn">⚠️ Варн</span>
-        <span class="p-badge pb-ban">🔨 Бан</span>
+        <span class="p-badge pb-noaccess">🚫 Нет доступа</span>
         <span class="p-badge pb-permban">⛔ Пермабан + ЧС</span>
       </div>
       <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Система мутов — 5 типов в зависимости от нарушения и места</div>
@@ -246,12 +246,12 @@
       <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65;">
         <strong style="color:var(--text);">Мут в чате</strong> — нельзя писать в текстовые каналы.<br>
         <strong style="color:var(--text);">Мут в войсе</strong> — отключён только микрофон, говорить в войсе нельзя, писать в чат можно.<br>
-        <strong style="color:var(--text);">Заморожен</strong> — нельзя ни писать в чат, ни зайти в войс (доступ к обоим сразу закрыт). Временная техническая мера на время разбирательства жалобы или спорной ситуации, до решения администрации. Не влияет на историю варнов.<br>
-        <strong style="color:var(--text);">Нет доступа</strong> — не остаётся ничего, кроме канала с тикетом поддержки. Самостоятельное наказание за конкретные нарушения — см. §2.4.<br>
+        <strong style="color:var(--text);">Заморожен</strong> — Discord-таймаут: временно нельзя писать, реагировать и общаться в голосовых каналах. Срок таймаута указывает администрация. Не является баном и не убирает участника с сервера.<br>
+        <strong style="color:var(--text);">Нет доступа</strong> — замена обычного временного бана: участник остаётся на сервере, но видит только канал с тикетом поддержки. После окончания срока доступ возвращается.<br>
         <strong style="color:var(--text);">Мут видео</strong> — нельзя включить демонстрацию экрана и камеру. Чат и войс при этом доступны — см. §3.5.
       </p>
       <p style="font-size:0.83rem;color:var(--text-muted);">
-        Варны сгорают через <strong style="color:var(--text);">60 дней</strong> без нарушений. Апелляция — только через тикет в Discord. Администрация вправе смягчить или ужесточить наказание по ситуации.
+        Варны сгорают через <strong style="color:var(--text);">60 дней</strong> без нарушений. Апелляция — только через тикет в Discord. Администрация вправе изменить вид или срок наказания, если нарушение требует более строгой или более мягкой меры.
       </p>
     </div>
 
@@ -274,7 +274,7 @@
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 2–6ч</span></div>
           <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 12–24ч</span></div>
-          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
         </div>
       </div>
 
@@ -290,7 +290,7 @@
           <div class="punishment-row"><span class="p-label">Авто (бот)</span><span class="p-badge pb-mute">🔇 Таймаут 2–6ч</span></div>
           <div class="punishment-row"><span class="p-label">После авто</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
         </div>
       </div>
 
@@ -326,7 +326,7 @@
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение + удаление</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
         </div>
       </div>
 
@@ -341,8 +341,8 @@
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение + удаление</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 12–24ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
-          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-ban">🔨 Бан 7 дней</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 7 дней</span></div>
         </div>
       </div>
 
@@ -351,7 +351,7 @@
           <div class="rule-num">2.3</div>
           <div>
             <span class="rule-title">⛔ Обход наказаний</span>
-            <p class="rule-desc">Использование альтернативных аккаунтов для обхода мута, бана или других ограничений. Наказание распространяется на все аккаунты — применяется то же, что было на основном.</p>
+            <p class="rule-desc">Использование альтернативных аккаунтов для обхода мута, таймаута, «Нет доступа» или других ограничений. Наказание распространяется на все аккаунты — применяется то же, что было на основном.</p>
           </div>
         </div>
         <div class="rule-punishments">
@@ -369,7 +369,7 @@
         </div>
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа до разбирательства</span></div>
-          <div class="punishment-row"><span class="p-label">Подтверждено</span><span class="p-badge pb-ban">🔨 Бан 7–14 дней</span></div>
+          <div class="punishment-row"><span class="p-label">Подтверждено</span><span class="p-badge pb-noaccess">🚫 Нет доступа 7–14 дней</span></div>
           <div class="punishment-row"><span class="p-label">Повторно</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС</span></div>
         </div>
       </div>
@@ -394,7 +394,7 @@
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + войс-мут 2–6ч</span></div>
           <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-vcmute">🎤 Войс-мут 12–24ч</span></div>
-          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
         </div>
       </div>
 
@@ -424,7 +424,7 @@
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение + войс-мут</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 24ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 3–7 дней</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 3–7 дней</span></div>
           <div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС</span></div>
         </div>
       </div>
@@ -480,7 +480,7 @@
         </div>
         <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
           <span class="role-badge">🛡️ Модератор</span>
-          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Выдаёт все наказания по правилам клана (пред, варн, все виды мутов, бан). Дополнительно рассматривает заявки на роль Админа и повышает до неё при достойной заявке.</span>
+          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Модератор и Администратор вправе применять любое предусмотренное правилами наказание в зависимости от тяжести нарушения и обстоятельств. Дополнительно Модератор рассматривает заявки на роль Админа и повышает до неё при достойной заявке.</span>
         </div>
         <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
           <span class="role-badge">⚜️ Админ</span>
@@ -503,7 +503,7 @@
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
           <div class="punishment-row"><span class="p-label">Угрозы</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС</span></div>
         </div>
       </div>
@@ -594,7 +594,7 @@
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
           <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
-          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-ban">🔨 Бан 3–7 дней</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 3–7 дней</span></div>
         </div>
       </div>
 
@@ -663,7 +663,7 @@
           <optgroup label="🎤 Голосовой чат">
             <option value="toxic_vc|vcmute|1|voice">Токсичность в войсе</option>
             <option value="noise|vcmute|1|voice">Помехи / шум / саундборды</option>
-            <option value="nsfw_vc|ban|4|voice">18+ контент через камеру / стрим</option>
+            <option value="nsfw_vc|noaccess|4|voice">18+ контент через камеру / стрим</option>
             <option value="ignore_vc|vcmute|1|voice">Игнор требований адм. в войсе</option>
             <option value="video_bad|videomute|2|voice">Неприемлемый видеоконтент (не NSFW)</option>
           </optgroup>
@@ -677,7 +677,7 @@
           </optgroup>
           <optgroup label="⛔ Критические нарушения">
             <option value="threat|permaban|5|both">⛔ Угрозы / Доксинг</option>
-            <option value="bypass|ban|4|both">⛔ Обход наказаний (альт-аккаунт)</option>
+            <option value="bypass|noaccess|4|both">⛔ Обход наказаний (альт-аккаунт)</option>
           </optgroup>
         </select>
         <button class="calc-add-btn" onclick="addV()">+ Добавить</button>
@@ -699,8 +699,8 @@
                 <option value="mute">🔇 Мут в чате</option>
                 <option value="vcmute">🎤 Мут в войсе</option>
                 <option value="videomute">📵 Мут видео</option>
+                <option value="frozen">❄️ Заморожен (таймаут)</option>
                 <option value="noaccess">🚫 Нет доступа</option>
-                <option value="ban">🔨 Бан</option>
                 <option value="permaban">⛔ Пермабан</option>
               </select>
             </div>
@@ -749,15 +749,15 @@ let violations = [];
 let nid = 0;
 let currentZone = 'chat';
 
-const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', noaccess:'pb-noaccess', ban:'pb-ban', permaban:'pb-permban' };
-const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', noaccess:'🚫 Нет доступа', ban:'🔨 Бан', permaban:'⛔ Пермабан' };
+const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', frozen:'pb-frozen', noaccess:'pb-noaccess', permaban:'pb-permban' };
+const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', frozen:'❄️ Заморожен', noaccess:'🚫 Нет доступа', permaban:'⛔ Пермабан' };
 
 const RESULTS = [
   { icon:'✅', title:'Чисто', desc:'Нарушений нет', cls:'r-ok' },
   { icon:'⚠️', title:'Предупреждение (варн)', desc:'Устное или официальное предупреждение', cls:'r-warn' },
   { icon:'🔇', title:'Мут в чате', desc:'Временное ограничение текстовых каналов', cls:'r-warn' },
   { icon:'🎤', title:'Мут в войсе', desc:'Ограничение голосовых каналов', cls:'r-warn' },
-  { icon:'🔨', title:'Бан с сервера', desc:'Временный бан — нет доступа к серверу', cls:'r-ban' },
+  { icon:'🚫', title:'Нет доступа', desc:'Временная замена бана — доступен только тикет поддержки', cls:'r-ban' },
   { icon:'⛔', title:'Пермабан + ЧС', desc:'Постоянный бан без апелляции', cls:'r-permban' },
 ];
 
@@ -773,7 +773,7 @@ const ROLE_HINT = [
 function getBanDuration(violations, lvl) {
   const counts = {};
   violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
-  const banCount = counts['ban'] || 0;
+  const noAccessCount = counts['noaccess'] || 0;
   const total = violations.reduce((s,v) => s + v.sev, 0);
 
   if (lvl === 1) return null; 
@@ -788,15 +788,15 @@ function getBanDuration(violations, lvl) {
     return '12–24 часа';
   }
   if (lvl === 4) { 
-    if (banCount === 0 && total <= 3) return '1–3 дня';
-    if (banCount === 0) return '3–7 дней';
-    if (banCount === 1) return '7 дней';
+    if (noAccessCount === 0 && total <= 3) return '1–3 дня';
+    if (noAccessCount === 0) return '3–7 дней';
+    if (noAccessCount === 1) return '7 дней';
     return '14 дней';
   }
   return null; 
 }
 
-const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, noaccess:4, ban:4, permaban:5 };
+const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, frozen:2, noaccess:4, permaban:5 };
 
 function setZone(zone, btn) {
   currentZone = zone;
@@ -897,9 +897,9 @@ function render() {
     violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
 
     
-    const hasChat  = violations.some(v => ['warn','mute','ban'].includes(v.type));
+    const hasChat  = violations.some(v => ['warn','mute','noaccess'].includes(v.type));
     const hasVoice = violations.some(v => v.type === 'vcmute');
-    const hasBan   = violations.some(v => v.type === 'ban');
+    const hasBan   = violations.some(v => v.type === 'noaccess');
 
     
     let baseMax = Math.max(...violations.map(v => SEV_TO_RESULT[v.type] || 1));
@@ -908,7 +908,7 @@ function render() {
     if ((counts['warn'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
     if ((counts['mute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
     if ((counts['vcmute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
-    if ((counts['ban'] || 0) >= 2) baseMax = 5;
+    if ((counts['noaccess'] || 0) >= 2) baseMax = 5;
 
     
     
@@ -920,10 +920,10 @@ function render() {
   
   const _hasChat  = violations.some(v => ['warn','mute'].includes(v.type));
   const _hasVoice = violations.some(v => v.type === 'vcmute');
-  const _hasBan   = violations.some(v => v.type === 'ban');
+  const _hasBan   = violations.some(v => v.type === 'noaccess');
   let p = { ...RESULTS[maxLvl] };
   if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
-    p = { icon:'❄️', title:'Заморожен', desc:'Одновременное нарушение в чате и войсе — доступ к обоим закрыт', cls:'r-frozen' };
+    p = { icon:'❄️', title:'Заморожен', desc:'Discord-таймаут: временно закрыто общение в чате и войсе', cls:'r-frozen' };
   }
   const dur = getBanDuration(violations, maxLvl);
   const roleHint = ROLE_HINT[maxLvl] || '';
