@@ -69,6 +69,7 @@
 .pb-frozen  { background: rgba(127,216,255,0.1);  color: #7fd8ff; border: 1px solid rgba(127,216,255,0.25); }
 .pb-noaccess{ background: rgba(255,138,91,0.12);  color: #ff8a5b; border: 1px solid rgba(255,138,91,0.28); }
 .pb-videomute{ background: rgba(255,92,168,0.1);  color: #ff5ca8; border: 1px solid rgba(255,92,168,0.25); }
+.pb-allmute { background: rgba(150,120,255,0.1);  color: #a78bff; border: 1px solid rgba(150,120,255,0.25); }
 
 .section-header {
   display: flex; align-items: center; gap: 0.8rem;
@@ -231,27 +232,25 @@
       <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
         <span class="p-badge pb-warn">💬 Предупреждение</span>
         <span class="p-badge pb-warn">⚠️ Варн</span>
-        <span class="p-badge pb-mute">🔇 Мут в чате</span>
-        <span class="p-badge pb-vcmute">🎤 Мут в войсе</span>
         <span class="p-badge pb-ban">🔨 Бан</span>
         <span class="p-badge pb-permban">⛔ Пермабан + ЧС</span>
       </div>
-      <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65;">
-        <strong style="color:var(--text);">Предупреждение</strong> — первый раз за нарушение: устно или в ЛС, без записи.<br>
-        <strong style="color:var(--text);">Варн</strong> — официальное предупреждение, записывается. 3 варна за 60 дней = бан.<br>
-        У большинства правил одинаковая лестница: <strong style="color:var(--text);">пред → варн → мут → бан</strong>. Критические нарушения — сразу пермабан.
-      </p>
-
-      <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Дополнительные статусы</div>
+      <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Система мутов — 6 типов в зависимости от нарушения и места</div>
       <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
+        <span class="p-badge pb-mute">🔇 Мут в чате</span>
+        <span class="p-badge pb-vcmute">🎤 Мут в войсе</span>
+        <span class="p-badge pb-allmute">🔇🎤 Везде замучен</span>
         <span class="p-badge pb-frozen">❄️ Заморожен</span>
         <span class="p-badge pb-noaccess">🚫 Нет доступа</span>
         <span class="p-badge pb-videomute">📵 Мут видео</span>
       </div>
       <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65;">
-        <strong style="color:var(--text);">Заморожен</strong> — не отдельное наказание, а временная техническая мера: участнику закрывают доступ к каналам на время разбирательства жалобы или спорной ситуации, до решения администрации. Не влияет на историю варнов.<br>
-        <strong style="color:var(--text);">Нет доступа</strong> — самостоятельное наказание (полное отстранение от сервера без исключения) за конкретные нарушения — см. §2.4.<br>
-        <strong style="color:var(--text);">Мут видео</strong> — отдельное наказание, ограничивающее только камеру и трансляцию экрана, без запрета писать в чат или говорить в войсе — см. §3.5.
+        <strong style="color:var(--text);">Мут в чате</strong> — нельзя писать в текстовые каналы.<br>
+        <strong style="color:var(--text);">Мут в войсе</strong> — отключён только микрофон, говорить в войсе нельзя, писать в чат можно.<br>
+        <strong style="color:var(--text);">Везде замучен</strong> — нельзя ни писать в чат, ни говорить в войсе одновременно.<br>
+        <strong style="color:var(--text);">Заморожен</strong> — нельзя писать в чат и нельзя зайти в войс (доступ к каналам закрыт). Временная техническая мера на время разбирательства жалобы или спорной ситуации, до решения администрации. Не влияет на историю варнов.<br>
+        <strong style="color:var(--text);">Нет доступа</strong> — не остаётся ничего, кроме канала с тикетом поддержки. Самостоятельное наказание за конкретные нарушения — см. §2.4.<br>
+        <strong style="color:var(--text);">Мут видео</strong> — нельзя включить демонстрацию экрана и камеру. Чат и войс при этом доступны — см. §3.5.
       </p>
       <p style="font-size:0.83rem;color:var(--text-muted);">
         Варны сгорают через <strong style="color:var(--text);">60 дней</strong> без нарушений. Апелляция — только через тикет в Discord. Администрация вправе смягчить или ужесточить наказание по ситуации.
@@ -646,6 +645,9 @@
             <option value="ignore_vc|vcmute|1|voice">Игнор требований адм. в войсе</option>
             <option value="video_bad|videomute|2|voice">Неприемлемый видеоконтент (не NSFW)</option>
           </optgroup>
+          <optgroup label="🌐 Везде (чат + войс)">
+            <option value="toxic_both|allmute|3|both">Токсичность одновременно в чате и войсе</option>
+          </optgroup>
           <optgroup label="⚜️ Нарушения против администрации">
             <option value="adm_insult|warn|1|chat">Оскорбление состава клана</option>
             <option value="adm_public|mute|1|chat">Публичный спор с администрацией</option>
@@ -677,6 +679,7 @@
                 <option value="warn">⚠️ Предупреждение</option>
                 <option value="mute">🔇 Мут в чате</option>
                 <option value="vcmute">🎤 Мут в войсе</option>
+                <option value="allmute">🔇🎤 Везде замучен</option>
                 <option value="videomute">📵 Мут видео</option>
                 <option value="noaccess">🚫 Нет доступа</option>
                 <option value="ban">🔨 Бан</option>
@@ -728,8 +731,8 @@ let violations = [];
 let nid = 0;
 let currentZone = 'chat';
 
-const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', noaccess:'pb-noaccess', ban:'pb-ban', permaban:'pb-permban' };
-const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', noaccess:'🚫 Нет доступа', ban:'🔨 Бан', permaban:'⛔ Пермабан' };
+const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', noaccess:'pb-noaccess', allmute:'pb-allmute', ban:'pb-ban', permaban:'pb-permban' };
+const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', noaccess:'🚫 Нет доступа', allmute:'🔇🎤 Везде замучен', ban:'🔨 Бан', permaban:'⛔ Пермабан' };
 
 const RESULTS = [
   { icon:'✅', title:'Чисто', desc:'Нарушений нет', cls:'r-ok' },
@@ -766,7 +769,7 @@ function getBanDuration(violations, lvl) {
   return null; 
 }
 
-const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, noaccess:4, ban:4, permaban:5 };
+const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, noaccess:4, allmute:4, ban:4, permaban:5 };
 
 function setZone(zone, btn) {
   currentZone = zone;
