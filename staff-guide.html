@@ -6,7 +6,7 @@
 <title>Для администрации — Requiem</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-bottom:1rem}.guide-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.25rem}.guide-card h3{font-size:1rem;margin-bottom:.55rem}.guide-card p,.guide-card li{font-size:.86rem;color:var(--text-secondary);line-height:1.65}.guide-card ul,.guide-card ol{padding-left:1.2rem}.guide-card li+li{margin-top:.35rem}.notice{padding:1rem 1.1rem;border:1px solid rgba(232,0,58,.25);background:rgba(232,0,58,.06);border-radius:14px;color:var(--text-secondary);font-size:.86rem;line-height:1.65}.step{display:flex;gap:.8rem;align-items:flex-start}.step-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--red-subtle);border:1px solid rgba(232,0,58,.3);color:var(--red-light);font-weight:800}.application-box{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem;border-radius:16px;background:linear-gradient(135deg,rgba(232,0,58,.11),rgba(232,0,58,.03));border:1px solid rgba(232,0,58,.28)}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}}
+.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-bottom:1rem}.guide-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.25rem}.guide-card h3{font-size:1rem;margin-bottom:.55rem}.guide-card p,.guide-card li{font-size:.86rem;color:var(--text-secondary);line-height:1.65}.guide-card ul,.guide-card ol{padding-left:1.2rem}.guide-card li+li{margin-top:.35rem}.notice{padding:1rem 1.1rem;border:1px solid rgba(232,0,58,.25);background:rgba(232,0,58,.06);border-radius:14px;color:var(--text-secondary);font-size:.86rem;line-height:1.65}.step{display:flex;gap:.8rem;align-items:flex-start}.step-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--red-subtle);border:1px solid rgba(232,0,58,.3);color:var(--red-light);font-weight:800}.application-box{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem;border-radius:16px;background:linear-gradient(135deg,rgba(232,0,58,.11),rgba(232,0,58,.03));border:1px solid rgba(232,0,58,.28)}.quiz-card{background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.25rem;margin-bottom:1rem}.quiz-top{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-bottom:1rem}.quiz-progress{height:8px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin:.7rem 0 1.1rem}.quiz-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red-light));transition:width .25s ease}.quiz-question{font-size:1.05rem;font-weight:750;line-height:1.45;margin-bottom:.9rem}.quiz-options{display:grid;gap:.65rem}.quiz-option{width:100%;text-align:left;padding:.85rem 1rem;border:1px solid var(--border);background:rgba(255,255,255,.025);color:var(--text-secondary);border-radius:12px;cursor:pointer;font-family:inherit;font-size:.88rem;transition:.18s}.quiz-option:hover{border-color:rgba(232,0,58,.35);color:var(--text);transform:translateY(-1px)}.quiz-option.selected{border-color:rgba(232,0,58,.55);background:rgba(232,0,58,.09);color:var(--text)}.quiz-actions{display:flex;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.quiz-result{display:none;padding:1.2rem;border-radius:15px;border:1px solid var(--border);background:rgba(255,255,255,.025);text-align:center}.quiz-result.show{display:block}.quiz-score{font-size:2rem;font-weight:900;margin:.35rem 0}.quiz-note{font-size:.8rem;color:var(--text-muted);line-height:1.55;margin-top:.8rem}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}.quiz-top{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -29,9 +29,56 @@
 <div class="step"><div class="step-num">3</div><div><strong>Мини-тест или мини-обзвон</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Кандидату задают несколько ситуационных вопросов: выбор наказания, действия при недостатке доказательств, апелляция и личный конфликт.</p></div></div>
 <div class="step"><div class="step-num">4</div><div><strong>Окончательное решение</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Повышение окончательно подтверждает Заместитель или Создатель клана. Только после этого выдаётся роль Администратора.</p></div></div>
 </div></div>
-<div class="application-box" style="margin-bottom:1rem"><div><div style="font-weight:800;font-size:1.05rem">Заявка на Администратора</div><div style="font-size:.82rem;color:var(--text-secondary);margin-top:.2rem">Заполняется кандидатом перед проверкой и тестом.</div></div><a class="btn btn-primary" href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" rel="noopener noreferrer">Открыть заявку ↗</a></div>
+<div class="quiz-card" id="demoQuiz">
+<div class="quiz-top"><div><div style="font-size:.75rem;font-weight:800;color:var(--red-light);text-transform:uppercase;letter-spacing:.07em">Демо-проверка знаний</div><h2 style="font-size:1.25rem;margin-top:.2rem">Мини-тест для самопроверки</h2><p style="font-size:.84rem;color:var(--text-secondary);margin-top:.3rem;line-height:1.6">Пройди тест перед заявкой. Результат никуда не отправляется и не заменяет официальную проверку.</p></div><button class="btn btn-primary" id="quizStart" type="button">Начать тест</button></div>
+<div id="quizArea" style="display:none"><div style="display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--text-muted)"><span id="quizCount">Вопрос 1 из 10</span><span id="quizAnswered">0/10 отвечено</span></div><div class="quiz-progress"><span id="quizBar"></span></div><div class="quiz-question" id="quizQuestion"></div><div class="quiz-options" id="quizOptions"></div><div class="quiz-actions"><button class="btn btn-secondary" id="quizPrev" type="button">← Назад</button><button class="btn btn-primary" id="quizNext" type="button">Далее →</button></div></div>
+<div class="quiz-result" id="quizResult"><div id="quizResultIcon" style="font-size:2rem">✅</div><div class="quiz-score" id="quizScore">0/10</div><div style="font-weight:800" id="quizTitle"></div><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.6" id="quizText"></p><button class="btn btn-primary" id="quizRestart" type="button" style="margin-top:1rem">Пройти ещё раз</button><div class="quiz-note">Это тренировочный результат. Окончательное решение по заявке принимается после проверки Модератором и подтверждения Заместителем или Создателем.</div></div>
+</div>
+<div class="application-box" style="margin-bottom:1rem"><div><div style="font-weight:800;font-size:1.05rem">Заявка на Администратора</div><div style="font-size:.82rem;color:var(--text-secondary);margin-top:.2rem">Заполняется кандидатом после ознакомления с регламентом и самопроверки.</div></div><a class="btn btn-primary" href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" rel="noopener noreferrer">Открыть заявку ↗</a></div>
 <div class="card"><h2 class="card-title"><span class="icon">⚠️</span>Ошибки при рассмотрении заявок</h2><div class="guide-grid" style="margin-bottom:0"><div class="guide-card"><h3>Случайная ошибка</h3><p><strong>1-й раз:</strong> разбор ошибки и предупреждение.<br><strong>2-й раз:</strong> официальный выговор.<br><strong>Дальше:</strong> наказание по пункту о халатности.</p></div><div class="guide-card"><h3>Намеренное нарушение</h3><p>Если Модератор знал, что заявка плохая, но специально одобрил её, выдал роль без разрешения или помог знакомому обойти требования — это считается злоупотреблением полномочиями и может привести к снятию с должности.</p></div></div></div>
 </div></main>
 <footer><div class="container"><div class="footer-brand">REQUIEM</div><div class="footer-links"><a href="index.html" class="footer-link">Главная</a><a href="rules.html" class="footer-link">Правила</a><a href="join.html" class="footer-link">Вступление</a><a href="members.html" class="footer-link">Состав</a><a href="staff-guide.html" class="footer-link">Для администрации</a><a href="support.html" class="footer-link">Поддержка</a></div><div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div></div></footer>
 <script src="script.js"></script>
+<script>
+const staffQuiz = [
+  {q:'Что должен сделать Модератор, если доказательств нарушения недостаточно?',o:['Сразу выдать максимальное наказание','Собрать дополнительные доказательства или передать спорную ситуацию старшему составу','Удалить жалобу','Выдать роль «Заморожен» без объяснения'],a:1},
+  {q:'Кто окончательно подтверждает повышение до Администратора?',o:['Любой Модератор','Сам кандидат','Заместитель или Создатель клана','Наборщик'],a:2},
+  {q:'Может ли Модератор выдать роль Администратора сразу после хорошей заявки?',o:['Да, без дополнительной проверки','Только своему знакомому','Нет, сначала нужна проверка и окончательное подтверждение','Да, если кандидат давно на сервере'],a:2},
+  {q:'Что считается злоупотреблением полномочиями?',o:['Передача спорной ситуации старшему составу','Сохранение доказательств','Выдача роли другу в обход проверки','Объяснение причины наказания'],a:2},
+  {q:'Куда в первую очередь направляется апелляция?',o:['В общий чат','В тикет поддержки','В голосовой канал','В комментарии к новости'],a:1},
+  {q:'Когда допустимо написать администрации в личные сообщения по апелляции?',o:['Всегда вместо тикета','Только если создать тикет невозможно','Только после публичного спора','Никогда'],a:1},
+  {q:'Что обязан делать Модератор при серьёзном нарушении?',o:['Скрыть сообщения','Сохранить доказательства и действовать по правилам','Удалить участника без причины','Передать роль другому участнику'],a:1},
+  {q:'Что делать при личном конфликте с участником?',o:['Наказать строже','Не использовать полномочия в личных целях и передать ситуацию другому члену состава','Удалить все доказательства','Сразу выдать Пермабан'],a:1},
+  {q:'Что происходит при повторных ошибках Модератора при проверке заявок?',o:['Ничего','Они могут считаться халатностью и привести к выговору или снятию','Кандидат автоматически становится Админом','Модератор получает повышение'],a:1},
+  {q:'Заменяет ли этот демо-тест официальную проверку?',o:['Да, результат автоматически выдаёт роль','Да, если набрано больше половины','Нет, это только самопроверка перед заявкой','Да, но только для Модераторов'],a:2}
+];
+let quizIndex=0, quizAnswers=[];
+const qs=id=>document.getElementById(id);
+function renderQuiz(){
+  const item=staffQuiz[quizIndex];
+  qs('quizCount').textContent=`Вопрос ${quizIndex+1} из ${staffQuiz.length}`;
+  qs('quizAnswered').textContent=`${quizAnswers.filter(v=>v!==undefined).length}/${staffQuiz.length} отвечено`;
+  qs('quizBar').style.width=`${((quizIndex+1)/staffQuiz.length)*100}%`;
+  qs('quizQuestion').textContent=item.q;
+  qs('quizOptions').innerHTML=item.o.map((x,i)=>`<button type="button" class="quiz-option ${quizAnswers[quizIndex]===i?'selected':''}" data-i="${i}">${x}</button>`).join('');
+  qs('quizOptions').querySelectorAll('.quiz-option').forEach(b=>b.onclick=()=>{quizAnswers[quizIndex]=Number(b.dataset.i);renderQuiz();});
+  qs('quizPrev').disabled=quizIndex===0;
+  qs('quizPrev').style.opacity=quizIndex===0?'.45':'1';
+  qs('quizNext').textContent=quizIndex===staffQuiz.length-1?'Завершить тест':'Далее →';
+}
+function startQuiz(){quizIndex=0;quizAnswers=[];qs('quizResult').classList.remove('show');qs('quizArea').style.display='block';qs('quizStart').style.display='none';renderQuiz();}
+qs('quizStart').onclick=startQuiz;
+qs('quizRestart').onclick=startQuiz;
+qs('quizPrev').onclick=()=>{if(quizIndex>0){quizIndex--;renderQuiz();}};
+qs('quizNext').onclick=()=>{
+  if(quizAnswers[quizIndex]===undefined){alert('Сначала выбери ответ.');return;}
+  if(quizIndex<staffQuiz.length-1){quizIndex++;renderQuiz();return;}
+  const score=staffQuiz.reduce((n,x,i)=>n+(quizAnswers[i]===x.a?1:0),0);
+  qs('quizArea').style.display='none';qs('quizResult').classList.add('show');qs('quizScore').textContent=`${score}/${staffQuiz.length}`;
+  let icon='🔴',title='Нужно повторить правила',text='Перед подачей заявки внимательно перечитай правила и регламент состава.';
+  if(score>=9){icon='🟢';title='Отличный результат';text='Ты хорошо знаешь основные обязанности и порядок работы состава.';}
+  else if(score>=7){icon='🟡';title='Хорошо, но есть ошибки';text='Повтори спорные пункты перед официальной проверкой.';}
+  qs('quizResultIcon').textContent=icon;qs('quizTitle').textContent=title;qs('quizText').textContent=text;
+};
+</script>
 </body></html>
