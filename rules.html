@@ -63,6 +63,7 @@
 }
 .pb-warn    { background: rgba(255,179,71,0.12);  color: #ffb347; border: 1px solid rgba(255,179,71,0.25); }
 .pb-mute    { background: rgba(71,181,255,0.1);   color: #47b5ff; border: 1px solid rgba(71,181,255,0.2); }
+.pb-timeout { background: rgba(91,156,255,0.12);  color: #77aaff; border: 1px solid rgba(91,156,255,0.28); }
 .pb-vcmute  { background: rgba(100,220,255,0.1);  color: #64dcff; border: 1px solid rgba(100,220,255,0.2); }
 .pb-ban     { background: rgba(232,0,58,0.1);     color: var(--red-light); border: 1px solid rgba(232,0,58,0.25); }
 .pb-permban { background: rgba(150,0,0,0.15);     color: #ff6b6b; border: 1px solid rgba(150,0,0,0.3); }
@@ -235,10 +236,11 @@
         <span class="p-badge pb-noaccess">🚫 Нет доступа</span>
         <span class="p-badge pb-permban">⛔ Пермабан + ЧС</span>
       </div>
-      <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Система мутов — 5 типов в зависимости от нарушения и места</div>
+      <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Ограничения общения — 6 типов в зависимости от нарушения и способа выдачи</div>
       <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;">
         <span class="p-badge pb-mute">🔇 Мут в чате</span>
         <span class="p-badge pb-vcmute">🎤 Мут в войсе</span>
+        <span class="p-badge pb-timeout">⏳ Таймаут Discord</span>
         <span class="p-badge pb-frozen">❄️ Заморожен</span>
         <span class="p-badge pb-noaccess">🚫 Нет доступа</span>
         <span class="p-badge pb-videomute">📵 Мут видео</span>
@@ -246,7 +248,8 @@
       <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.65;">
         <strong style="color:var(--text);">Мут в чате</strong> — нельзя писать в текстовые каналы.<br>
         <strong style="color:var(--text);">Мут в войсе</strong> — отключён только микрофон, говорить в войсе нельзя, писать в чат можно.<br>
-        <strong style="color:var(--text);">Заморожен</strong> — Discord-таймаут: временно нельзя писать, реагировать и общаться в голосовых каналах. Срок таймаута указывает администрация. Не является баном и не убирает участника с сервера.<br>
+        <strong style="color:var(--text);">Таймаут Discord</strong> — встроенное ограничение Discord, которое автоматически выдаёт бот. Во время таймаута нельзя писать, реагировать и общаться в голосовых каналах.<br>
+        <strong style="color:var(--text);">Заморожен</strong> — отдельная роль сервера, которую Модератор или Админ выдаёт вручную. Это не Discord Timeout.<br>
         <strong style="color:var(--text);">Нет доступа</strong> — замена обычного временного бана: участник остаётся на сервере, но видит только канал с тикетом поддержки. После окончания срока доступ возвращается.<br>
         <strong style="color:var(--text);">Мут видео</strong> — нельзя включить демонстрацию экрана и камеру. Чат и войс при этом доступны — см. §3.5.
       </p>
@@ -283,13 +286,13 @@
           <div class="rule-num">1.2</div>
           <div>
             <span class="rule-title">Флуд, спам и офтоп</span>
-            <p class="rule-desc">Соблюдай тему канала. Массовый спам, флуд одинаковыми сообщениями и беспричинный офтоп запрещены. Бот автоматически выдаёт таймаут на пару часов.</p>
+            <p class="rule-desc">Соблюдай тему канала. Массовый спам, флуд одинаковыми сообщениями и беспричинный офтоп запрещены. За флуд бот автоматически выдаёт встроенный таймаут Discord на 1 час 30 минут.</p>
           </div>
         </div>
         <div class="rule-punishments">
-          <div class="punishment-row"><span class="p-label">Авто (бот)</span><span class="p-badge pb-mute">🔇 Таймаут 2–6ч</span></div>
+          <div class="punishment-row"><span class="p-label">Авто (бот)</span><span class="p-badge pb-timeout">⏳ Таймаут Discord 1ч 30мин</span></div>
           <div class="punishment-row"><span class="p-label">После авто</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
-          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут 6–12ч</span></div>
+          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + ❄️ Заморожен 6–12ч</span></div>
           <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
         </div>
       </div>
@@ -654,7 +657,7 @@
         <select id="vSelect" class="calc-select">
           <optgroup label="💬 Общий чат">
             <option value="insult_chat|warn|1|chat">Оскорбления в чате</option>
-            <option value="flood|mute|1|chat">Флуд / спам в чате</option>
+            <option value="flood|timeout|2|chat">Флуд / спам в чате (авто: 1ч 30мин)</option>
             <option value="advert|warn|1|chat">Реклама (1-й раз)</option>
             <option value="advert2|mute|2|chat">Реклама (повторно)</option>
             <option value="nsfw_chat|mute|2|chat">NSFW / шокирующий контент</option>
@@ -699,7 +702,8 @@
                 <option value="mute">🔇 Мут в чате</option>
                 <option value="vcmute">🎤 Мут в войсе</option>
                 <option value="videomute">📵 Мут видео</option>
-                <option value="frozen">❄️ Заморожен (таймаут)</option>
+                <option value="timeout">⏳ Таймаут Discord</option>
+                <option value="frozen">❄️ Заморожен (роль)</option>
                 <option value="noaccess">🚫 Нет доступа</option>
                 <option value="permaban">⛔ Пермабан</option>
               </select>
@@ -749,8 +753,8 @@ let violations = [];
 let nid = 0;
 let currentZone = 'chat';
 
-const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', frozen:'pb-frozen', noaccess:'pb-noaccess', permaban:'pb-permban' };
-const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', frozen:'❄️ Заморожен', noaccess:'🚫 Нет доступа', permaban:'⛔ Пермабан' };
+const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', timeout:'pb-timeout', frozen:'pb-frozen', noaccess:'pb-noaccess', permaban:'pb-permban' };
+const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', timeout:'⏳ Таймаут Discord', frozen:'❄️ Заморожен', noaccess:'🚫 Нет доступа', permaban:'⛔ Пермабан' };
 
 const RESULTS = [
   { icon:'✅', title:'Чисто', desc:'Нарушений нет', cls:'r-ok' },
@@ -897,7 +901,7 @@ function render() {
     violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
 
     
-    const hasChat  = violations.some(v => ['warn','mute','noaccess'].includes(v.type));
+    const hasChat  = violations.some(v => ['warn','mute','timeout','noaccess'].includes(v.type));
     const hasVoice = violations.some(v => v.type === 'vcmute');
     const hasBan   = violations.some(v => v.type === 'noaccess');
 
@@ -907,6 +911,7 @@ function render() {
     
     if ((counts['warn'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
     if ((counts['mute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
+    if ((counts['timeout'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
     if ((counts['vcmute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
     if ((counts['noaccess'] || 0) >= 2) baseMax = 5;
 
@@ -918,12 +923,18 @@ function render() {
   }
 
   
-  const _hasChat  = violations.some(v => ['warn','mute'].includes(v.type));
+  const _hasChat  = violations.some(v => ['warn','mute','timeout'].includes(v.type));
   const _hasVoice = violations.some(v => v.type === 'vcmute');
   const _hasBan   = violations.some(v => v.type === 'noaccess');
   let p = { ...RESULTS[maxLvl] };
-  if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
-    p = { icon:'❄️', title:'Заморожен', desc:'Discord-таймаут: временно закрыто общение в чате и войсе', cls:'r-frozen' };
+  const onlyTimeout = violations.every(v => v.type === 'timeout');
+  const hasFrozen = violations.some(v => v.type === 'frozen');
+  if (onlyTimeout && maxLvl === 2) {
+    p = { icon:'⏳', title:'Таймаут Discord', desc:'Автоматическое встроенное ограничение Discord от бота', cls:'r-warn' };
+  } else if (hasFrozen && maxLvl === 4 && !_hasBan) {
+    p = { icon:'❄️', title:'Заморожен', desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' };
+  } else if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
+    p = { icon:'❄️', title:'Заморожен', desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' };
   }
   const dur = getBanDuration(violations, maxLvl);
   const roleHint = ROLE_HINT[maxLvl] || '';
