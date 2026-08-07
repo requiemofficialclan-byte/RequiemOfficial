@@ -206,7 +206,6 @@
       <a href="requirements.html" class="nav-link">Требования</a>
       <a href="blacklist.html" class="nav-link">Чёрный список</a>
       <a href="members.html" class="nav-link">Состав</a>
-      <a href="staff-guide.html" class="nav-link">Для администрации</a>
       <a href="about.html" class="nav-link">О клане</a>
       <a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
     </nav>
@@ -308,6 +307,22 @@
         </div>
         <div class="rule-punishments">
           <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС навсегда</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main">
+          <div class="rule-num">1.4</div>
+          <div>
+            <span class="rule-title">Оскорбление клана Requiem</span>
+            <p class="rule-desc">Оскорбления, унижение или намеренные провокации в адрес клана Requiem, его названия или состава запрещены. Конструктивная критика без оскорблений нарушением не считается.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div>
+          <div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут в чате 6–12ч</span></div>
+          <div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">Систематически</span><span class="p-badge pb-noaccess">🚫 Нет доступа 7 дней</span></div>
         </div>
       </div>
     </div>
@@ -474,26 +489,16 @@
 
       <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.6rem;">Роли и полномочия</div>
       <div style="display:flex;flex-direction:column;gap:0.7rem;margin-bottom:1.2rem;">
-        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
-          <span class="role-badge">🆘 Поддержка</span>
-          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Отвечает только на тикеты поддержки. Наказания не выдаёт.</span>
-        </div>
-        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
-          <span class="role-badge">📋 Наборщик</span>
-          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Принимает и отклоняет заявки на вступление в клан. К модерации отношения не имеет, наказания не выдаёт.</span>
-        </div>
-        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
-          <span class="role-badge">🛡️ Модератор</span>
-          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Модератор и Администратор вправе применять любое предусмотренное правилами наказание в зависимости от тяжести нарушения и обстоятельств. Дополнительно Модератор рассматривает заявки на роль Админа и повышает до неё при достойной заявке.</span>
-        </div>
-        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;">
-          <span class="role-badge">⚜️ Админ</span>
-          <span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Модерирует наравне с Модератором, но не повышает до этой роли сам. Если форма/заявка на его повышение была заполнена неправильно — Заместитель или Создатель клана вправе снять Админа с должности.</span>
-        </div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">🆘 Поддержка</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Отвечает на тикеты поддержки. Наказания самостоятельно не выдаёт.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">📋 Наборщик</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Принимает и отклоняет заявки на вступление в клан. К модерации отношения не имеет.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">🛡️ Ст. Модер</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Старшая роль модерации. Контролирует Модеров и Мл. Модеров, разбирает сложные случаи.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">🛡️ Модер</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Следит за порядком, выдаёт наказания, проверяет заявки на Администратора и может принять кандидата при успешной проверке.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">🛡️ Мл. Модер</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Начальная роль модерации. Выдаёт обычные наказания, сложные и спорные случаи передаёт выше.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">⚜️ Ст. Админ</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Старшая роль администрации. Контролирует Админов и Мл. Админов.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">⚜️ Админ</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Следит за порядком и применяет предусмотренные правилами наказания в пределах своих прав.</span></div>
+        <div style="display:flex;gap:0.7rem;align-items:flex-start;flex-wrap:wrap;"><span class="role-badge">⚜️ Мл. Админ</span><span style="font-size:0.83rem;color:var(--text-secondary);flex:1;min-width:200px;">Начальная роль администрации. Помогает следить за сервером и передаёт сложные случаи старшим.</span></div>
       </div>
-      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;">
-        Пермабан, снятие с должностей и решения по составу клана окончательно утверждают Заместитель и Создатель.
-      </p>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;"><strong>Иерархия:</strong> Ст. Модер → Модер → Мл. Модер → Ст. Админ → Админ → Мл. Админ. Модерация находится выше Администрации. ЧС и окончательные решения по составу утверждают Со-владелец и Владелец.</p>
       <div style="height:1px;background:var(--glass-border);margin-bottom:1.2rem;"></div>
 
       <div class="rule-block">
@@ -740,7 +745,6 @@
       <a href="requirements.html" class="footer-link">Требования</a>
       <a href="blacklist.html" class="footer-link">Чёрный список</a>
       <a href="members.html" class="footer-link">Состав</a>
-      <a href="staff-guide.html" class="footer-link">Для администрации</a>
       <a href="about.html" class="footer-link">О клане</a>
       <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
     </div>
@@ -773,7 +777,7 @@ const ROLE_HINT = [
   'Модератор или Админ',
   'Модератор или Админ',
   'Модератор или Админ',
-  'Модератор/Админ фиксируют — утверждает Зам или Создатель',
+  'Модератор/Админ фиксируют — утверждает Зам или Владелец',
 ];
 
 function getBanDuration(violations, lvl) {
