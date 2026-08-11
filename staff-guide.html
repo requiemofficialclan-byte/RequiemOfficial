@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для администрации — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-bottom:1rem}.guide-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.25rem}.guide-card h3{font-size:1rem;margin-bottom:.55rem}.guide-card p,.guide-card li{font-size:.86rem;color:var(--text-secondary);line-height:1.65}.guide-card ul,.guide-card ol{padding-left:1.2rem}.guide-card li+li{margin-top:.35rem}.notice{padding:1rem 1.1rem;border:1px solid rgba(232,0,58,.25);background:rgba(232,0,58,.06);border-radius:14px;color:var(--text-secondary);font-size:.86rem;line-height:1.65}.step{display:flex;gap:.8rem;align-items:flex-start}.step-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--red-subtle);border:1px solid rgba(232,0,58,.3);color:var(--red-light);font-weight:800}.application-box{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem;border-radius:16px;background:linear-gradient(135deg,rgba(232,0,58,.11),rgba(232,0,58,.03));border:1px solid rgba(232,0,58,.28)}.quiz-card{background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.25rem;margin-bottom:1rem}.quiz-top{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-bottom:1rem}.quiz-progress{height:8px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin:.7rem 0 1.1rem}.quiz-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red-light));transition:width .25s ease}.quiz-question{font-size:1.05rem;font-weight:750;line-height:1.45;margin-bottom:.9rem}.quiz-options{display:grid;gap:.65rem}.quiz-option{width:100%;text-align:left;padding:.85rem 1rem;border:1px solid var(--border);background:rgba(255,255,255,.025);color:var(--text-secondary);border-radius:12px;cursor:pointer;font-family:inherit;font-size:.88rem;transition:.18s}.quiz-option:hover{border-color:rgba(232,0,58,.35);color:var(--text);transform:translateY(-1px)}.quiz-option.selected{border-color:rgba(232,0,58,.55);background:rgba(232,0,58,.09);color:var(--text)}.quiz-actions{display:flex;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.quiz-result{display:none;padding:1.2rem;border-radius:15px;border:1px solid var(--border);background:rgba(255,255,255,.025);text-align:center}.quiz-result.show{display:block}.quiz-score{font-size:2rem;font-weight:900;margin:.35rem 0}.quiz-note{font-size:.8rem;color:var(--text-muted);line-height:1.55;margin-top:.8rem}.quiz-review{margin-top:1rem;display:grid;gap:.65rem;text-align:left}.quiz-review-item{padding:.8rem .9rem;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:.83rem;line-height:1.55;color:var(--text-secondary)}.quiz-review-item strong{color:var(--text)}.quiz-review-item.wrong{border-color:rgba(232,0,58,.25);background:rgba(232,0,58,.05)}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}.quiz-top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="scroll-top" id="scrollTop">↑</button>
+<header><div class="container"><div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div><nav class="main-nav">
+<a href="index.html" class="nav-link">Главная</a><a href="rules.html" class="nav-link">Правила</a><a href="news.html" class="nav-link">Новости</a><a href="join.html" class="nav-link">Вступление</a><a href="requirements.html" class="nav-link">Требования</a><a href="blacklist.html" class="nav-link">Чёрный список</a><a href="members.html" class="nav-link">Состав</a><a href="staff-guide.html" class="nav-link active">Для администрации</a><a href="about.html" class="nav-link">О клане</a><a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
+</nav></div></header>
+<main>
+<section class="page-hero"><span class="page-hero-label">Регламент состава</span><h1>Для администрации</h1><p>Обязанности состава, работа с тикетами и порядок принятия Администраторов.</p></section>
+<div class="container">
+<div class="notice" style="margin-bottom:1rem"><strong style="color:var(--text)">Главное правило:</strong> полномочия используются только для порядка на сервере. Личные конфликты, помощь друзьям в обход требований и выдача ролей без проверки запрещены.</div>
+<div class="guide-grid">
+<div class="guide-card"><h3>🎧 Поддержка</h3><ul><li>Отвечает на тикеты и помогает участникам.</li><li>Принимает жалобы, просит скриншоты, видео и другие доказательства.</li><li>Не выдаёт наказания самостоятельно.</li><li>Если требуется наказание, подключает Поддержку-модератора, Модератора или Администратора.</li></ul></div>
+<div class="guide-card"><h3>🎧🛡️ Поддержка-модератор</h3><ul><li>Отвечает на тикеты и помогает участникам.</li><li>Проверяет жалобы и доказательства.</li><li>Следит за порядком на сервере и может вмешаться при нарушении.</li><li>Выдаёт обычные наказания по правилам сервера.</li><li>Сложные случаи передаёт Модератору, Со-владельцу или Владельцу.</li><li>Не выдаёт ЧС и не принимает новых Администраторов.</li></ul></div>
+<div class="guide-card"><h3>🛡️ Модератор</h3><ul><li>Следит за чатами и голосовыми каналами.</li><li>Выдаёт наказания по правилам и объясняет причину.</li><li>Имеет доступ к ролям в пределах своих полномочий.</li><li>Проверяет заявки на Администратора.</li><li>Может самостоятельно принять кандидата и выдать роль Администратора, если заявка заполнена серьёзно и кандидат успешно прошёл проверку.</li><li>При сомнениях передаёт заявку Со-владельцу или Владельцу.</li></ul></div>
+<div class="guide-card"><h3>⚜️ Администратор</h3><ul><li>Помогает следить за порядком на сервере.</li><li>Выдаёт наказания по правилам в пределах своих прав.</li><li>Выполняет поручения Модератора, Со-владельца и Владельца.</li><li>Не принимает новых Администраторов и не управляет Модераторами.</li></ul></div>
+</div>
+<div class="notice" style="margin-bottom:1rem"><strong style="color:var(--text)">Чёрный список:</strong> добавить человека в ЧС или снять его оттуда могут только Со-владелец и Владелец.</div>
+<div class="card" style="margin-bottom:1rem"><h2 class="card-title"><span class="icon">📋</span>Повышение до Администратора</h2><div style="display:flex;flex-direction:column;gap:1rem">
+<div class="step"><div class="step-num">1</div><div><strong>Заявка</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Кандидат заполняет официальную форму. Неполная, несерьёзная или заведомо ложная заявка отклоняется.</p></div></div>
+<div class="step"><div class="step-num">2</div><div><strong>Проверка Модератором</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Модератор проверяет ответы, историю поведения и знание правил. Шуточные, бессмысленные или явно ложные ответы отклоняются. Например: «Как вас зовут? — Бибезян» или «Сколько вам лет? — Бульба 67».</p></div></div>
+<div class="step"><div class="step-num">3</div><div><strong>Мини-тест или мини-обзвон</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Кандидату задают несколько ситуационных вопросов: выбор наказания, действия при недостатке доказательств, апелляция и личный конфликт.</p></div></div>
+<div class="step"><div class="step-num">4</div><div><strong>Решение</strong><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;line-height:1.6">Если заявка заполнена нормально и кандидат прошёл проверку, Модератор может самостоятельно принять его и выдать роль Администратора. Если есть сомнения, решение передаётся Со-владельцу или Владельцу.</p></div></div>
+</div></div>
+<div class="quiz-card" id="demoQuiz">
+<div class="quiz-top"><div><div style="font-size:.75rem;font-weight:800;color:var(--red-light);text-transform:uppercase;letter-spacing:.07em">Демо-проверка знаний</div><h2 style="font-size:1.25rem;margin-top:.2rem">Мини-тест для самопроверки</h2><p style="font-size:.84rem;color:var(--text-secondary);margin-top:.3rem;line-height:1.6">Пройди тест перед заявкой. Результат никуда не отправляется и не заменяет официальную проверку.</p></div><button class="btn btn-primary" id="quizStart" type="button">Начать тест</button></div>
+<div id="quizArea" style="display:none"><div style="display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--text-muted)"><span id="quizCount">Вопрос 1 из 10</span><span id="quizAnswered">0/10 отвечено</span></div><div class="quiz-progress"><span id="quizBar"></span></div><div class="quiz-question" id="quizQuestion"></div><div class="quiz-options" id="quizOptions"></div><div class="quiz-actions"><button class="btn btn-secondary" id="quizPrev" type="button">← Назад</button><button class="btn btn-primary" id="quizNext" type="button">Далее →</button></div></div>
+<div class="quiz-result" id="quizResult"><div id="quizResultIcon" style="font-size:2rem">✅</div><div class="quiz-score" id="quizScore">0/10</div><div style="font-weight:800" id="quizTitle"></div><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.6" id="quizText"></p><div class="quiz-review" id="quizReview"></div><button class="btn btn-primary" id="quizRestart" type="button" style="margin-top:1rem">Пройти ещё раз</button><div class="quiz-note">Это тренировочный результат. Он помогает подготовиться, но не выдаёт роль автоматически. Решение принимает Модератор, а спорные заявки передаются Со-владельцу или Владельцу.</div></div>
+</div>
+<div class="card"><h2 class="card-title"><span class="icon">⚖️</span>Как разбирать конфликты</h2>
+<div class="guide-grid" style="margin-bottom:0">
+<div class="guide-card"><h3>1 на 1 — оба оскорбляют</h3><p>Если обе стороны добровольно продолжают обычную перепалку и отвечают друг другу оскорблениями, это взаимный конфликт. Сначала можно не вмешиваться, пока он не мешает серверу и не переходит в серьёзное нарушение.</p></div>
+<div class="guide-card"><h3>Один оскорбляет — второй молчит</h3><p>Это не взаимный конфликт. Наказание рассматривается только для стороны, которая оскорбляет. Второй участник не обязан просить прекратить конфликт.</p></div>
+<div class="guide-card"><h3>2 против 1 и более</h3><p>Не считать обычным взаимным срачем. Если несколько участников целенаправленно давят или оскорбляют одного, ситуацию нужно остановить и рассматривать как групповое давление/травлю.</p></div>
+<div class="guide-card"><h3>Участник против сотрудника</h3><p>Если сотрудник сам участвует в личной перепалке — его роль преимущества не даёт. Если сотрудник действует по обязанностям, оскорбления в его адрес рассматриваются по правилам состава.</p></div>
+<div class="guide-card"><h3>Сотрудник — сторона конфликта</h3><p>Если оскорбление, провокация или другое спорное нарушение направлено лично против сотрудника, он по возможности не выдаёт наказание самостоятельно. Ситуацию передают другому Модеру/старшему сотруднику, который не участвовал в конфликте и оценивает весь контекст. Сам факт грубого слова не означает автоматическое наказание: учитываются ситуация, игровой контекст, дружеское общение и систематичность.</p></div>
+<div class="guide-card"><h3>Когда можно вмешаться сразу</h3><p>Если нарушение очевидное и требует немедленной остановки — например, рейд, массовый спам, массовые оскорбления или другое серьёзное нарушение — сотрудник может вмешаться сразу. После этого спорную часть ситуации при необходимости передают другому сотруднику для проверки.</p></div>
+<div class="guide-card"><h3>Провокация и молчание</h3><p>Не считать молчащего автоматически правым. Проверить сообщения до конфликта: если он намеренно провоцировал человека, а после ответа замолчал и пожаловался, учитывать весь контекст.</p></div>
+<div class="guide-card"><h3>Игра и дружеские шутки</h3><p>Конфликт из-за игры разбирается как обычный конфликт. Дружеские подколы не наказывать автоматически, если обе стороны явно воспринимают их нормально. Если кому-то стало неприятно или начался настоящий срач — применять обычные правила.</p></div>
+<div class="guide-card"><h3>Когда перепалка закончена</h3><p>Считать конфликт завершённым, если обе стороны вернулись к обычному общению/игре, одна сторона явно вышла из конфликта, либо другой уполномоченный сотрудник, не участвующий в ситуации, потребовал прекратить перепалку.</p></div>
+<div class="guide-card"><h3>Нельзя закрывать свою перепалку полномочиями</h3><p>Если Модер/Ст. Модер/другой сотрудник сам является стороной конфликта, он не может объявить собственную перепалку завершённой как сотрудник и затем сам наказать вторую сторону. Ситуацию передают другому сотруднику.</p></div><div class="guide-card"><h3>Игнорирование</h3><p>Если один участник не отвечает, это само по себе не означает нарушение со стороны второго. Оценивайте содержание сообщений и общий контекст.</p></div>
+
+</div></div>
+
+<div class="application-box" style="margin-bottom:1rem"><div><div style="font-weight:800;font-size:1.05rem">Заявка на Администратора</div><div style="font-size:.82rem;color:var(--text-secondary);margin-top:.2rem">Заполняется кандидатом после ознакомления с регламентом и самопроверки.</div></div><a class="btn btn-primary" href="https://forms.gle/bgZaPveuTBhjm6sUA" target="_blank" rel="noopener noreferrer">Открыть заявку ↗</a></div>
+<div class="notice" style="margin-bottom:1rem">
+<h2 style="margin-bottom:1rem;">⏳ Повторная подача заявки</h2>
+<p>Если участник был снят с любой должности состава, повторная подача заявки возможна <strong>не ранее чем через 4 недели</strong> с момента снятия.</p>
+<div style="margin-top:1rem;padding:1rem;border-radius:12px;background:rgba(255,170,0,.08);border:1px solid rgba(255,170,0,.25);"><strong>⚠️ Важно</strong><br>Заявки, поданные до истечения 4 недель, <strong>не рассматриваются.</strong></div>
+<h3 style="margin-top:1.3rem;">✅ Исключение</h3>
+<p>По решению <strong>Владельца</strong> или <strong>Со-владельца</strong> повторная подача заявки может быть разрешена раньше установленного срока, если снятие не связано с серьёзным нарушением, участник исправил причину снятия или имеются уважительные причины.</p>
+<h3 style="margin-top:1.3rem;">🚫 Возможен отказ</h3>
+<p>Если участник был снят за злоупотребление полномочиями, обман, намеренную выдачу неправильных наказаний, нарушение правил состава или другие серьёзные нарушения, администрация вправе отказать в повторном принятии даже после истечения 4 недель.</p>
+<div style="margin-top:1rem;padding:1rem;border-radius:12px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);"><strong>ℹ️ Обратите внимание</strong><br>Возможность повторной подачи заявки не гарантирует возвращение в состав. Каждая заявка рассматривается администрацией индивидуально.</div>
+</div>
+
+<div class="card"><h2 class="card-title"><span class="icon">📌</span>Как проверять заявку</h2><div class="guide-grid" style="margin-bottom:0"><div class="guide-card"><h3>Заявку можно принять</h3><p>Ответы заполнены серьёзно и понятно, кандидат знает правила, не имеет серьёзных проблем с поведением и успешно прошёл проверку.</p></div><div class="guide-card"><h3>Заявку нужно отклонить</h3><p>В форме есть шуточные, бессмысленные или ложные ответы, кандидат не знает правил либо пытается получить роль только ради полномочий и наказаний.</p></div></div></div></div>
+</div></main>
+<footer><div class="container"><div class="footer-brand">REQUIEM</div><div class="footer-links"><a href="index.html" class="footer-link">Главная</a><a href="rules.html" class="footer-link">Правила</a><a href="join.html" class="footer-link">Вступление</a><a href="members.html" class="footer-link">Состав</a><a href="staff-guide.html" class="footer-link">Для администрации</a><a href="support.html" class="footer-link">Поддержка</a></div><div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div></div></footer>
+<script src="script.js"></script>
+<script>
+const staffQuiz = [
+  {q:'Кто может выдать ЧС?',o:['Поддержка-модератор','Модератор','Со-владелец и Владелец','Администратор'],a:2,e:'ЧС могут выдавать только Со-владелец и Владелец.'},
+  {q:'Кто проверяет заявки на Администратора?',o:['Поддержка','Администратор','Модератор','Наборщик'],a:2,e:'Заявки на Администратора проверяет Модератор.'},
+  {q:'Что делает Поддержка?',o:['Выдаёт наказания','Проверяет заявки на Администратора','Помогает участникам и отвечает на тикеты','Назначает Администраторов'],a:2,e:'Поддержка помогает участникам, отвечает на тикеты и передаёт дела тем, кто может наказать.'},
+  {q:'Что делает Поддержка-модератор?',o:['Только отвечает на тикеты','Следит за сервером, отвечает на тикеты и выдаёт обычные наказания','Может выдать ЧС','Назначает Со-владельцев'],a:1,e:'Поддержка-модератор совмещает работу поддержки и модерации, но не выдаёт ЧС.'},
+  {q:'Кто может принять кандидата на роль Администратора?',o:['Поддержка','Администратор','Модератор','Любой участник состава'],a:2,e:'Модератор может принять кандидата, если заявка нормальная и проверка пройдена.'},
+  {q:'В заявке указано: «Как вас зовут? — Бибезян», «Сколько вам лет? — Бульба 67». Что делать?',o:['Принять заявку','Передать Поддержке','Отклонить как несерьёзную','Сразу выдать роль'],a:2,e:'Шуточные, бессмысленные или явно ложные ответы — причина отклонить заявку.'},
+  {q:'Что делать, если в тикете подтверждено нарушение?',o:['Закрыть тикет без действий','Выдать наказание по правилам или передать сложный случай выше','Игнорировать обращение','Сразу выдать ЧС'],a:1,e:'Обычное наказание выдаётся по правилам, а сложный случай передаётся Модератору, Со-владельцу или Владельцу.'},
+  {q:'Кто имеет доступ к ролям администрации в пределах своих полномочий?',o:['Администратор','Поддержка','Модератор','Наборщик'],a:2,e:'Доступ к ролям администрации имеет Модератор в пределах своих полномочий.'},
+  {q:'Можно ли выдать наказание без доказательств, если ситуация спорная?',o:['Да','Нет, нужно проверить ситуацию и доказательства','Только Администратору','Только ночью'],a:1,e:'В спорной ситуации сначала проверяют факты и доказательства; наказывать наугад нельзя.'},
+  {q:'Кто имеет полный доступ ко всем функциям сервера?',o:['Модератор','Со-владелец','Владелец','Поддержка-модератор'],a:2,e:'Полный доступ ко всем функциям сервера имеет Владелец.'}
+];
+let quizIndex=0, quizAnswers=[];
+const qs=id=>document.getElementById(id);
+function renderQuiz(){
+  const item=staffQuiz[quizIndex];
+  qs('quizCount').textContent=`Вопрос ${quizIndex+1} из ${staffQuiz.length}`;
+  qs('quizAnswered').textContent=`${quizAnswers.filter(v=>v!==undefined).length}/${staffQuiz.length} отвечено`;
+  qs('quizBar').style.width=`${((quizIndex+1)/staffQuiz.length)*100}%`;
+  qs('quizQuestion').textContent=item.q;
+  qs('quizOptions').innerHTML=item.o.map((x,i)=>`<button type="button" class="quiz-option ${quizAnswers[quizIndex]===i?'selected':''}" data-i="${i}">${x}</button>`).join('');
+  qs('quizOptions').querySelectorAll('.quiz-option').forEach(b=>b.onclick=()=>{quizAnswers[quizIndex]=Number(b.dataset.i);renderQuiz();});
+  qs('quizPrev').disabled=quizIndex===0;
+  qs('quizPrev').style.opacity=quizIndex===0?'.45':'1';
+  qs('quizNext').textContent=quizIndex===staffQuiz.length-1?'Завершить тест':'Далее →';
+}
+function startQuiz(){quizIndex=0;quizAnswers=[];qs('quizResult').classList.remove('show');qs('quizArea').style.display='block';qs('quizStart').style.display='none';renderQuiz();}
+qs('quizStart').onclick=startQuiz;
+qs('quizRestart').onclick=startQuiz;
+qs('quizPrev').onclick=()=>{if(quizIndex>0){quizIndex--;renderQuiz();}};
+qs('quizNext').onclick=()=>{
+  if(quizAnswers[quizIndex]===undefined){alert('Сначала выбери ответ.');return;}
+  if(quizIndex<staffQuiz.length-1){quizIndex++;renderQuiz();return;}
+  const score=staffQuiz.reduce((n,x,i)=>n+(quizAnswers[i]===x.a?1:0),0);
+  qs('quizArea').style.display='none';qs('quizResult').classList.add('show');qs('quizScore').textContent=`${score}/${staffQuiz.length}`;
+  let icon='🔴',title='Недостаточный результат',text='Изучи правила и регламент состава, затем попробуй снова.';
+  if(score>=9){icon='🟢';title='Отлично! Ты готов к работе в составе';text='Ты хорошо знаешь роли, полномочия и порядок работы администрации.';}
+  else if(score>=7){icon='🟡';title='Хороший результат';text='Рекомендуется повторить вопросы, в которых были ошибки.';}
+  else if(score>=5){icon='🟠';title='Нужно ещё подготовиться';text='Повторно ознакомься с правилами перед подачей заявки.';}
+  qs('quizResultIcon').textContent=icon;qs('quizTitle').textContent=title;qs('quizText').textContent=text;
+  const mistakes=staffQuiz.map((x,i)=>({x,i})).filter(({x,i})=>quizAnswers[i]!==x.a);
+  qs('quizReview').innerHTML=mistakes.length
+    ? '<div style="font-weight:800;color:var(--text);margin-bottom:.1rem">Разбор ошибок</div>'+mistakes.map(({x,i})=>`<div class="quiz-review-item wrong"><strong>❌ Вопрос ${i+1}:</strong> ${x.q}<br><strong>Правильный ответ:</strong> ${x.o[x.a]}<br>${x.e}</div>`).join('')
+    : '<div class="quiz-review-item"><strong>✅ Ошибок нет.</strong> Все ответы правильные.</div>';
+};
+</script>
+</body></html>
