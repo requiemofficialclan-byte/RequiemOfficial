@@ -7,13 +7,23 @@
 <link rel="stylesheet" href="style.css">
 <style>
 .guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-bottom:1rem}.guide-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.25rem}.guide-card h3{font-size:1rem;margin-bottom:.55rem}.guide-card p,.guide-card li{font-size:.86rem;color:var(--text-secondary);line-height:1.65}.guide-card ul,.guide-card ol{padding-left:1.2rem}.guide-card li+li{margin-top:.35rem}.notice{padding:1rem 1.1rem;border:1px solid rgba(232,0,58,.25);background:rgba(232,0,58,.06);border-radius:14px;color:var(--text-secondary);font-size:.86rem;line-height:1.65}.step{display:flex;gap:.8rem;align-items:flex-start}.step-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--red-subtle);border:1px solid rgba(232,0,58,.3);color:var(--red-light);font-weight:800}.application-box{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem;border-radius:16px;background:linear-gradient(135deg,rgba(232,0,58,.11),rgba(232,0,58,.03));border:1px solid rgba(232,0,58,.28)}.quiz-card{background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:1.25rem;margin-bottom:1rem}.quiz-top{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-bottom:1rem}.quiz-progress{height:8px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin:.7rem 0 1.1rem}.quiz-progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red-light));transition:width .25s ease}.quiz-question{font-size:1.05rem;font-weight:750;line-height:1.45;margin-bottom:.9rem}.quiz-options{display:grid;gap:.65rem}.quiz-option{width:100%;text-align:left;padding:.85rem 1rem;border:1px solid var(--border);background:rgba(255,255,255,.025);color:var(--text-secondary);border-radius:12px;cursor:pointer;font-family:inherit;font-size:.88rem;transition:.18s}.quiz-option:hover{border-color:rgba(232,0,58,.35);color:var(--text);transform:translateY(-1px)}.quiz-option.selected{border-color:rgba(232,0,58,.55);background:rgba(232,0,58,.09);color:var(--text)}.quiz-actions{display:flex;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.quiz-result{display:none;padding:1.2rem;border-radius:15px;border:1px solid var(--border);background:rgba(255,255,255,.025);text-align:center}.quiz-result.show{display:block}.quiz-score{font-size:2rem;font-weight:900;margin:.35rem 0}.quiz-note{font-size:.8rem;color:var(--text-muted);line-height:1.55;margin-top:.8rem}.quiz-review{margin-top:1rem;display:grid;gap:.65rem;text-align:left}.quiz-review-item{padding:.8rem .9rem;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:.83rem;line-height:1.55;color:var(--text-secondary)}.quiz-review-item strong{color:var(--text)}.quiz-review-item.wrong{border-color:rgba(232,0,58,.25);background:rgba(232,0,58,.05)}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}.quiz-top{align-items:flex-start;flex-direction:column}}
+
+/* Keep the staff page link visible when the navigation is crowded. */
+.nav-link.staff-guide-link{
+  display:inline-flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+
 </style>
 </head>
 <body>
 <div class="progress-bar" id="progressBar"></div>
 <button class="scroll-top" id="scrollTop">↑</button>
 <header><div class="container"><div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div><nav class="main-nav">
-<a href="index.html" class="nav-link">Главная</a><a href="rules.html" class="nav-link">Правила</a><a href="news.html" class="nav-link">Новости</a><a href="join.html" class="nav-link">Вступление</a><a href="requirements.html" class="nav-link">Требования</a><a href="blacklist.html" class="nav-link">Чёрный список</a><a href="members.html" class="nav-link">Состав</a><a href="staff-guide.html" class="nav-link active">Для администрации</a><a href="about.html" class="nav-link">О клане</a><a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
+<a href="index.html" class="nav-link">Главная</a><a href="rules.html" class="nav-link">Правила</a><a href="news.html" class="nav-link">Новости</a><a href="join.html" class="nav-link">Вступление</a><a href="requirements.html" class="nav-link">Требования</a><a href="blacklist.html" class="nav-link">Чёрный список</a><a href="members.html" class="nav-link">Состав</a><a href="staff-guide.html" class="nav-link staff-guide-link active">Для администрации</a><a href="about.html" class="nav-link">О клане</a><a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
 </nav></div></header>
 <main>
 
@@ -36,6 +46,13 @@
 <div class="quiz-top"><div><div style="font-size:.75rem;font-weight:800;color:var(--red-light);text-transform:uppercase;letter-spacing:.07em">Демо-проверка знаний</div><h2 style="font-size:1.25rem;margin-top:.2rem">Мини-тест для самопроверки</h2><p style="font-size:.84rem;color:var(--text-secondary);margin-top:.3rem;line-height:1.6">Проверь знание ролей, наказаний и новых правил конфликтов. Результат никуда не отправляется и не заменяет официальную проверку.</p></div><button class="btn btn-primary" id="quizStart" type="button">Начать тест</button></div>
 <div id="quizArea" style="display:none"><div style="display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--text-muted)"><span id="quizCount">Вопрос 1 из 12</span><span id="quizAnswered">0/12 отвечено</span></div><div class="quiz-progress"><span id="quizBar"></span></div><div class="quiz-question" id="quizQuestion"></div><div class="quiz-options" id="quizOptions"></div><div class="quiz-actions"><button class="btn btn-secondary" id="quizPrev" type="button">← Назад</button><button class="btn btn-primary" id="quizNext" type="button">Далее →</button></div></div>
 <div class="quiz-result" id="quizResult"><div id="quizResultIcon" style="font-size:2rem">✅</div><div class="quiz-score" id="quizScore">0/12</div><div style="font-weight:800" id="quizTitle"></div><p style="font-size:.86rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.6" id="quizText"></p><div class="quiz-review" id="quizReview"></div><button class="btn btn-primary" id="quizRestart" type="button" style="margin-top:1rem">Пройти ещё раз</button><div class="quiz-note">Это тренировочный результат. Он помогает подготовиться, но не выдаёт роль автоматически. Решение принимает Модератор, а спорные заявки передаются Со-владельцу или Владельцу.</div></div>
+</div>
+<div class="card" style="margin-bottom:1rem">
+<h2 class="card-title"><span class="icon">📁</span>Хранение доказательств</h2>
+<div class="notice" style="margin-bottom:0">
+<strong style="color:var(--text)">После выдачи наказания сохраняйте доказательства на своём ПК минимум 1–2 недели.</strong>
+Скриншоты, видео и другие материалы по муту, бану или другому серьёзному наказанию должны оставаться доступными на случай апелляции или проверки наказания. Не удаляйте доказательства сразу после выдачи наказания.
+</div>
 </div>
 <div class="card"><h2 class="card-title"><span class="icon">⚖️</span>Как разбирать конфликты</h2>
 <div class="guide-grid" style="margin-bottom:0">
