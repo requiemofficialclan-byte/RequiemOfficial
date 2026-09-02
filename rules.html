@@ -363,6 +363,25 @@
           <div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС навсегда</span></div>
         </div>
       </div>
+
+      <div class="rule-block critical">
+        <div class="rule-main">
+          <div class="rule-num">1.4</div>
+          <div>
+            <span class="rule-title">⛔ Дискредитация и намеренный вред репутации клана</span>
+            <p class="rule-desc">Запрещено целенаправленно оскорблять, унижать или дискредитировать клан Requiem, распространять заведомо ложную информацию о клане, а также намеренно совершать действия, направленные на ухудшение его репутации.</p>
+            <p class="rule-desc" style="margin-top:.55rem;"><strong>Где действует правило:</strong> на любых публичных и приватных площадках — включая Discord, Twitch, YouTube, TikTok, социальные сети, игровые чаты, форумы, личные сообщения, другие серверы и сервисы. Для наказания должны быть достаточные доказательства нарушения и возможность достоверно установить участника.</p>
+            <p class="rule-desc" style="margin-top:.55rem;"><strong>К нарушению относится:</strong> намеренное публичное унижение или оскорбление клана; распространение заведомо ложных обвинений с целью навредить клану; выдача себя за представителя Requiem с целью испортить его репутацию; намеренное провоцирование конфликтов от имени клана; призывы к другим людям рейдить, травить или иным способом вредить клану.</p>
+            <p class="rule-desc" style="margin-top:.55rem;"><strong>Не является нарушением:</strong> обычная критика, конструктивное мнение, недовольство решениями администрации или негативный отзыв без намеренной лжи, травли и целенаправленной попытки навредить репутации клана.</p>
+          </div>
+        </div>
+        <div class="rule-punishments">
+          <div class="punishment-row"><span class="p-label">1-й подтверждённый случай</span><span class="p-badge pb-noaccess">⚠️ Варн + 🚫 Нет доступа 1–3 дня</span></div>
+          <div class="punishment-row"><span class="p-label">Повторно</span><span class="p-badge pb-noaccess">🚫 Нет доступа 7–14 дней</span></div>
+          <div class="punishment-row"><span class="p-label">Систематически</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС</span></div>
+          <div class="punishment-row"><span class="p-label">Рейд / массовая травля / организованный вред</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС сразу</span></div>
+        </div>
+      </div>
     </div>
 
     
@@ -726,6 +745,12 @@
             <option value="tos_minor|warn|1|both">Нарушение ToS Discord (лёгкое)</option>
             <option value="tos_severe|permaban|5|both">⛔ Грубое нарушение ToS Discord</option>
           </optgroup>
+          <optgroup label="⚔️ Репутация клана">
+            <option value="clan_rep_1|noaccess|4|both|1–3 дня">§1.4 Вред репутации клана (1-й случай)</option>
+            <option value="clan_rep_2|noaccess|4|both|7–14 дней">§1.4 Вред репутации клана (повторно)</option>
+            <option value="clan_rep_sys|permaban|5|both">§1.4 Систематическая дискредитация</option>
+            <option value="clan_rep_raid|permaban|5|both">§1.4 Рейд / массовая травля / организованный вред</option>
+          </optgroup>
           <optgroup label="⛔ Критические нарушения">
             <option value="threat|permaban|5|both">⛔ Угрозы / Доксинг</option>
             <option value="bypass|noaccess|4|both">⛔ Обход наказаний (альт-аккаунт)</option>
@@ -889,7 +914,8 @@ function addV() {
   const parts = opt.value.split('|');
   const type = parts[1];
   const sev  = parseInt(parts[2]);
-  violations.push({ id: nid++, name: opt.text, type, sev, custom: false });
+  const fixedDuration = parts[4] || null;
+  violations.push({ id: nid++, name: opt.text, type, sev, custom: false, fixedDuration });
   render();
 }
 
@@ -984,7 +1010,9 @@ function render() {
   } else if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
     p = { icon:'❄️', title:'Заморожен', desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' };
   }
-  const dur = getBanDuration(violations, maxLvl);
+  let dur = getBanDuration(violations, maxLvl);
+  // Для правил с явно заданным сроком показываем точный срок, если выбрано только одно нарушение.
+  if (violations.length === 1 && violations[0].fixedDuration) dur = violations[0].fixedDuration;
   const roleHint = ROLE_HINT[maxLvl] || '';
   resEl.className = `calc-result ${p.cls}`;
   resEl.innerHTML = `
