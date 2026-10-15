@@ -797,9 +797,9 @@ const NOTICE = P('notice'), WARN = P('warn');
 // Лестницы наказаний — 1:1 с разделом правил. type 'place' = мут по месту нарушения (чат → мут, войс → войс-мут)
 const RULES = [
   // §1
-  { id:'r11',  g:'💬 Общий чат',        zone:'chat',  group:'g11',  place:'chat',  name:'§1.1 Оскорбления / токсичность в чате',
+  { id:'r11',  g:'🌐 Чат и войс',       zone:'both',  group:'g11',  name:'§1.1 / §1.1.1 Оскорбления / токсичность',
     ladder:[[NOTICE],[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
-  { id:'r112c',g:'💬 Общий чат',        zone:'chat',  group:'g112', place:'chat',  name:'§1.1.2 Переход на родителей / семью',
+  { id:'r112c',g:'🌐 Чат и войс',       zone:'both',  group:'g112', name:'§1.1.2 Переход на родителей / семью',
     ladder:[[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
   { id:'r12',  g:'💬 Общий чат',        zone:'chat',  group:'g12',  place:'chat',  name:'§1.2 Флуд / спам (авто-таймаут бота)',
     ladder:[[P('timeout','1ч 30мин',1.5,'','Бот (автоматически)')],[NOTICE],[WARN,P('frozen','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
@@ -810,10 +810,6 @@ const RULES = [
   { id:'r24',  g:'💬 Общий чат',        zone:'chat',  group:'g24',  place:'chat',  name:'§2.4 Мошенничество внутри клана',
     ladder:[[P('noaccess','',0,'до разбирательства')],[P('noaccess','7–14 дней',336,'подтверждено')],[P('permaban')]] },
   // §3
-  { id:'r111', g:'🎤 Голосовой чат',    zone:'voice', group:'g11',  place:'voice', name:'§1.1.1 Токсичность в войсе',
-    ladder:[[NOTICE],[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
-  { id:'r112v',g:'🎤 Голосовой чат',    zone:'voice', group:'g112', place:'voice', name:'§1.1.2 Переход на родителей / семью (войс)',
-    ladder:[[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
   { id:'r31',  g:'🎤 Голосовой чат',    zone:'voice', group:'g31',  place:'voice', name:'§3.1 Помехи / шум / саундборды',
     ladder:[[NOTICE],[P('vcmute','1–4ч',4)],[WARN,P('vcmute','12ч',12)]] },
   { id:'r32',  g:'🎤 Голосовой чат',    zone:'voice', group:'g32',  place:'voice', name:'§3.2 18+ контент через камеру / стрим',
@@ -824,14 +820,14 @@ const RULES = [
     ladder:[[NOTICE],[P('videomute','2–6ч',6)],[WARN,P('videomute','24ч',24)],[P('videomute','7 дней',168)]] },
   // §4
   { id:'r41',  g:'⚜️ Против администрации', zone:'both', group:'g41', place:'chat', name:'§4.1 Оскорбление / давление на состав клана',
-    ladder:[[NOTICE],[WARN,P('mute','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
+    ladder:[[NOTICE],[WARN,P('place','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
   { id:'r41t', g:'⚜️ Против администрации', zone:'both', group:'g41t',place:'chat', name:'§4.1 ⛔ Угрозы составу клана',
     ladder:[[P('permaban')]] },
   { id:'r42',  g:'⚜️ Против администрации', zone:'both', group:'g42', place:'chat', name:'§4.2 Публичный спор с решением администрации',
     ladder:[[NOTICE],[WARN,P('timeout','2–6ч',6)],[P('timeout','12–24ч',24)]] },
   // §5
   { id:'r51',  g:'📄 Правила Discord',  zone:'both',  group:'g51',  place:'chat',  name:'§5.1 Нарушение ToS Discord',
-    ladder:[[NOTICE],[WARN,P('mute','6–12ч',12)],[P('noaccess','3–7 дней',168)]] },
+    ladder:[[NOTICE],[WARN,P('place','6–12ч',12)],[P('noaccess','3–7 дней',168)]] },
   { id:'r52',  g:'📄 Правила Discord',  zone:'both',  group:'g52',  place:'chat',  name:'§5.2 ⛔ Грубое нарушение ToS Discord',
     ladder:[[P('permaban')]] },
   { id:'r53',  g:'📄 Правила Discord',  zone:'both',  group:'g53',  place:'chat',  name:'§5.3 Санкция Discord за действия на сервере',
@@ -905,7 +901,7 @@ function addV() {
   const sel = document.getElementById('vSelect');
   const opt = sel.options[sel.selectedIndex];
   if (!opt || opt.hidden) return;
-  violations.push({ id: nid++, rid: opt.value, custom: false });
+  violations.push({ id: nid++, rid: opt.value, custom: false, place: currentZone });
   render();
 }
 
@@ -939,8 +935,16 @@ function compute() {
     const r = RULE_BY_ID[v.rid];
     cnt[r.group] = (cnt[r.group] || 0) + 1;
     const n = cnt[r.group];
-    const pens = r.ladder[Math.min(n, r.ladder.length) - 1].map(p => ({ ...p, type: p.type === 'place' ? (r.place === 'voice' ? 'vcmute' : 'mute') : p.type }));
-    return { v, name: r.name, pens, n, total: r.ladder.length };
+    const where = v.place || 'chat';
+    const pens = r.ladder[Math.min(n, r.ladder.length) - 1].flatMap(p => {
+      if (p.type !== 'place') return [p];
+      if (where === 'voice') return [{ ...p, type: 'vcmute' }];
+      if (where === 'both')  return [{ ...p, type: 'mute' }, { ...p, type: 'vcmute' }];
+      return [{ ...p, type: 'mute' }];
+    });
+    const hasPlace = r.ladder.some(st => st.some(p => p.type === 'place'));
+    const tag = hasPlace ? { chat:'💬 чат', voice:'🎤 войс', both:'🌐 чат и войс' }[where] : '';
+    return { v, name: r.name, tag, pens, n, total: r.ladder.length };
   });
 }
 
@@ -968,7 +972,7 @@ function render() {
 
   listEl.innerHTML = rows.map(r => `
     <div class="calc-vitem" style="flex-wrap:wrap;">
-      <span style="color:var(--text-secondary);flex:1;min-width:200px;font-size:0.84rem;">${escapeHtml(r.name)}${r.n ? ` <span style="color:var(--text-muted);font-size:0.75rem;">· ${r.n}-й раз${r.n > r.total ? ' (макс. по лестнице)' : ''}</span>` : ''}</span>
+      <span style="color:var(--text-secondary);flex:1;min-width:200px;font-size:0.84rem;">${escapeHtml(r.name)}${r.tag ? ` <span style="color:var(--text-muted);font-size:0.75rem;">· ${r.tag}</span>` : ''}${r.n ? ` <span style="color:var(--text-muted);font-size:0.75rem;">· ${r.n}-й раз${r.n > r.total ? ' (макс. по лестнице)' : ''}</span>` : ''}</span>
       <span style="display:flex;gap:0.3rem;flex-wrap:wrap;">${r.pens.map(badge).join('')}</span>
       <button class="calc-del" onclick="removeV(${r.v.id})">×</button>
     </div>`).join('');
@@ -1002,11 +1006,11 @@ function render() {
   let bd = '<div style="font-size:0.73rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Разбивка</div>';
   rows.forEach(r => {
     bd += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:0.8rem;flex-wrap:wrap;">
-      <span style="color:var(--text-secondary);font-size:0.82rem;flex:1;min-width:180px;">${escapeHtml(r.name)}${r.n ? ` — шаг ${Math.min(r.n, r.total)} из ${r.total}` : ' (кастом)'}</span>
+      <span style="color:var(--text-secondary);font-size:0.82rem;flex:1;min-width:180px;">${escapeHtml(r.name)}${r.tag ? ' · ' + r.tag : ''}${r.n ? ` — шаг ${Math.min(r.n, r.total)} из ${r.total}` : ' (кастом)'}</span>
       <span style="display:flex;gap:0.3rem;flex-wrap:wrap;">${r.pens.map(badge).join('')}</span>
     </div>`;
   });
-  bd += '<div style="margin-top:0.6rem;font-size:0.75rem;">Повтор одного правила двигает его по лестнице; §1.1 и §1.1.1 считаются вместе. Варны сгорают через 60 дней без нарушений. Администрация вправе изменить вид или срок наказания.</div>';
+  bd += '<div style="margin-top:0.6rem;font-size:0.75rem;">Повтор одного правила двигает его по лестнице; чат и войс по §1.1 считаются вместе. Место нарушения берётся с выбранной вкладки. Варны сгорают через 60 дней без нарушений. Администрация вправе изменить вид или срок наказания.</div>';
   bdEl.innerHTML = bd;
   rstBtn.style.display = '';
 }
