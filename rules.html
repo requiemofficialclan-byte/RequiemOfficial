@@ -65,6 +65,7 @@
 .pb-mute    { background: rgba(71,181,255,0.1);   color: #47b5ff; border: 1px solid rgba(71,181,255,0.2); }
 .pb-timeout { background: rgba(91,156,255,0.12);  color: #77aaff; border: 1px solid rgba(91,156,255,0.28); }
 .pb-vcmute  { background: rgba(100,220,255,0.1);  color: #64dcff; border: 1px solid rgba(100,220,255,0.2); }
+.pb-notice  { background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.14); }
 .pb-ban     { background: rgba(232,0,58,0.1);     color: var(--red-light); border: 1px solid rgba(232,0,58,0.25); }
 .pb-permban { background: rgba(150,0,0,0.15);     color: #ff6b6b; border: 1px solid rgba(150,0,0,0.3); }
 .pb-frozen  { background: rgba(127,216,255,0.1);  color: #7fd8ff; border: 1px solid rgba(127,216,255,0.25); }
@@ -719,43 +720,7 @@
 
       
       <div class="calc-row">
-        <select id="vSelect" class="calc-select">
-          <optgroup label="💬 Общий чат">
-            <option value="insult_chat|warn|1|chat">§1.1 Оскорбления / токсичность в чате</option>
-            <option value="family_chat|mute|2|chat">§1.1.2 Переход на родителей / семью</option>
-            <option value="flood|timeout|2|chat">Флуд / спам в чате (авто: 1ч 30мин)</option>
-            <option value="advert|warn|1|chat">Реклама (1-й раз)</option>
-            <option value="advert2|mute|2|chat">Реклама (повторно)</option>
-            <option value="nsfw_chat|mute|2|chat">NSFW / шокирующий контент</option>
-            <option value="scam|noaccess|3|chat">Мошенничество внутри клана</option>
-          </optgroup>
-          <optgroup label="🎤 Голосовой чат">
-            <option value="toxic_vc|vcmute|1|voice">§1.1.1 Токсичность в войсе</option>
-            <option value="family_vc|vcmute|2|voice">§1.1.2 Переход на родителей / семью</option>
-            <option value="noise|vcmute|1|voice">Помехи / шум / саундборды</option>
-            <option value="nsfw_vc|noaccess|4|voice">18+ контент через камеру / стрим</option>
-            <option value="ignore_vc|vcmute|1|voice">Игнор требований адм. в войсе</option>
-            <option value="video_bad|videomute|2|voice">Неприемлемый видеоконтент (не NSFW)</option>
-          </optgroup>
-          <optgroup label="⚜️ Нарушения против администрации">
-            <option value="adm_insult|warn|1|chat">Оскорбление состава клана</option>
-            <option value="adm_public|mute|1|chat">Публичный спор с администрацией</option>
-          </optgroup>
-          <optgroup label="📄 Правила Discord">
-            <option value="tos_minor|warn|1|both">Нарушение ToS Discord (лёгкое)</option>
-            <option value="tos_severe|permaban|5|both">⛔ Грубое нарушение ToS Discord</option>
-          </optgroup>
-          <optgroup label="⚔️ Репутация клана">
-            <option value="clan_rep_1|noaccess|4|both|1–3 дня">§1.4 Вред репутации клана (1-й случай)</option>
-            <option value="clan_rep_2|noaccess|4|both|7–14 дней">§1.4 Вред репутации клана (повторно)</option>
-            <option value="clan_rep_sys|permaban|5|both">§1.4 Систематическая дискредитация</option>
-            <option value="clan_rep_raid|permaban|5|both">§1.4 Рейд / массовая травля / организованный вред</option>
-          </optgroup>
-          <optgroup label="⛔ Критические нарушения">
-            <option value="threat|permaban|5|both">⛔ Угрозы / Доксинг</option>
-            <option value="bypass|noaccess|4|both">⛔ Обход наказаний (альт-аккаунт)</option>
-          </optgroup>
-        </select>
+        <select id="vSelect" class="calc-select"></select>
         <button class="calc-add-btn" onclick="addV()">+ Добавить</button>
       </div>
 
@@ -826,54 +791,78 @@ let violations = [];
 let nid = 0;
 let currentZone = 'chat';
 
-const BADGE_CLASS = { warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', timeout:'pb-timeout', frozen:'pb-frozen', noaccess:'pb-noaccess', permaban:'pb-permban' };
-const BADGE_LABEL = { warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', timeout:'⏳ Таймаут Discord', frozen:'❄️ Заморожен', noaccess:'🚫 Нет доступа', permaban:'⛔ Пермабан' };
+const P = (type, dur, h, note, by) => ({ type, dur: dur || '', h: h || 0, note: note || '', by: by || '' });
+const NOTICE = P('notice'), WARN = P('warn');
 
-const RESULTS = [
-  { icon:'✅', title:'Чисто', desc:'Нарушений нет', cls:'r-ok' },
-  { icon:'⚠️', title:'Предупреждение (варн)', desc:'Устное или официальное предупреждение', cls:'r-warn' },
-  { icon:'🔇', title:'Мут в чате', desc:'Временное ограничение текстовых каналов', cls:'r-warn' },
-  { icon:'🎤', title:'Мут в войсе', desc:'Ограничение голосовых каналов', cls:'r-warn' },
-  { icon:'🚫', title:'Нет доступа', desc:'Временная замена бана — доступен только тикет поддержки', cls:'r-ban' },
-  { icon:'⛔', title:'Пермабан + ЧС', desc:'Постоянный бан без апелляции', cls:'r-permban' },
+// Лестницы наказаний — 1:1 с разделом правил. type 'place' = мут по месту нарушения (чат → мут, войс → войс-мут)
+const RULES = [
+  // §1
+  { id:'r11',  g:'💬 Общий чат',        zone:'chat',  group:'g11',  place:'chat',  name:'§1.1 Оскорбления / токсичность в чате',
+    ladder:[[NOTICE],[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r112c',g:'💬 Общий чат',        zone:'chat',  group:'g112', place:'chat',  name:'§1.1.2 Переход на родителей / семью',
+    ladder:[[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r12',  g:'💬 Общий чат',        zone:'chat',  group:'g12',  place:'chat',  name:'§1.2 Флуд / спам (авто-таймаут бота)',
+    ladder:[[P('timeout','1ч 30мин',1.5,'','Бот (автоматически)')],[NOTICE],[WARN,P('frozen','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r21',  g:'💬 Общий чат',        zone:'chat',  group:'g21',  place:'chat',  name:'§2.1 Реклама / самопродвижение',
+    ladder:[[P('notice','',0,'+ удаление сообщения')],[WARN,P('mute','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r22',  g:'💬 Общий чат',        zone:'chat',  group:'g22',  place:'chat',  name:'§2.2 NSFW / шокирующий контент',
+    ladder:[[P('notice','',0,'+ удаление сообщения')],[WARN,P('mute','12–24ч',24)],[P('noaccess','1–3 дня',72)],[P('noaccess','7 дней',168)]] },
+  { id:'r24',  g:'💬 Общий чат',        zone:'chat',  group:'g24',  place:'chat',  name:'§2.4 Мошенничество внутри клана',
+    ladder:[[P('noaccess','',0,'до разбирательства')],[P('noaccess','7–14 дней',336,'подтверждено')],[P('permaban')]] },
+  // §3
+  { id:'r111', g:'🎤 Голосовой чат',    zone:'voice', group:'g11',  place:'voice', name:'§1.1.1 Токсичность в войсе',
+    ladder:[[NOTICE],[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r112v',g:'🎤 Голосовой чат',    zone:'voice', group:'g112', place:'voice', name:'§1.1.2 Переход на родителей / семью (войс)',
+    ladder:[[WARN,P('place','2–6ч',6)],[WARN,P('place','12–24ч',24)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r31',  g:'🎤 Голосовой чат',    zone:'voice', group:'g31',  place:'voice', name:'§3.1 Помехи / шум / саундборды',
+    ladder:[[NOTICE],[P('vcmute','1–4ч',4)],[WARN,P('vcmute','12ч',12)]] },
+  { id:'r32',  g:'🎤 Голосовой чат',    zone:'voice', group:'g32',  place:'voice', name:'§3.2 18+ контент через камеру / стрим',
+    ladder:[[P('notice','',0,'+ войс-мут'),P('vcmute')],[WARN,P('vcmute','24ч',24)],[P('noaccess','3–7 дней',168)],[P('permaban')]] },
+  { id:'r33',  g:'🎤 Голосовой чат',    zone:'voice', group:'g33',  place:'voice', name:'§3.3 Игнор требований адм. в войсе',
+    ladder:[[NOTICE],[P('vcmute','2–6ч',6)],[WARN,P('vcmute','12ч',12)]] },
+  { id:'r34',  g:'🎤 Голосовой чат',    zone:'voice', group:'g34',  place:'voice', name:'§3.4 Неприемлемый видеоконтент (не NSFW)',
+    ladder:[[NOTICE],[P('videomute','2–6ч',6)],[WARN,P('videomute','24ч',24)],[P('videomute','7 дней',168)]] },
+  // §4
+  { id:'r41',  g:'⚜️ Против администрации', zone:'both', group:'g41', place:'chat', name:'§4.1 Оскорбление / давление на состав клана',
+    ladder:[[NOTICE],[WARN,P('mute','6–12ч',12)],[P('noaccess','1–3 дня',72)]] },
+  { id:'r41t', g:'⚜️ Против администрации', zone:'both', group:'g41t',place:'chat', name:'§4.1 ⛔ Угрозы составу клана',
+    ladder:[[P('permaban')]] },
+  { id:'r42',  g:'⚜️ Против администрации', zone:'both', group:'g42', place:'chat', name:'§4.2 Публичный спор с решением администрации',
+    ladder:[[NOTICE],[WARN,P('timeout','2–6ч',6)],[P('timeout','12–24ч',24)]] },
+  // §5
+  { id:'r51',  g:'📄 Правила Discord',  zone:'both',  group:'g51',  place:'chat',  name:'§5.1 Нарушение ToS Discord',
+    ladder:[[NOTICE],[WARN,P('mute','6–12ч',12)],[P('noaccess','3–7 дней',168)]] },
+  { id:'r52',  g:'📄 Правила Discord',  zone:'both',  group:'g52',  place:'chat',  name:'§5.2 ⛔ Грубое нарушение ToS Discord',
+    ladder:[[P('permaban')]] },
+  { id:'r53',  g:'📄 Правила Discord',  zone:'both',  group:'g53',  place:'chat',  name:'§5.3 Санкция Discord за действия на сервере',
+    ladder:[[WARN,P('notice','',0,'доп. наказание — по решению адм.')]] },
+  // Репутация и критические
+  { id:'r14',  g:'⚔️ Репутация клана',  zone:'both',  group:'g14',  place:'chat',  name:'§1.4 Вред репутации клана',
+    ladder:[[WARN,P('noaccess','1–3 дня',72)],[P('noaccess','7–14 дней',336)],[P('permaban')]] },
+  { id:'r14r', g:'⚔️ Репутация клана',  zone:'both',  group:'g14r', place:'chat',  name:'§1.4 ⛔ Рейд / массовая травля / организованный вред',
+    ladder:[[P('permaban')]] },
+  { id:'r13',  g:'⛔ Критические',       zone:'both',  group:'g13',  place:'chat',  name:'§1.3 ⛔ Угрозы / Доксинг',
+    ladder:[[P('permaban')]] },
+  { id:'r23',  g:'⛔ Критические',       zone:'both',  group:'g23',  place:'chat',  name:'§2.3 ⛔ Обход наказаний (альт-аккаунт)',
+    ladder:[[P('altban')]] },
 ];
+const RULE_BY_ID = Object.fromEntries(RULES.map(r => [r.id, r]));
 
-const ROLE_HINT = [
-  '', 
-  'Модератор или Админ',
-  'Модератор или Админ',
-  'Модератор или Админ',
-  'Модератор или Админ',
-  'Модератор/Админ фиксируют — утверждает Зам или Создатель',
-];
-
-function getBanDuration(violations, lvl) {
-  const counts = {};
-  violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
-  const noAccessCount = counts['noaccess'] || 0;
-  const total = violations.reduce((s,v) => s + v.sev, 0);
-
-  if (lvl === 1) return null; 
-  if (lvl === 2) { 
-    if (total <= 1) return '2–6 часов';
-    if (total <= 2) return '12–24 часа';
-    return '24–48 часов';
-  }
-  if (lvl === 3) { 
-    if (total <= 1) return '1–4 часа';
-    if (total <= 2) return '6–12 часов';
-    return '12–24 часа';
-  }
-  if (lvl === 4) { 
-    if (noAccessCount === 0 && total <= 3) return '1–3 дня';
-    if (noAccessCount === 0) return '3–7 дней';
-    if (noAccessCount === 1) return '7 дней';
-    return '14 дней';
-  }
-  return null; 
-}
-
-const SEV_TO_RESULT = { warn:1, mute:2, vcmute:3, videomute:3, frozen:2, noaccess:4, permaban:5 };
+const BADGE_CLASS = { notice:'pb-notice', warn:'pb-warn', mute:'pb-mute', vcmute:'pb-vcmute', videomute:'pb-videomute', timeout:'pb-timeout', frozen:'pb-frozen', noaccess:'pb-noaccess', altban:'pb-permban', permaban:'pb-permban' };
+const BADGE_LABEL = { notice:'💬 Предупреждение', warn:'⚠️ Варн', mute:'🔇 Мут в чате', vcmute:'🎤 Войс-мут', videomute:'📵 Мут видео', timeout:'⏳ Таймаут Discord', frozen:'❄️ Заморожен', noaccess:'🚫 Нет доступа', altban:'⛔ На все альты + ЧС', permaban:'⛔ Пермабан + ЧС' };
+const RANK  = { notice:1, warn:2, timeout:3, mute:3, vcmute:3, videomute:3, frozen:4, noaccess:5, altban:6, permaban:7 };
+const HERO = {
+  notice:   { icon:'💬', title:'Предупреждение',        desc:'Устное или официальное предупреждение', cls:'r-warn' },
+  warn:     { icon:'⚠️', title:'Варн',                  desc:'Официальное предупреждение, сгорает через 60 дней без нарушений', cls:'r-warn' },
+  mute:     { icon:'🔇', title:'Мут в чате',            desc:'Нельзя писать в текстовые каналы', cls:'r-warn' },
+  vcmute:   { icon:'🎤', title:'Мут в войсе',           desc:'Отключён микрофон; писать в чат можно', cls:'r-warn' },
+  videomute:{ icon:'📵', title:'Мут видео',             desc:'Нельзя включать камеру и демонстрацию экрана', cls:'r-warn' },
+  timeout:  { icon:'⏳', title:'Таймаут Discord',       desc:'Встроенное ограничение Discord: нельзя писать, реагировать и говорить в войсе', cls:'r-warn' },
+  frozen:   { icon:'❄️', title:'Заморожен',             desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' },
+  noaccess: { icon:'🚫', title:'Нет доступа',           desc:'Замена бана — виден только канал с тикетом поддержки', cls:'r-ban' },
+  altban:   { icon:'⛔', title:'Наказание на все альты + ЧС', desc:'Применяется то же, что было на основном аккаунте', cls:'r-permban' },
+  permaban: { icon:'⛔', title:'Пермабан + ЧС',         desc:'Постоянный бан без апелляции', cls:'r-permban' },
+};
 
 function setZone(zone, btn) {
   currentZone = zone;
@@ -888,34 +877,35 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+function buildSelect() {
+  const sel = document.getElementById('vSelect');
+  const groups = {};
+  RULES.forEach(r => {
+    if (!groups[r.g]) { groups[r.g] = document.createElement('optgroup'); groups[r.g].label = r.g; sel.appendChild(groups[r.g]); }
+    const o = document.createElement('option');
+    o.value = r.id; o.textContent = r.name; o.dataset.zone = r.zone;
+    groups[r.g].appendChild(o);
+  });
+}
+
 function filterOptions() {
   const sel = document.getElementById('vSelect');
   Array.from(sel.options).forEach(opt => {
-    if (!opt.value) return;
-    const parts = opt.value.split('|');
-    const zone = parts[3] || 'both';
+    const zone = opt.dataset.zone || 'both';
     opt.hidden = !(zone === 'both' || zone === currentZone || currentZone === 'both');
   });
-  
   if (sel.options[sel.selectedIndex] && sel.options[sel.selectedIndex].hidden) {
-    for (let o of sel.options) { if (!o.hidden && o.value) { sel.value = o.value; break; } }
+    for (const o of sel.options) { if (!o.hidden) { sel.value = o.value; break; } }
   }
 }
 
-function toggleCustom() {
-  const f = document.getElementById('customForm');
-  f.classList.toggle('open');
-}
+function toggleCustom() { document.getElementById('customForm').classList.toggle('open'); }
 
 function addV() {
   const sel = document.getElementById('vSelect');
   const opt = sel.options[sel.selectedIndex];
-  if (!opt || !opt.value || opt.hidden) return;
-  const parts = opt.value.split('|');
-  const type = parts[1];
-  const sev  = parseInt(parts[2]);
-  const fixedDuration = parts[4] || null;
-  violations.push({ id: nid++, name: opt.text, type, sev, custom: false, fixedDuration });
+  if (!opt || opt.hidden) return;
+  violations.push({ id: nid++, rid: opt.value, custom: false });
   render();
 }
 
@@ -924,8 +914,7 @@ function addCustom() {
   const type     = document.getElementById('customType').value;
   const duration = document.getElementById('customDuration').value.trim();
   if (!reason) { document.getElementById('customReason').focus(); return; }
-  const label = BADGE_LABEL[type] + (duration ? ' · ' + duration : '') + ' (кастом)';
-  violations.push({ id: nid++, name: reason + (duration ? ' (' + duration + ')' : ''), type, sev: SEV_TO_RESULT[type] || 1, custom: true, customLabel: label });
+  violations.push({ id: nid++, custom: true, name: reason, type, duration });
   document.getElementById('customReason').value = '';
   document.getElementById('customDuration').value = '';
   document.getElementById('customForm').classList.remove('open');
@@ -936,11 +925,28 @@ function removeV(id) { violations = violations.filter(v => v.id !== id); render(
 function resetV()    { violations = []; render(); }
 
 function violationsWord(n) {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return 'нарушение';
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'нарушения';
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return 'нарушение';
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return 'нарушения';
   return 'нарушений';
+}
+
+// Считаем шаг лестницы для каждого нарушения: повтор одного правила (или общей группы §1.1/§1.1.1) = следующий шаг
+function compute() {
+  const cnt = {};
+  return violations.map(v => {
+    if (v.custom) return { v, name: v.name, pens: [P(v.type, v.duration, 0)], n: 0 };
+    const r = RULE_BY_ID[v.rid];
+    cnt[r.group] = (cnt[r.group] || 0) + 1;
+    const n = cnt[r.group];
+    const pens = r.ladder[Math.min(n, r.ladder.length) - 1].map(p => ({ ...p, type: p.type === 'place' ? (r.place === 'voice' ? 'vcmute' : 'mute') : p.type }));
+    return { v, name: r.name, pens, n, total: r.ladder.length };
+  });
+}
+
+function badge(p) {
+  const txt = BADGE_LABEL[p.type] + (p.dur ? ' · ' + p.dur : '') + (p.note ? ' · ' + p.note : '');
+  return `<span class="p-badge ${BADGE_CLASS[p.type] || 'pb-warn'}" style="flex-shrink:0;">${escapeHtml(txt)}</span>`;
 }
 
 function render() {
@@ -958,82 +964,54 @@ function render() {
     return;
   }
 
-  listEl.innerHTML = violations.map(v => `
-    <div class="calc-vitem">
-      <span class="p-badge ${BADGE_CLASS[v.type]||'pb-warn'}" style="flex-shrink:0;">${v.custom ? escapeHtml(v.customLabel) : BADGE_LABEL[v.type]}</span>
-      <span style="color:var(--text-secondary);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.84rem;">${escapeHtml(v.name)}</span>
-      <button class="calc-del" onclick="removeV(${v.id})">×</button>
+  const rows = compute();
+
+  listEl.innerHTML = rows.map(r => `
+    <div class="calc-vitem" style="flex-wrap:wrap;">
+      <span style="color:var(--text-secondary);flex:1;min-width:200px;font-size:0.84rem;">${escapeHtml(r.name)}${r.n ? ` <span style="color:var(--text-muted);font-size:0.75rem;">· ${r.n}-й раз${r.n > r.total ? ' (макс. по лестнице)' : ''}</span>` : ''}</span>
+      <span style="display:flex;gap:0.3rem;flex-wrap:wrap;">${r.pens.map(badge).join('')}</span>
+      <button class="calc-del" onclick="removeV(${r.v.id})">×</button>
     </div>`).join('');
 
-  
-  const hasPerm = violations.some(v => v.type === 'permaban');
-  let maxLvl = 0;
-  if (hasPerm) {
-    maxLvl = 5;
-  } else {
-    const counts = {};
-    violations.forEach(v => { counts[v.type] = (counts[v.type] || 0) + 1; });
+  // Объединяем меры по типу: берём самый длинный срок
+  const merged = {};
+  rows.forEach(r => r.pens.forEach(p => {
+    const m = merged[p.type];
+    if (!m || p.h > m.h || (!m.dur && p.dur)) merged[p.type] = { ...p };
+  }));
+  const all = Object.values(merged).sort((a, b) => RANK[b.type] - RANK[a.type]);
+  const hero = all[0];
+  const H = HERO[hero.type];
+  const finalBan = RANK[hero.type] >= 6;
+  const rest = finalBan ? [] : all.slice(1);
+  const hint = finalBan ? 'Модератор/Админ фиксируют — утверждает Зам или Создатель'
+             : (hero.by || 'Модератор или Админ');
 
-    
-    const hasChat  = violations.some(v => ['warn','mute','timeout','noaccess'].includes(v.type));
-    const hasVoice = violations.some(v => v.type === 'vcmute');
-    const hasBan   = violations.some(v => v.type === 'noaccess');
-
-    
-    let baseMax = Math.max(...violations.map(v => SEV_TO_RESULT[v.type] || 1));
-
-    
-    if ((counts['warn'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
-    if ((counts['mute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
-    if ((counts['timeout'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
-    if ((counts['vcmute'] || 0) >= 3) baseMax = Math.max(baseMax, 4);
-    if ((counts['noaccess'] || 0) >= 2) baseMax = 5;
-
-    
-    
-    if (hasChat && hasVoice && !hasBan) baseMax = Math.max(baseMax, 4);
-
-    maxLvl = Math.min(5, baseMax);
-  }
-
-  
-  const _hasChat  = violations.some(v => ['warn','mute','timeout'].includes(v.type));
-  const _hasVoice = violations.some(v => v.type === 'vcmute');
-  const _hasBan   = violations.some(v => v.type === 'noaccess');
-  let p = { ...RESULTS[maxLvl] };
-  const onlyTimeout = violations.every(v => v.type === 'timeout');
-  const hasFrozen = violations.some(v => v.type === 'frozen');
-  if (onlyTimeout && maxLvl === 2) {
-    p = { icon:'⏳', title:'Таймаут Discord', desc:'Автоматическое встроенное ограничение Discord от бота', cls:'r-warn' };
-  } else if (hasFrozen && maxLvl === 4 && !_hasBan) {
-    p = { icon:'❄️', title:'Заморожен', desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' };
-  } else if (maxLvl === 4 && _hasChat && _hasVoice && !_hasBan) {
-    p = { icon:'❄️', title:'Заморожен', desc:'Отдельная роль сервера, выдаваемая администрацией вручную', cls:'r-frozen' };
-  }
-  let dur = getBanDuration(violations, maxLvl);
-  // Для правил с явно заданным сроком показываем точный срок, если выбрано только одно нарушение.
-  if (violations.length === 1 && violations[0].fixedDuration) dur = violations[0].fixedDuration;
-  const roleHint = ROLE_HINT[maxLvl] || '';
-  resEl.className = `calc-result ${p.cls}`;
+  resEl.className = `calc-result ${H.cls}`;
   resEl.innerHTML = `
-    <div class="calc-result-icon">${p.icon}</div>
-    <div class="calc-result-title">${p.title}</div>
-    ${dur ? `<div style="font-size:1rem;font-weight:700;color:var(--text);margin:0.2rem 0;">⏱ ${dur}</div>` : ''}
-    <div class="calc-result-desc">${p.desc}</div>
-    ${roleHint ? `<div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-secondary);">👤 Кто выдаёт: <strong style="color:var(--text);">${roleHint}</strong></div>` : ''}
+    <div class="calc-result-icon">${H.icon}</div>
+    <div class="calc-result-title">${H.title}</div>
+    ${hero.dur ? `<div style="font-size:1rem;font-weight:700;color:var(--text);margin:0.2rem 0;">⏱ ${escapeHtml(hero.dur)}</div>` : ''}
+    ${hero.note ? `<div style="font-size:0.85rem;color:var(--text);">${escapeHtml(hero.note)}</div>` : ''}
+    <div class="calc-result-desc">${H.desc}</div>
+    ${rest.length ? `<div style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-muted);">Вместе с этим:</div>
+      <div style="display:flex;gap:0.35rem;flex-wrap:wrap;justify-content:center;">${rest.map(badge).join('')}</div>` : ''}
+    <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-secondary);">👤 Кто выдаёт: <strong style="color:var(--text);">${hint}</strong></div>
     <div style="margin-top:0.4rem;font-size:0.78rem;color:var(--text-muted);">Итог на основе ${violations.length} ${violationsWord(violations.length)}</div>`;
 
   let bd = '<div style="font-size:0.73rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Разбивка</div>';
-  violations.forEach(v => {
-    bd += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:0.8rem;">
-      <span style="color:var(--text-secondary);font-size:0.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${escapeHtml(v.name)}</span>
-      <span class="p-badge ${BADGE_CLASS[v.type]||'pb-warn'}" style="flex-shrink:0;">${v.custom ? escapeHtml(v.customLabel) : BADGE_LABEL[v.type]}</span>
+  rows.forEach(r => {
+    bd += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:0.8rem;flex-wrap:wrap;">
+      <span style="color:var(--text-secondary);font-size:0.82rem;flex:1;min-width:180px;">${escapeHtml(r.name)}${r.n ? ` — шаг ${Math.min(r.n, r.total)} из ${r.total}` : ' (кастом)'}</span>
+      <span style="display:flex;gap:0.3rem;flex-wrap:wrap;">${r.pens.map(badge).join('')}</span>
     </div>`;
   });
+  bd += '<div style="margin-top:0.6rem;font-size:0.75rem;">Повтор одного правила двигает его по лестнице; §1.1 и §1.1.1 считаются вместе. Варны сгорают через 60 дней без нарушений. Администрация вправе изменить вид или срок наказания.</div>';
   bdEl.innerHTML = bd;
   rstBtn.style.display = '';
 }
 
+buildSelect();
 filterOptions();
 </script>
 </body>
