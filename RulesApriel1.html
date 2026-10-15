@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила 1 апреля — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+
+.rule-block {
+  margin-bottom: 0.7rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.rule-block:hover { border-color: rgba(232,0,58,0.2); }
+.rule-block.critical {
+  border-color: rgba(232,0,58,0.3);
+  background: rgba(232,0,58,0.04);
+}
+.rule-block.critical .rule-num {
+  background: rgba(232,0,58,0.2);
+  border-color: rgba(232,0,58,0.45);
+}
+
+.rule-main {
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  align-items: flex-start;
+}
+.rule-num {
+  min-width: 44px;
+  height: 26px;
+  background: rgba(232,0,58,0.1);
+  border: 1px solid rgba(232,0,58,0.2);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--red-light);
+  flex-shrink: 0;
+  padding: 0 0.4rem;
+  margin-top: 0.15rem;
+}
+.rule-title { font-weight: 600; color: var(--text); font-size: 0.95rem; display: block; margin-bottom: 0.25rem; }
+.rule-desc  { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; }
+
+.rule-punishments {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 0.7rem 1.2rem;
+  display: flex; flex-direction: column; gap: 0.35rem;
+  background: rgba(0,0,0,0.15);
+}
+.punishment-row { display: flex; align-items: baseline; gap: 0.6rem; font-size: 0.82rem; }
+.p-label { color: var(--text-muted); white-space: nowrap; flex-shrink: 0; font-size: 0.75rem; }
+
+.p-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.15rem 0.6rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700; white-space: nowrap;
+}
+.pb-warn    { background: rgba(255,179,71,0.12);  color: #ffb347; border: 1px solid rgba(255,179,71,0.25); }
+.pb-mute    { background: rgba(71,181,255,0.1);   color: #47b5ff; border: 1px solid rgba(71,181,255,0.2); }
+.pb-timeout { background: rgba(91,156,255,0.12);  color: #77aaff; border: 1px solid rgba(91,156,255,0.28); }
+.pb-vcmute  { background: rgba(100,220,255,0.1);  color: #64dcff; border: 1px solid rgba(100,220,255,0.2); }
+.pb-notice  { background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.14); }
+.pb-ban     { background: rgba(232,0,58,0.1);     color: var(--red-light); border: 1px solid rgba(232,0,58,0.25); }
+.pb-permban { background: rgba(150,0,0,0.15);     color: #ff6b6b; border: 1px solid rgba(150,0,0,0.3); }
+.pb-frozen  { background: rgba(127,216,255,0.1);  color: #7fd8ff; border: 1px solid rgba(127,216,255,0.25); }
+.pb-noaccess{ background: rgba(255,138,91,0.12);  color: #ff8a5b; border: 1px solid rgba(255,138,91,0.28); }
+.pb-videomute{ background: rgba(255,92,168,0.1);  color: #ff5ca8; border: 1px solid rgba(255,92,168,0.25); }
+
+.section-header {
+  display: flex; align-items: center; gap: 0.8rem;
+  margin: 0 0 1.2rem 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.section-icon {
+  width: 38px; height: 38px;
+  background: var(--red-subtle);
+  border: 1px solid rgba(232,0,58,0.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.section-title    { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+.section-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+.calc-row {
+  display: flex; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap;
+}
+.calc-select {
+  flex: 1; min-width: 180px;
+  color-scheme: dark;
+  background: #0f0a12; color: var(--text);
+  border: 1px solid var(--glass-border); border-radius: 12px;
+  padding: 0.7rem 1rem; font-size: 0.9rem;
+  outline: none; font-family: inherit; cursor: pointer; transition: border-color 0.2s;
+}
+.calc-select:focus { border-color: rgba(232,0,58,0.4); }
+.calc-select option, .calc-select optgroup { background: #0f000a; color: var(--text); }
+
+.calc-add-btn {
+  background: var(--red); color: white; border: none;
+  border-radius: 12px; padding: 0.7rem 1.4rem;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  font-family: inherit; transition: all 0.2s; white-space: nowrap;
+}
+.calc-add-btn:hover { background: var(--red-light); transform: translateY(-1px); }
+
+.calc-vitem {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px; margin-bottom: 0.4rem;
+  font-size: 0.85rem; gap: 0.6rem;
+  animation: fadeUp 0.2s ease;
+}
+.calc-del {
+  background: rgba(232,0,58,0.1); border: 1px solid rgba(232,0,58,0.2);
+  color: var(--red-light); border-radius: 6px;
+  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem; flex-shrink: 0; font-family: inherit; transition: all 0.15s;
+}
+.calc-del:hover { background: var(--red); color: white; }
+
+.calc-result {
+  border-radius: 14px; padding: 1.4rem;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center; gap: 0.35rem; margin-top: 1rem;
+}
+.calc-result-icon  { font-size: 2rem; }
+.calc-result-title { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+.calc-result-desc  { font-size: 0.85rem; color: var(--text-secondary); }
+
+.r-ok      { background: rgba(0,212,170,0.08);  border: 1px solid rgba(0,212,170,0.2); }
+.r-warn    { background: rgba(255,179,71,0.08); border: 1px solid rgba(255,179,71,0.2); }
+.r-ban     { background: rgba(232,0,58,0.08);   border: 1px solid rgba(232,0,58,0.2); }
+.r-frozen  { background: rgba(127,216,255,0.08); border: 1px solid rgba(127,216,255,0.2); }
+.r-permban { background: rgba(150,0,0,0.1);     border: 1px solid rgba(150,0,0,0.25); }
+
+.calc-empty { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; }
+
+.custom-form {
+  background: rgba(232,0,58,0.05);
+  border: 1px solid rgba(232,0,58,0.2);
+  border-radius: 14px;
+  padding: 1.2rem;
+  margin-top: 1rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: fadeUp 0.2s ease;
+}
+.custom-form.open { display: flex; }
+.custom-form label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.custom-input {
+  color-scheme: dark;
+  background: #0f0a12; color: var(--text);
+  border: 1px solid var(--glass-border); border-radius: 10px;
+  padding: 0.6rem 0.9rem; font-size: 0.9rem;
+  font-family: inherit; outline: none; transition: border-color 0.2s; width: 100%;
+}
+.custom-input option { background: #0f000a; color: var(--text); }
+.custom-input:focus { border-color: rgba(232,0,58,0.4); }
+.custom-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.custom-row .custom-input { flex: 1; min-width: 120px; }
+
+.zone-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.zone-tab {
+  padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+  border: 1px solid var(--glass-border); background: var(--glass);
+  color: var(--text-muted); cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.zone-tab:hover { color: var(--text); border-color: rgba(232,0,58,0.3); }
+.zone-tab.active { background: var(--red-subtle); color: var(--red-light); border-color: rgba(232,0,58,0.35); }
+
+.role-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.15rem 0.6rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+}
+
+@media(max-width:600px) {
+  .calc-add-btn { width: 100%; }
+}
+
+/* Keep the staff page link visible in the rules navigation. */
+.nav-link.staff-guide-link{
+  display:inline-flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="scroll-top" id="scrollTop">↑</button>
+
+<header>
+  <div class="container">
+    <div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="rules.html" class="nav-link active">Правила</a>
+      <a href="news.html" class="nav-link">Новости</a>
+      <a href="join.html" class="nav-link">Вступление</a>
+      <a href="requirements.html" class="nav-link">Требования</a>
+      <a href="blacklist.html" class="nav-link">Чёрный список</a>
+      <a href="members.html" class="nav-link">Состав</a>
+      <a href="staff-guide.html" class="nav-link staff-guide-link">Для администрации</a>
+      <a href="about.html" class="nav-link">О клане</a>
+      <a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero" style="padding-bottom:2rem;">
+    <span class="page-hero-label">Обновление правил · 1 апреля</span>
+    <h1 style="font-size:clamp(2rem,6vw,3.5rem);">Правила клана Requiem — §А</h1>
+    <p>Новые ограничения по словам и темам. Соблюдай — и будет весело.</p>
+  </section>
+
+  <div class="container">
+
+
+    <div class="card fade-in d1" style="margin-bottom:1.5rem;">
+      <div class="section-header">
+        <div class="section-icon">📢</div>
+        <div><div class="section-title">Обновление правил от 1 апреля</div><div class="section-subtitle">Вступает в силу немедленно</div></div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.65;">
+        Администрация пересмотрела правила клана и добавила параграф §А. Он действует вместе с §1–§5 и использует ту же прогрессивную систему наказаний. Варны сгорают через <strong style="color:var(--text);">60 дней</strong> без нарушений. Апелляция — только через тикет в Discord.
+      </p>
+    </div>
+
+    <div class="card fade-in d2" style="margin-bottom:1.5rem;">
+      <div class="section-header">
+        <div class="section-icon">📜</div>
+        <div>
+          <div class="section-title">§А — Запрещённые слова и темы <span style="font-size:0.62rem;font-weight:700;padding:0.12rem 0.5rem;background:linear-gradient(135deg,var(--red),var(--red-light));color:white;border-radius:999px;margin-left:0.4rem;vertical-align:middle;">НОВОЕ</span></div>
+          <div class="section-subtitle">Для всех участников, везде</div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А1</div><div><span class="rule-title">Запрещённая фраза «не заикайся»</span><p class="rule-desc">Фраза «не заикайся» запрещена в текстовом и голосовом общении клана. Нужно сказать человеку что-то подобное — используй «договаривай спокойно» или «не торопись».</p><p class="rule-desc" style="margin-top:.55rem;"><strong>Важно:</strong> цитирование фразы в тикете при подаче жалобы нарушением не является.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут по месту нарушения 2–6ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А2</div><div><span class="rule-title">Число 67</span><p class="rule-desc">Запрещено произносить, писать и показывать число 67 в любом виде: «67», «шестьдесят семь», «6-7», «шесть-семь», «sixty seven». За спам этим числом бот автоматически выдаёт встроенный таймаут Discord на 1 час.</p><p class="rule-desc" style="margin-top:.55rem;"><strong>Исключение:</strong> числа 66 и 68 разрешены. Если тебе очень нужно 67 — можешь назвать его «66 плюс 1».</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">Авто (бот)</span><span class="p-badge pb-timeout">⏳ Таймаут Discord 1ч</span></div><div class="punishment-row"><span class="p-label">После авто</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн</span><span class="p-badge pb-frozen">❄️ Заморожен 6–12ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А3</div><div><span class="rule-title">Слово «нос»</span><p class="rule-desc">Слово «нос» запрещено. Разрешается использовать «обонятельный орган», «шнобель» или жест рукой. Слова, в состав которых входит запрещённое слово («носорог», «носки», «Носов»), под запрет не попадают.</p><p class="rule-desc" style="margin-top:.55rem;"><strong>Важно:</strong> прямой вопрос «как называется эта штука на лице» не считается провокацией, если не повторяется более 3 раз.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут по месту нарушения 2–6ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут по месту нарушения 12–24ч</span></div><div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А4</div><div><span class="rule-title">Фраза «я тролль»</span><p class="rule-desc">Заявлять о своей принадлежности к троллям запрещено. Если сообщение звучит как «я тролль», «я просто тролль» или «ну я же тролль», оно считается нарушением вне зависимости от тона.</p><p class="rule-desc" style="margin-top:.55rem;"><strong>Повтор нарушения считается общим:</strong> если участник сказал фразу в чате, а затем в войсе, это не считается «первым разом заново».</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут в чате 6–12ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А5</div><div><span class="rule-title">Трансляция Undertale</span><p class="rule-desc">Запрещено показывать Undertale через трансляцию экрана и камеру: игровой процесс, саундтрек в фоне и главное меню. Правило действует в каждом голосовом канале клана.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение + остановка трансляции</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 2–6ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 24ч + варн</span></div><div class="punishment-row"><span class="p-label">4-й раз</span><span class="p-badge pb-videomute">📵 Мут видео 7 дней</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А6</div><div><span class="rule-title">Обсуждение Undertale</span><p class="rule-desc">Обсуждать Undertale в текстовых и голосовых каналах запрещено: персонажей, концовки, музыку, мемы и теории. Если очень хочется, придумай своё название («та игра с грустным скелетом») — и получи за это то же нарушение.</p><p class="rule-desc" style="margin-top:.55rem;"><strong>Не является нарушением:</strong> упоминание игры в тикете для жалобы на другого участника.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение + удаление сообщения</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн + мут в чате 12–24ч</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-noaccess">🚫 Нет доступа 1–3 дня</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А7</div><div><span class="rule-title">Обход запретных слов</span><p class="rule-desc">Использование шифров, опечаток, транслита, эмодзи и намёков для обхода §А1–§А6 («н0с», «шесть семь», «U-tale») считается отдельным нарушением. Наказание выдаётся по лестнице обойдённого правила.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-warn">⚠️ Варн</span><span class="p-badge pb-warn">+ наказание по обойдённому правилу</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А8</div><div><span class="rule-title">Приветствие «ку»</span><p class="rule-desc">В общем чате допускается приветствие «Здравствуйте, уважаемый чат» или «Доброго времени суток». Сокращённые формы («ку», «хай», «прив») не допускаются.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-mute">🔇 Мут в чате 6ч</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А9</div><div><span class="rule-title">Ложная информация о катках</span><p class="rule-desc">Фразы «это последняя катка» и «ещё одну и спать» в войсе считаются заведомо ложной информацией, если после них участник остался в игре более 30 минут.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">1-й раз</span><span class="p-badge pb-warn">💬 Предупреждение</span></div><div class="punishment-row"><span class="p-label">2-й раз</span><span class="p-badge pb-warn">⚠️ Варн</span></div><div class="punishment-row"><span class="p-label">3-й раз</span><span class="p-badge pb-warn">⚠️ Варн</span><span class="p-badge pb-frozen">❄️ Заморожен 6–12ч</span></div></div>
+      </div>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А10</div><div><span class="rule-title">Шутки 1 апреля</span><p class="rule-desc">Шутки 1 апреля запрещены. Администрация осознаёт, что это правило нарушает само себя, и это не меняет его силу.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-noaccess">🚫 Нет доступа до 2 апреля</span></div></div>
+      </div>
+      <div class="rule-block critical">
+        <div class="rule-main"><div class="rule-num">§А11</div><div><span class="rule-title">Чтение §А</span><p class="rule-desc">Если ты читаешь этот пункт, ты уже нарушил §А11. Чтение остальных пунктов тоже было нарушением, просто нестрогим.</p></div></div>
+        <div class="rule-punishments"><div class="punishment-row"><span class="p-label">Всегда</span><span class="p-badge pb-permban">⛔ Пермабан + ЧС · 24 часа · до 2 апреля</span></div></div>
+      </div>
+      <div style="height:1px;background:var(--glass-border);margin:1rem 0;"></div>
+      <p style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.8rem;">Для состава администрации</p>
+      <div class="rule-block">
+        <div class="rule-main"><div class="rule-num">§А.1</div><div><span class="rule-title">Соблюдение правил администрацией</span><p class="rule-desc">Модераторы, администраторы, поддержка и со-владелец соблюдают §А наравне с участниками. Если сотрудник случайно сказал «67» в войсе, он обязан сам выдать себе предупреждение.</p></div></div>
+        
+      </div>
+    </div>
+
+    <div class="card fade-in d3" style="text-align:center;margin-bottom:2rem;">
+      <button class="calc-add-btn" id="agreeBtn" onclick="agree()">✅ Я прочитал(а) и согласен(на)</button>
+      <div id="agreeResult" style="margin-top:1rem;"></div>
+      <div style="margin-top:1rem;"><a href="rules.html" style="font-size:0.85rem;color:var(--text-muted);">← Вернуться к настоящим правилам</a></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">REQUIEM</div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Главная</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="news.html" class="footer-link">Новости</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+      <a href="requirements.html" class="footer-link">Требования</a>
+      <a href="blacklist.html" class="footer-link">Чёрный список</a>
+      <a href="members.html" class="footer-link">Состав</a><a href="staff-guide.html" class="footer-link">Для администрации</a>
+      <a href="about.html" class="footer-link">О клане</a>
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+    </div>
+    <div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+let clicks = 0;
+const JOKES = [
+  { icon:'✅', title:'Согласие зафиксировано', desc:'Спасибо. Обратите внимание: прочитав §А11, вы нарушили §А11.', cls:'r-warn' },
+  { icon:'🚫', title:'Согласие тоже нарушение', desc:'Вы согласились слишком быстро. Нет доступа до 2 апреля.', cls:'r-ban' },
+  { icon:'⛔', title:'Пермабан + ЧС · 24 часа', desc:'Наказание за чтение §А11 вступило в силу и закончится 2 апреля.', cls:'r-permban' },
+  { icon:'🤡', title:'С 1 апреля!', desc:'Это шутка. Никаких наказаний нет, настоящие правила — на странице «Правила».', cls:'r-ok' },
+];
+function agree() {
+  const j = JOKES[Math.min(clicks, JOKES.length - 1)];
+  clicks++;
+  const el = document.getElementById('agreeResult');
+  el.innerHTML = `<div class="calc-result ${j.cls}"><div class="calc-result-icon">${j.icon}</div><div class="calc-result-title">${j.title}</div><div class="calc-result-desc">${j.desc}</div></div>`;
+}
+</script>
+</body>
+</html>
