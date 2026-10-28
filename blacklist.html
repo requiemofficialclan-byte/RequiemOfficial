@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чёрный список — Requiem</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.blacklist-item {
+  background: var(--glass);
+  border: 1px solid rgba(232,0,58,0.25);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  transition: all 0.25s ease;
+}
+.blacklist-item:hover {
+  border-color: var(--red-light);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(232,0,58,0.15);
+}
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.filter-tag, .tag {
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(232,0,58,0.25);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.filter-tag { cursor: pointer; }
+.filter-tag:hover {
+  transform: translateY(-1px);
+  border-color: var(--red-light);
+  color: var(--text);
+}
+.filter-tag.active {
+  background: var(--red-subtle);
+  border-color: rgba(232,0,58,0.45);
+  color: var(--red-light);
+  box-shadow: 0 0 12px rgba(232,0,58,0.15);
+}
+.tag { margin: 0.2rem 0.3rem 0.2rem 0; display: inline-block; cursor: default; }
+.tag-unknown { border-style: dashed; opacity: 0.85; }
+.tag-dox { background: rgba(163,230,53,0.1); border-color: rgba(163,230,53,0.3); color: #c9f76f; }
+.tag-toxic { background: rgba(232,0,58,0.1); border-color: rgba(232,0,58,0.3); color: #ff8099; }
+.tag-spam { background: rgba(255,179,71,0.1); border-color: rgba(255,179,71,0.3); color: #ffd080; }
+.tag-alt { background: rgba(100,200,100,0.1); border-color: rgba(100,200,100,0.3); color: #80ff80; }
+.tag-severe { background: rgba(232,0,58,0.12); border-color: rgba(232,0,58,0.35); color: #ff8099; }
+.tag-warning { background: rgba(255,179,71,0.10); border-color: rgba(255,179,71,0.28); color: #ffd080; }
+.tag-info { background: rgba(91,156,255,0.10); border-color: rgba(91,156,255,0.28); color: #9fc2ff; }
+.tag-legend { margin-top:1.2rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:.65rem; }
+.tag-help { padding:.8rem .9rem; border:1px solid rgba(255,255,255,.07); border-radius:12px; background:rgba(255,255,255,.025); }
+.tag-help strong { display:block; font-size:.85rem; margin-bottom:.2rem; }
+.tag-help span { display:block; font-size:.76rem; color:var(--text-muted); line-height:1.45; }
+.tag-legend-title { margin-top:1.25rem; font-size:.85rem; font-weight:700; color:var(--text-secondary); }
+.tag-help-toggle { margin:.25rem 0 1rem; }
+.tag-legend[hidden] { display:none; }
+.filter-actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1rem; }
+.filter-reset { font-family:inherit; font-size:.78rem; padding:.35rem .85rem; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03); color:var(--text-secondary); cursor:pointer; }
+.filter-reset:hover { border-color:var(--red-light); color:var(--text); }
+.filter-results {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: none;
+}
+.filter-results.show { display: block; }
+
+.tag-modal { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(0,0,0,.72); backdrop-filter:blur(6px); }
+.tag-modal.open { display:flex; }
+.tag-modal-panel { width:min(760px,100%); max-height:86vh; overflow:auto; background:#111318; border:1px solid rgba(232,0,58,.28); border-radius:18px; box-shadow:0 24px 80px rgba(0,0,0,.55); }
+.tag-modal-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.15rem; background:rgba(17,19,24,.96); border-bottom:1px solid rgba(255,255,255,.08); }
+.tag-modal-head h3 { margin:0; font-size:1.05rem; }
+.tag-modal-close { border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04); color:var(--text); border-radius:10px; padding:.45rem .7rem; cursor:pointer; }
+.tag-modal-body { padding:1.1rem; }
+.tag-group { margin-bottom:1.25rem; }
+.tag-group:last-child { margin-bottom:0; }
+.tag-group-title { margin:0 0 .65rem; font-size:.82rem; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); }
+.tag-help { padding:.9rem 1rem; margin-bottom:.55rem; border:1px solid rgba(255,255,255,.07); border-radius:12px; background:rgba(255,255,255,.025); }
+.tag-help strong { display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem; }
+.tag-help .tag-desc { font-size:.8rem; color:var(--text-muted); line-height:1.55; }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button class="scroll-top" id="scrollTop">↑</button>
+
+<header>
+  <div class="container">
+    <div class="site-brand"><span class="brand-icon">⚔️</span><span class="brand-name">Requiem</span></div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="rules.html" class="nav-link">Правила</a>
+      <a href="news.html" class="nav-link">Новости</a>
+      <a href="join.html" class="nav-link">Вступление</a>
+      <a href="requirements.html" class="nav-link">Требования</a>
+      <a href="blacklist.html" class="nav-link active">Чёрный список</a>
+      <a href="members.html" class="nav-link">Состав</a>
+      <a href="staff-guide.html" class="nav-link">Для администрации</a>
+      <a href="about.html" class="nav-link">О клане</a>
+      <a href="support.html" class="nav-link" style="background:rgba(232,0,58,0.12);color:var(--red-light);border:1px solid rgba(232,0,58,0.28);">🆘 Поддержка</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <span class="page-hero-label">База нарушителей</span>
+    <h1>Чёрный список</h1>
+    <p>Участники, грубо нарушившие правила клана. Вход закрыт навсегда.</p>
+  </section>
+
+  <div class="container">
+    <div class="card" style="margin-bottom: 2rem;">
+      <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;text-align:center;">
+        <div><div style="font-size:2.8rem;font-weight:900;color:var(--red-light);" id="count">0</div><div style="color:var(--text-muted);">в чёрном списке</div></div>
+        <div><div style="font-size:2.8rem;font-weight:900;color:var(--red-light);">30</div><div style="color:var(--text-muted);">дней на апелляцию</div></div>
+        <div><div style="font-size:2.8rem;font-weight:900;color:var(--red-light);" id="lastUpdate">—</div><div style="color:var(--text-muted);">последнее обновление</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom:0.75rem;">🔍 Фильтр по тегам</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Нажми на тег, чтобы показать только записи с ним.</p>
+      <div id="filterBar"></div>
+      <div class="filter-actions">
+        <button type="button" class="filter-reset" id="resetFilters">↺ Сбросить фильтры</button>
+        <button type="button" class="filter-reset" id="tagHelpToggle" aria-expanded="false">❓ Что означают теги?</button>
+      </div>
+
+      <div class="filter-results" id="filterResults">Показано: <span id="matchCount">0</span></div>
+      <input type="text" id="searchInput" class="search-input" placeholder="Поиск по нику, ID или причине...">
+      <div id="blacklistContainer" style="margin-top:1.5rem;"></div>
+    </div>
+  </div>
+</main>
+<div class="tag-modal" id="tagModal" aria-hidden="true">
+  <div class="tag-modal-panel" role="dialog" aria-modal="true" aria-labelledby="tagModalTitle">
+    <div class="tag-modal-head"><h3 id="tagModalTitle">❓ Что означают теги</h3><button class="tag-modal-close" id="tagModalClose">✕ Закрыть</button></div>
+    <div class="tag-modal-body" id="tagLegend"></div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">REQUIEM</div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Главная</a>
+      <a href="rules.html" class="footer-link">Правила</a>
+      <a href="news.html" class="footer-link">Новости</a>
+      <a href="join.html" class="footer-link">Вступление</a>
+      <a href="requirements.html" class="footer-link">Требования</a>
+      <a href="blacklist.html" class="footer-link">Чёрный список</a>
+      <a href="members.html" class="footer-link">Состав</a>
+      <a href="staff-guide.html" class="footer-link">Для администрации</a>
+      <a href="about.html" class="footer-link">О клане</a>
+      <a href="https://discord.gg/u769kvpCT5" target="_blank" class="footer-link">Discord</a>
+    </div>
+    <div class="footer-copy">© 2026 Requiem · Requiem.Official@outlook.com</div>
+  </div>
+</footer>
+
+<script>
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function setActiveFilterButtons(attr, activeKey) {
+  document.querySelectorAll(`[${attr}]`).forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute(attr) === activeKey);
+  });
+}
+
+const BLACKLIST_TAG_INFO = {
+  'dox': { label: 'Доксинг', class: 'tag-severe', desc: 'Публикация, передача или попытка найти и распространить личные данные другого человека без его согласия — например, настоящее имя, адрес, номер телефона, личные аккаунты или другую приватную информацию.' },
+  'threats': { label: 'Угрозы', class: 'tag-severe', desc: 'Серьёзные угрозы в адрес участников, администрации или клана, а также запугивание и давление с целью заставить человека что-либо сделать или прекратить делать.' },
+  'scam': { label: 'Скам / мошенничество', class: 'tag-severe', desc: 'Намеренный обман ради выгоды: попытка получить деньги, игровые предметы, аккаунты или другие ценности нечестным способом, включая ложные обещания и поддельные сделки.' },
+  'raid': { label: 'Рейд', class: 'tag-severe', desc: 'Организация или участие в массовой атаке на сервер или ресурсы клана: спам, массовые нарушения, попытки сорвать работу сообщества или привлечь других людей к такой атаке.' },
+  'betrayal': { label: 'Предательство клана', class: 'tag-severe', desc: 'Осознанные действия участника против клана или его команды: помощь противникам клана, передача закрытой внутренней информации, намеренная подстава участников или другие действия, серьёзно подрывающие доверие.' },
+  'sabotage': { label: 'Саботаж', class: 'tag-severe', desc: 'Намеренные действия, цель которых — помешать работе клана или причинить вред его ресурсам: срыв мероприятий, удаление или порча материалов, злоупотребление доступом и похожие действия.' },
+  'ban-evasion': { label: 'Обход ЧС / наказания', class: 'tag-severe', desc: 'Попытка вернуться или получить доступ в обход выданного ограничения — например, через дополнительный аккаунт, чужой аккаунт или другие способы обхода решения администрации.' },
+  'toxic': { label: 'Токсичность', class: 'tag-warning', desc: 'Регулярные оскорбления, унижения, травля, агрессивное общение или поведение, которое постоянно создаёт конфликты и мешает нормальному общению участников.' },
+  'provocation': { label: 'Провокации', class: 'tag-warning', desc: 'Намеренные сообщения или действия, рассчитанные на то, чтобы вызвать ссору, вывести участников на агрессию, столкнуть людей между собой или специально продолжать уже начавшийся конфликт.' },
+  'spam': { label: 'Спам / флуд', class: 'tag-warning', desc: 'Частая отправка одинаковых или бессмысленных сообщений, упоминаний и другого контента в количестве, которое засоряет каналы и мешает обычному общению.' },
+  'admin-ignore': { label: 'Игнор администрации', class: 'tag-warning', desc: 'Неоднократный отказ выполнять обоснованные требования администрации после предупреждений — например, прекратить нарушение правил или выполнить обязательное требование сервера.' },
+  'staff-disrespect': { label: 'Неуважение к администрации', class: 'tag-warning', desc: 'Оскорбления, унижение или постоянное демонстративно неуважительное поведение по отношению к администрации. Обычное несогласие с решением само по себе не считается этим нарушением.' },
+  'reputation': { label: 'Вред репутации клана', class: 'tag-severe', desc: 'Намеренное распространение заведомо ложной информации от имени или о клане, выдача себя за представителей клана либо другие действия, способные серьёзно навредить его репутации.' },
+  'repeat': { label: 'Повторные нарушения', class: 'tag-warning', desc: 'Человек продолжает нарушать правила после предупреждений или предыдущих наказаний. Тег показывает, что решение связано не с одним случаем, а с повторяющимся поведением.' },
+  'severe': { label: 'Грубое нарушение правил', class: 'tag-severe', desc: 'Общий тег для серьёзного нарушения, которое администрация считает достаточным основанием для ЧС, когда более точный тег не описывает ситуацию полностью. Конкретная причина должна быть указана в записи человека.' },
+  'alt': { label: 'Твинк / альт', class: 'tag-info', desc: 'Дополнительный аккаунт, связанный с человеком из ЧС. Сам по себе второй аккаунт не является нарушением — тег используется, когда установлена связь с уже внесённым в ЧС пользователем или есть обход ограничений.' }
+};
+
+function formatBlacklistTag(tag) {
+  const info = BLACKLIST_TAG_INFO[tag];
+  if (!info) return `<span class="tag tag-unknown">${escapeHtml(tag)}</span>`;
+  return `<span class="tag ${info.class}">${info.label}</span>`;
+}
+
+function renderBlacklistFilterBar(active) {
+  let html = '<div class="filter-tags">';
+  for (const [key, info] of Object.entries(BLACKLIST_TAG_INFO)) {
+    const activeClass = key === active ? ' active' : '';
+    html += `<button class="filter-tag${activeClass}" data-bl-filter="${key}">${info.label}</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderTagLegend() {
+  const groups = [
+    ['Критические нарушения', ['dox','threats','scam','raid','betrayal','sabotage','ban-evasion','reputation','severe']],
+    ['Поведение и нарушения правил', ['toxic','provocation','spam','admin-ignore','staff-disrespect','repeat']],
+    ['Аккаунты', ['alt']]
+  ];
+  return groups.map(([title, keys]) => {
+    const items = keys.filter(k => BLACKLIST_TAG_INFO[k]).map(k => {
+      const info = BLACKLIST_TAG_INFO[k];
+      return `<div class="tag-help"><strong><span class="tag ${info.class}">${info.label}</span></strong><div class="tag-desc">${escapeHtml(info.desc)}</div></div>`;
+    }).join('');
+    return `<section class="tag-group"><h4 class="tag-group-title">${title}</h4>${items}</section>`;
+  }).join('');
+}
+
+let blacklistData = [];
+let activeTagFilter = 'all';
+let searchTerm = '';
+
+function parseBlacklistDate(dateStr) {
+  if (!dateStr) return 0;
+  const parts = dateStr.split('.');
+  if (parts.length !== 3) return 0;
+  const [d, m, y] = parts.map(Number);
+  return new Date(y, m - 1, d).getTime();
+}
+
+function getLatestBlacklistDate(data) {
+  if (!data.length) return '—';
+  let latest = data[0].date;
+  let latestTs = parseBlacklistDate(latest);
+  for (const entry of data) {
+    const ts = parseBlacklistDate(entry.date);
+    if (ts > latestTs) { latestTs = ts; latest = entry.date; }
+  }
+  return latest;
+}
+
+function entryMatches(entry) {
+  const tags = entry.tags || [];
+  const haystack = [entry.username || '', String(entry.id || ''), entry.reason || '', ...tags].join(' ').toLowerCase();
+  const matchesSearch = !searchTerm || haystack.includes(searchTerm);
+  const matchesTag = activeTagFilter === 'all' || tags.includes(activeTagFilter);
+  return matchesSearch && matchesTag;
+}
+
+function getFilteredData() {
+  return blacklistData.filter(entryMatches);
+}
+
+function renderBlacklist(data) {
+  const container = document.getElementById('blacklistContainer');
+  const matchCount = document.getElementById('matchCount');
+  const filterResults = document.getElementById('filterResults');
+
+  matchCount.textContent = data.length;
+  filterResults.classList.toggle('show', activeTagFilter !== 'all' || searchTerm);
+
+  if (!data.length) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Ничего не найдено</div>';
+    return;
+  }
+
+  container.innerHTML = data.map(entry => `
+    <div class="blacklist-item">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+        <div>
+          <strong style="font-size:1.15rem;">${escapeHtml(entry.username)}</strong><br>
+          <span style="color:var(--text-muted);font-size:0.85rem;">Discord ID: ${escapeHtml(entry.id)}</span>
+        </div>
+        <div style="text-align:right;color:var(--text-muted);font-size:0.85rem;">${escapeHtml(entry.date)}</div>
+      </div>
+      <p style="margin-bottom:1rem;color:var(--text-secondary);">${escapeHtml(entry.reason)}</p>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.06em;">Теги — нажми для фильтра</div>
+      <div>${(entry.tags || []).map(tag => formatBlacklistTag(tag)).join('') || '<span style="color:var(--text-muted);font-size:0.85rem;">—</span>'}</div>
+    </div>
+  `).join('');
+}
+
+function setTagFilter(tag) {
+  const requested = tag || 'all';
+  activeTagFilter = (requested !== 'all' && activeTagFilter === requested) ? 'all' : requested;
+  setActiveFilterButtons('data-bl-filter', activeTagFilter);
+  renderBlacklist(getFilteredData());
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-bl-filter]');
+  if (!btn) return;
+  e.preventDefault();
+  const tag = btn.getAttribute('data-bl-filter');
+  setTagFilter(tag);
+});
+
+async function loadBlacklist() {
+  try {
+    const response = await fetch('blacklist.json');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    blacklistData = await response.json();
+    if (!Array.isArray(blacklistData)) throw new Error('Invalid JSON');
+
+    document.getElementById('count').textContent = blacklistData.length;
+    document.getElementById('lastUpdate').textContent = getLatestBlacklistDate(blacklistData);
+    document.getElementById('filterBar').innerHTML = renderBlacklistFilterBar('all');
+    document.getElementById('tagLegend').innerHTML = renderTagLegend();
+    renderBlacklist(blacklistData);
+  } catch (e) {
+    console.error(e);
+    document.getElementById('blacklistContainer').innerHTML =
+      '<div style="text-align:center;padding:3rem;color:var(--text-muted);">Ошибка загрузки blacklist.json</div>';
+  }
+}
+
+document.getElementById('resetFilters').addEventListener('click', function() {
+  activeTagFilter = 'all';
+  searchTerm = '';
+  document.getElementById('searchInput').value = '';
+  setActiveFilterButtons('data-bl-filter', 'all');
+  renderBlacklist(blacklistData);
+});
+
+const tagModal = document.getElementById('tagModal');
+function openTagModal() { tagModal.classList.add('open'); tagModal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+function closeTagModal() { tagModal.classList.remove('open'); tagModal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+document.getElementById('tagHelpToggle').addEventListener('click', openTagModal);
+document.getElementById('tagModalClose').addEventListener('click', closeTagModal);
+tagModal.addEventListener('click', e => { if (e.target === tagModal) closeTagModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && tagModal.classList.contains('open')) closeTagModal(); });
+
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  searchTerm = e.target.value.toLowerCase().trim();
+  renderBlacklist(getFilteredData());
+});
+
+loadBlacklist();
+</script>
+</body>
+</html>
